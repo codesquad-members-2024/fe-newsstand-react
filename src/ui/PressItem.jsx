@@ -2,12 +2,20 @@ import { styled } from 'styled-components';
 
 import { ButtonSubscribe } from './ButtonSubscribe';
 
-export function PressItem({ className, pressData }) {
+export function PressItem({
+	className,
+	pressData,
+	isSubscribed,
+	handleSubscribe,
+}) {
 	return (
 		<StyledWrapper className={className}>
 			<img src={pressData.logoImageSrc} alt={pressData.pressName} />
 			<StyledHover>
-				<ButtonSubscribe />
+				<ButtonSubscribe
+					handleSubscribe={handleSubscribe}
+					isSubscribed={isSubscribed}
+				/>
 			</StyledHover>
 		</StyledWrapper>
 	);
