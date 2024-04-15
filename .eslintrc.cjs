@@ -12,13 +12,15 @@ module.exports = {
 	settings: { react: { version: '18.2' } },
 	plugins: ['react-refresh'],
 	rules: {
+		'react/prop-types': 'off',
 		'react/jsx-no-target-blank': 'off',
 		'react-refresh/only-export-components': [
 			'warn',
 			{ allowConstantExport: true },
 		],
 		'no-unused-vars': 'warn',
-		'arrow-body-style': ['error', 'as-needed'],
+		'arrow-parens': ['warn', 'as-needed'],
+		'arrow-body-style': ['warn', 'as-needed'],
 		'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
 	},
 };

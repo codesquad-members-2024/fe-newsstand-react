@@ -1,6 +1,12 @@
 # fe-newsstand-react
 
-### 제공 기능
+### 이번주 목표 ✨✨
+
+- [ ] 컴포넌트 이해
+- [ ] react 라이프 사이클 이해
+- [ ] useState, useEffect만 사용하고 이해하기
+
+### 제공 기능 🏓
 
 1. 기본 화면
 
@@ -56,5 +62,3 @@
 │   ├── PressItem.jsx
 │   └── PressListContainer.jsx
 └── vite.config.js
-
-10 directories, 18 files
