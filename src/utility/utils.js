@@ -9,3 +9,13 @@ export const chunkArray = (array, chunkSize) => {
 };
 // 배열을 섞어주는 함수
 export const shuffleArray = array => array.sort(() => Math.random() - 0.5);
+
+export function getDate() {
+	const today = new Date();
+	const year = today.getFullYear();
+	const month = today.getMonth() + 1;
+	const date = today.getDate();
+	const day = today.getDay();
+	const weekDay = ['일', '월', '화', '수', '목', '금', '토'];
+	return `${year}년 ${month}월 ${date}일 ${weekDay[day]}요일`;
+}
