@@ -10,7 +10,8 @@ export const chunkArray = (array, chunkSize) => {
 // 배열을 섞어주는 함수
 export const shuffleArray = array => array.sort(() => Math.random() - 0.5);
 
-export function getDate() {
+// 오늘 날짜를 반환하는 함수
+export function getTodayDate() {
 	const today = new Date();
 	const year = today.getFullYear();
 	const month = today.getMonth() + 1;
