@@ -3,13 +3,13 @@
  * - 구독여부
  * 부모로부터 구독여부 함수 boolean props로 받아옴
  */
-
+import { useState } from 'react';
 import { styled } from 'styled-components';
-export function ButtonSubscribe({ isSubscribed, handleSubscribe }) {
-	//TODO: isSubscribed 상태에 따라 + 구독하기 / - 해지하기 버튼 텍스트 변경
+export function ButtonSubscribe() {
+	const [isSubscribe, setIsSubscribe] = useState(false);
 	return (
-		<StyledButton onClick={handleSubscribe}>
-			{isSubscribed ? '- 해지하기' : '+ 구독하기'}
+		<StyledButton onClick={() => setIsSubscribe(!isSubscribe)}>
+			{isSubscribe ? '- 해지하기' : '+ 구독하기'}
 		</StyledButton>
 	);
 }
