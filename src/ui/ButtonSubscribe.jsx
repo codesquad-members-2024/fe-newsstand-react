@@ -1,14 +1,16 @@
-/**
- * 필요한 state
- * - 구독여부
- * 부모로부터 구독여부 함수 boolean props로 받아옴
- */
 import { useState } from 'react';
+import { postNewsData } from '../apis/getNewsData';
 import { styled } from 'styled-components';
-export function ButtonSubscribe() {
+export function ButtonSubscribe({ parentFn }) {
 	const [isSubscribe, setIsSubscribe] = useState(false);
+
+	async function handleSubscribe(e) {
+		const targetImg = e.target.closest('div').querySelector('img').alt;
+		parentFn();
+		setIsSubscribe(!isSubscribe);
+	}
 	return (
-		<StyledButton onClick={() => setIsSubscribe(!isSubscribe)}>
+		<StyledButton onClick={handleSubscribe}>
 			{isSubscribe ? '- 해지하기' : '+ 구독하기'}
 		</StyledButton>
 	);

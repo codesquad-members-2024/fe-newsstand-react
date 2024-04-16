@@ -1,44 +1,25 @@
 import { styled } from 'styled-components';
 import { PressItem } from './PressItem';
 import { useEffect, useState } from 'react';
-import { getNewsData, postNewsData } from '../apis/getNewsData';
+import { getNewsData } from '../apis/getNewsData';
 import { chunkArray } from '../utility/utils';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
-	const [isSubscribed, setIsSubscribed] = useState(false);
+
 	useEffect(() => {
 		getNewsData().then(data => {
-			setNewsData(
-				data.news.map(item => ({
-					...item,
-					// isSubscribed: false,
-				}))
-			);
+			const newsDataArray = Object.values(data.news);
+			setNewsData(newsDataArray);
 		});
 	}, []);
-	async function handleSubscribe(e) {
-		const targetImg = e.target.closest('div').querySelector('img').alt;
-		const targetPress = newsData.find(item => item.pressName === targetImg);
-		setIsSubscribed(!isSubscribed);
-
-		await postNewsData({
-			...targetPress,
-			// isSubscribed: !isSubscribed,
-		});
-	}
 
 	return (
 		<StyledWrapper>
 			{chunkArray(newsData, 24).map((item, index) => (
 				<StyledDiv key={index}>
-					{item.map(i => (
-						<StyledPressItem
-							key={i.id}
-							pressData={i}
-							isSubscribed={isSubscribed}
-							handleSubscribe={handleSubscribe}
-						/>
+					{item.map((data, idx) => (
+						<StyledPressItem key={`${data.id}-${idx}`} pressData={data} />
 					))}
 				</StyledDiv>
 			))}

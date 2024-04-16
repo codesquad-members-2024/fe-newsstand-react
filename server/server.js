@@ -41,7 +41,7 @@ app.post('/server/datas/news', async (req, res) => {
 
 		// 변경된 데이터를 다시 파일에 쓰기
 		await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf8');
-		// console.log('Saved data:', jsonData.subscribe);
+		console.log('Saved data:', jsonData.subscribe);
 
 		res.status(201).send({ message: 'Subscriber added successfully!' });
 	} catch (error) {

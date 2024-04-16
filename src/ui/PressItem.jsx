@@ -1,21 +1,20 @@
 import { styled } from 'styled-components';
+import { postNewsData } from '../apis/getNewsData';
 
 import { ButtonSubscribe } from './ButtonSubscribe';
 
-export function PressItem({
-	className,
-	pressData,
-	isSubscribed,
-	handleSubscribe,
-}) {
+export function PressItem({ className, pressData }) {
+	function parentFn() {
+		const subscribeArray = [];
+		subscribeArray.push(pressData);
+		postNewsData(...subscribeArray);
+	}
+
 	return (
 		<StyledWrapper className={className}>
 			<img src={pressData.logoImageSrc} alt={pressData.pressName} />
 			<StyledHover>
-				<ButtonSubscribe
-					handleSubscribe={handleSubscribe}
-					isSubscribed={isSubscribed}
-				/>
+				<ButtonSubscribe parentFn={parentFn} />
 			</StyledHover>
 		</StyledWrapper>
 	);
