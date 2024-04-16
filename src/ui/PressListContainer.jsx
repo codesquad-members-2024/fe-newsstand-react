@@ -48,7 +48,7 @@ export function PressListContainer() {
 
 const StyledWrapper = styled.div`
 	display: flex;
-	width: 930px;
+	width: 100%;
 	height: 388px;
 	overflow: hidden;
 	margin: 0 auto;

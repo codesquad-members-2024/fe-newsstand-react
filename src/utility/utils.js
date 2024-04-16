@@ -18,5 +18,9 @@ export function getTodayDate() {
 	const date = today.getDate();
 	const day = today.getDay();
 	const weekDay = ['일', '월', '화', '수', '목', '금', '토'];
-	return `${year}년 ${month}월 ${date}일 ${weekDay[day]}요일`;
+	return `${year}. ${month}. ${date}. ${weekDay[day]}요일`;
+}
+
+export function refreshPage() {
+	window.location.reload();
 }
