@@ -14,6 +14,16 @@ app.get('/news', (req, res) => {
     });
 });
 
+app.get('/latestNews', (req, res) => {
+    fs.readFile('./latestNews.json', 'utf8', (err, data) => {
+        if (err) {
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.json(JSON.parse(data));
+    });
+});
+
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`)
 });

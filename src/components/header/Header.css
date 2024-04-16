@@ -6,24 +6,5 @@ header {
     margin: 0 auto;
 }
 
-img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-}
-
-.title-container_text {
-    width: 104px;
-    height: 29px;
-    font-size: x-large;
-    font-weight: bold;
-}
-
-.AlignCenterY {
-    display: flex;
-    align-items: center;
-}
-
-
 
 
