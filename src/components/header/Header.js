@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.css";
-import mainLogo from "/Users/imseunghyeon/Documents/Masters/fe-newsstand-react/src/image/logo.png"
+import mainLogo from "/Users/imseunghyeon/Documents/Masters/fe-newsstand-react/src/assets/image/logo.png"
 
 const Header = () => {
     const getCurrentDate = () => {
