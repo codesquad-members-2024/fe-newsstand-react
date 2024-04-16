@@ -9,3 +9,5 @@ export const getCurrentDate = () => {
 };
 
 export const reloadPage = () => window.location.reload();
+
+export const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))

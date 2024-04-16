@@ -1,9 +1,11 @@
 import express from 'express';
 import fs from 'fs';
+import cors from "cors";
 
 const app = express();
 const port = 4000;
 
+app.use(cors());
 app.get('/news', (req, res) => {
     fs.readFile('./news.json', 'utf8', (err, data) => {
         if (err) {
