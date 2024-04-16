@@ -7,7 +7,11 @@
 import { styled } from 'styled-components';
 export function ButtonSubscribe({ isSubscribed, handleSubscribe }) {
 	//TODO: isSubscribed 상태에 따라 + 구독하기 / - 해지하기 버튼 텍스트 변경
-	return <StyledButton onClick={handleSubscribe}>+ 구독하기</StyledButton>;
+	return (
+		<StyledButton onClick={handleSubscribe}>
+			{isSubscribed ? '- 해지하기' : '+ 구독하기'}
+		</StyledButton>
+	);
 }
 
 const StyledButton = styled.button`

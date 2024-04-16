@@ -12,7 +12,7 @@ export function PressListContainer() {
 			setNewsData(
 				data.news.map(item => ({
 					...item,
-					isSubscribed: false,
+					// isSubscribed: false,
 				}))
 			);
 		});
@@ -24,7 +24,7 @@ export function PressListContainer() {
 
 		await postNewsData({
 			...targetPress,
-			isSubscribed: !isSubscribed,
+			// isSubscribed: !isSubscribed,
 		});
 	}
 
