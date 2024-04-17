@@ -11,7 +11,7 @@ export function PressListContainer() {
 		getNewsData(viewType).then(data => {
 			if (viewType === 'news') {
 				setNewsData(data.news);
-			} else if (viewType === 'subscribe') {
+			} else if (viewType === 'subscription') {
 				setNewsData(data);
 			}
 		});
@@ -26,7 +26,7 @@ export function PressListContainer() {
 				<StyledTabItem onClick={() => fetchData('news')}>
 					전체 언론사
 				</StyledTabItem>
-				<StyledTabItem onClick={() => fetchData('subscribe')}>
+				<StyledTabItem onClick={() => fetchData('subscription')}>
 					구독한 언론사
 				</StyledTabItem>
 			</StyledTab>
