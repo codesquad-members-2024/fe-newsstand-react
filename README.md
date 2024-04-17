@@ -59,6 +59,8 @@
  - [ ] 구독해지 버튼을 누르면 알럿이 뜨도록 한다.
  - [ ] 구독이 해지되는 즉시 그리드에서 해당 언론사의 브랜드마크가 사라지도록 한다.
   
-## 추가 미션: 다크모드
-----
+### 추가 미션: 다크모드
+---
 
+## Sequence diagram
+[![](https://mermaid.ink/img/pako:eNqNkMFOwzAMhl8l8gmkjgfoAWmjW4cECKkTl6SHLPGYtzaJklQFrXt30gFSQRzwyf79-bflEyirEXLYNbZXe-kj2xTCsBRzTkbj280h1Gw2u2WLq7lzqbr-bC8u4h1fo9To66lY8I11T9iHF8L-R2fJHyWZibwc5YFC1W2D8rTFjFF4oBBHZmAr_uwxXHwqbFBF6_43WPJx_wpRf_Hlb35ga1560pNj_mDu-bdnDRm06FtJOr3rNE4IiHtsUUCeUi39UYAw58TJLtrq3SjIo-8wg85pGbEg-eplC_lONgHPH-RSe5o?type=png)](https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNqNkMFOwzAMhl8l8gmkjgfoAWmjW4cECKkTl6SHLPGYtzaJklQFrXt30gFSQRzwyf79-bflEyirEXLYNbZXe-kj2xTCsBRzTkbj280h1Gw2u2WLq7lzqbr-bC8u4h1fo9To66lY8I11T9iHF8L-R2fJHyWZibwc5YFC1W2D8rTFjFF4oBBHZmAr_uwxXHwqbFBF6_43WPJx_wpRf_Hlb35ga1560pNj_mDu-bdnDRm06FtJOr3rNE4IiHtsUUCeUi39UYAw58TJLtrq3SjIo-8wg85pGbEg-eplC_lONgHPH-RSe5o)
