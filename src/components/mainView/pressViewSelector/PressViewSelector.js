@@ -10,7 +10,7 @@ const PressViewSelector = ({isSubscribeView, setIsSubscribeView, isListView, set
         <div>
             <nav className='main-nav'>
                 <div className='subscribe-press-view'>
-                    <button className={`show-all-company ${isSubscribeView ? ``: `active`} `}>전체 언론사</button>
+                    <button className={`show-all-company ${isSubscribeView ? ``: `active`}`} >전체 언론사</button>
                     <button className={`show-subscribe-company ${isSubscribeView ? `active`: ``} `}>구독한 언론사</button>
                 </div>
                 <div className='sort-mode-view'>
