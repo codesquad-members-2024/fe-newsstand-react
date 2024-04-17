@@ -1,32 +1,59 @@
 import { styled } from 'styled-components';
 import { PressItem } from './PressItem';
 import { useEffect, useState } from 'react';
-import { getNewsData } from '../apis/getNewsData';
+import { getNewsData } from '../apis/newsApiHandler';
 import { chunkArray } from '../utility/utils';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
 
-	useEffect(() => {
-		getNewsData().then(data => {
-			const newsDataArray = Object.values(data.news);
-			setNewsData(newsDataArray);
+	function fetchData(viewType = 'news') {
+		getNewsData(viewType).then(data => {
+			if (viewType === 'news') {
+				setNewsData(data.news);
+			} else if (viewType === 'subscribe') {
+				setNewsData(data);
+			}
 		});
+	}
+	useEffect(() => {
+		fetchData();
 	}, []);
 
 	return (
-		<StyledWrapper>
-			{chunkArray(newsData, 24).map((item, index) => (
-				<StyledDiv key={index}>
-					{item.map((data, idx) => (
-						<StyledPressItem key={`${data.id}-${idx}`} pressData={data} />
-					))}
-				</StyledDiv>
-			))}
-		</StyledWrapper>
+		<>
+			<StyledTab>
+				<StyledTabItem onClick={() => fetchData('news')}>
+					전체 언론사
+				</StyledTabItem>
+				<StyledTabItem onClick={() => fetchData('subscribe')}>
+					구독한 언론사
+				</StyledTabItem>
+			</StyledTab>
+			<StyledWrapper>
+				{chunkArray(newsData, 24).map((item, index) => (
+					<StyledDiv key={index}>
+						{item.map((data, idx) => (
+							<StyledPressItem key={`${data.id}-${idx}`} pressData={data} />
+						))}
+					</StyledDiv>
+				))}
+			</StyledWrapper>
+		</>
 	);
 }
-
+const StyledTab = styled.div`
+	margin: 20px 0;
+	display: flex;
+`;
+const StyledTabItem = styled.button`
+	cursor: pointer;
+	font-size: 16px;
+	margin-right: 24px;
+	background: none;
+	outline: none;
+	border: none;
+`;
 const StyledWrapper = styled.div`
 	display: flex;
 	width: 100%;
