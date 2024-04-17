@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { jsonParser } from "../../utility/getNewsAPI";
 import { delay } from "../../utility/utils";
 import "./TopNews.css";
@@ -7,6 +7,7 @@ const TopNews = () => {
     const [leftNews, setLeftNews] = useState([])
     const [lightNews, setLightNews] = useState([])
     const [isAnimation, setIsAniMation] = useState(false)
+    const intervalRef = useRef()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,19 +41,18 @@ const TopNews = () => {
         }, 5000);
     };
     
-
+    const handleMouseLeave = () => {
+        intervalRef.current = startRollingInterval();
+    };
+    
     useEffect(() => {
-        let rolling = startRollingInterval()
-    
-        const topNewsAnimationContainer = document.querySelector(".top-news-container");
-        topNewsAnimationContainer.addEventListener("mouseover", () => clearInterval(rolling));
-        topNewsAnimationContainer.addEventListener("mouseleave", () => rolling = startRollingInterval());
-    
+        intervalRef.current = startRollingInterval();
+        return () => clearInterval(intervalRef.current);
     }, []);
-    
-    return (
+        
+        return (
         <div>
-            <div className="top-news-container">
+            <div className="top-news-container" onMouseOver={() => clearInterval(intervalRef.current)} onMouseLeave={handleMouseLeave}>
                 <div className="top-news-container_board">
                     {leftNews.map((newsData, idx) => (
                         <div className={`first-top-news-view ${isAnimation ? 'animation' : ''}`} key={idx}>

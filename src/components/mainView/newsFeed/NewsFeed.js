@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./NewsFeed.css"
+import { jsonParser } from '../../../utility/getNewsAPI'
 import leftBtn from "../../../assets/img/LeftButton.png"
 import rightBtn from "../../../assets/img/RightButton.png"
 
 const NewsFeed = ({ isSubscribeView, isListView}) => {
-
+    const fetchInitialData = async () => {
+        const result = await jsonParser.getNewsData("news");
+        return result.news
+    };
+    useEffect(() => {
+        fetchInitialData()
+    }, [])
     // 여기서 구독 관리?
     return (
         <div className='feed-main-view'>
