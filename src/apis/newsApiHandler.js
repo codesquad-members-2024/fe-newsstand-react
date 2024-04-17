@@ -1,6 +1,8 @@
-export async function getNewsData() {
+export async function getNewsData(viewType = 'news') {
 	try {
-		const response = await fetch('http://localhost:3001/server/datas/news'); // 요청 보내기
+		const response = await fetch(
+			`http://localhost:3001/server/datas/${viewType}`
+		); // 요청 보내기
 		const data = await response.json(); // 응답을 JSON으로 변환
 		return data; // 변환된 데이터 반환
 	} catch (error) {
