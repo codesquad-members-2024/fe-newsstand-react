@@ -1,0 +1,8 @@
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sort-mode-view {
+    display: flex;
+} 

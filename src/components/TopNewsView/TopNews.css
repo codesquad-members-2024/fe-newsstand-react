@@ -1,4 +1,5 @@
 .top-news-container {
+    margin-top: 10px;
     width: 950px;
     height: 50px;
     display: flex;
@@ -51,7 +52,7 @@
     }
 
     100% {
-        top: -60px;
+        top: -62px;
     }
 }
 

@@ -13,7 +13,6 @@ const TopNews = () => {
             const result = await jsonParser.getNewsData("latestNews");
             setLeftNews(result.news.slice(0, 5))
             setLightNews(result.news.slice(5, 10))
-            
         };
         fetchData();
     }, []);

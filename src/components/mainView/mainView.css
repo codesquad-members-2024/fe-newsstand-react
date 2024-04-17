@@ -1,0 +1,11 @@
+.main-view {
+    margin-top: 20px;
+    width: 950px;
+    height: 420px;
+    border: 1px solid gray;
+}
+
+.active {
+    font-weight: bold;
+}
+

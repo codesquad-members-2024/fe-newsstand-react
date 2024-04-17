@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./components/header/Header";
 import TopNews from "./components/TopNewsView/TopNews";
+import MainView from "./components/mainView/MainView";
 
 const App = () => {
     return (
@@ -8,6 +9,7 @@ const App = () => {
             <div className="w-1000 mx-auto">
                 <Header />
                 <TopNews />
+                <MainView />
             </div>
         </div>
     );
