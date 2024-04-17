@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { postNewsData } from '../apis/getNewsData';
+
 import { styled } from 'styled-components';
-export function ButtonSubscribe({ parentFn }) {
+export function ButtonSubscribe({ handlePost }) {
 	const [isSubscribe, setIsSubscribe] = useState(false);
 
-	async function handleSubscribe(e) {
-		const targetImg = e.target.closest('div').querySelector('img').alt;
-		parentFn();
+	async function handleSubscribe() {
+		handlePost();
 		setIsSubscribe(!isSubscribe);
 	}
+
 	return (
 		<StyledButton onClick={handleSubscribe}>
 			{isSubscribe ? '- 해지하기' : '+ 구독하기'}

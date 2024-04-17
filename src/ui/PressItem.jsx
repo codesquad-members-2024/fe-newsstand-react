@@ -4,7 +4,8 @@ import { postNewsData } from '../apis/getNewsData';
 import { ButtonSubscribe } from './ButtonSubscribe';
 
 export function PressItem({ className, pressData }) {
-	function parentFn() {
+	function handlePost() {
+		// ButtonSubscribe 컴포넌트에서 호출하는 함수, 해당하는 객체를 받음
 		const subscribeArray = [];
 		subscribeArray.push(pressData);
 		postNewsData(...subscribeArray);
@@ -14,7 +15,7 @@ export function PressItem({ className, pressData }) {
 		<StyledWrapper className={className}>
 			<img src={pressData.logoImageSrc} alt={pressData.pressName} />
 			<StyledHover>
-				<ButtonSubscribe parentFn={parentFn} />
+				<ButtonSubscribe handlePost={handlePost} />
 			</StyledHover>
 		</StyledWrapper>
 	);
