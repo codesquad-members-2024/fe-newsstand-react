@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./NewsFeed.css"
+import styled from 'styled-components'
 import { jsonParser } from '../../../utility/getNewsAPI'
 import leftBtn from "../../../assets/img/LeftButton.png"
 import rightBtn from "../../../assets/img/RightButton.png"
@@ -20,14 +20,38 @@ const NewsFeed = ({ isSubscribeView, isListView}) => {
         fetchInitialData()
     }, [])
     return (
-        <div className='feed-main-view'>
-            <img src={leftBtn} alt='left-btn' className='left-btn'></img>
-            <div className='news-feed-container'>
+        <FeedMainView className='feed-main-view'>
+            <LeftBtn src={leftBtn} alt='left-btn' ></LeftBtn>
+            <FeedContainer>
             {isListView ? <ListView /> : <GridView newsData = {newsData}/>}
-            </div>
-            <img src={rightBtn} alt='right-btn' className='right-btn'></img>
-        </div>
+            </FeedContainer>
+            <RightBtn src={rightBtn} alt='right-btn'></RightBtn>
+        </FeedMainView>
     )
 }
 
 export default NewsFeed
+
+const FeedMainView = styled.div`
+    display: flex;
+    align-items: center;
+    position: relative;
+`
+
+const FeedContainer = styled.div`
+    margin-top: 20px;
+    width: 100%;
+    height: 388px;
+    border: 1px solid var(--border-border-default, rgba(210, 218, 224, 1))
+`
+
+const LocationImg = styled.img`
+    position: absolute;
+`
+
+const LeftBtn = styled(LocationImg)`
+    left: -55px;
+` 
+const RightBtn = styled(LocationImg)`
+    left: 975px;
+` 

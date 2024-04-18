@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import "./GridView.css"
+import styled from 'styled-components'
 
 const GridView = ({newsData}) => {
     const [sliceNewsData, setSliceNewsData] = useState([])
     const [pageNumber, setPageNumber] = useState(0)
 
     return (
-        <ul className='grid-view-container'>
+        <GridContainer>
             gridView
-        </ul>
+        </GridContainer>
     )
 }
 
 export default GridView
+
+const GridContainer = styled.ul`
+    width: 100%;
+    height: 100%;
+`

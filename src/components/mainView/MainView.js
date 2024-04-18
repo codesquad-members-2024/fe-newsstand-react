@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import "./mainView.css";
-import PressViewSelector from "./pressViewSelector/PressViewSelector";
-import NewsFeed from "./newsFeed/NewsFeed";
+import PressViewSelector from "./PressViewSelector/PressViewSelector";
+import NewsFeed from "./NewsFeed/NewsFeed";
+import styled from "styled-components";
 
 const MainView = () => {
     const [isSubscribeView, setIsSubscribeView] = useState(false);
     const [isListView, setIsListView] = useState(false);
     return (
-        <div className="main-view">
+        <Main>
             <PressViewSelector
                 isSubscribeView={isSubscribeView}
                 setIsSubscribeView={setIsSubscribeView}
@@ -18,8 +18,14 @@ const MainView = () => {
                 isSubscribeView={isSubscribeView}
                 isListView={isListView}
             />
-        </div>
+        </Main>
     );
 };
 
 export default MainView;
+
+const Main = styled.div`
+    margin-top: 20px;
+    width: 950px;
+    height: 420px;
+`
