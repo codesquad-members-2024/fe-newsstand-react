@@ -1,20 +1,37 @@
 import styled from 'styled-components';
-
-export function PopupDelete({ pressName }) {
+import { deleteNewsData } from '../apis/newsApiHandler';
+export function PopupDelete({ selectedPress, setPopup, fetchData }) {
 	return (
 		<StyledWrapper>
 			<StyledTitle>
-				<strong>{pressName}</strong>을(를)
+				<strong>{selectedPress.pressName}</strong>을(를)
 				<br />
 				구독해지하시겠습니까?
 			</StyledTitle>
 			<StyledButtonWrapper>
-				<ButtonConfirm>예, 해지합니다</ButtonConfirm>
-				<ButtonClose>아니오</ButtonClose>
+				<ButtonConfirm
+					onClick={() => {
+						deleteNewsData(selectedPress) //
+							.then(() => {
+								setPopup(false);
+								fetchData();
+							});
+					}}
+				>
+					예, 해지합니다
+				</ButtonConfirm>
+				<ButtonClose
+					onClick={() => {
+						setPopup(false);
+					}}
+				>
+					아니오
+				</ButtonClose>
 			</StyledButtonWrapper>
 		</StyledWrapper>
 	);
 }
+// TODO: 팝업 노출시, 다른 영역 클릭 막기
 const StyledWrapper = styled.div`
 	z-index: 10;
 	position: absolute;

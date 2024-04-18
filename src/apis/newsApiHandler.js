@@ -23,6 +23,7 @@ export async function postNewsData(newsData) {
 			},
 			body: JSON.stringify(newsData), // JavaScript 객체 -> JSON 문자열로 변환
 		});
+
 		const data = await response.json(); // 서버로부터의 응답 -> JSON으로 변환
 		message.success({
 			content: '내가 구독한 언론사에 추가되었습니다 💾',
@@ -39,7 +40,15 @@ export async function postNewsData(newsData) {
 
 export async function deleteNewsData(newsData) {
 	try {
-		const response = await fetch();
+		const response = await fetch('http://localhost:3001/server/datas/news', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newsData),
+		});
+		const data = await response.json();
+		return data;
 	} catch (error) {
 		console.error('Failed to delete news data:', error);
 	}

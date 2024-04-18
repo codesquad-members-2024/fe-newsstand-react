@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import { getNewsData } from '../apis/newsApiHandler';
 import { chunkArray } from '../utility/utils';
 import { TableLine } from './TableLine';
+import { PopupDelete } from './PopupDelete';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
 	const [activeTab, setActiveTab] = useState('news');
+	const [popup, setPopup] = useState(false);
+	const [selectedPress, setSelectedPress] = useState({});
 
 	function fetchData() {
 		setActiveTab('news');
@@ -21,6 +24,10 @@ export function PressListContainer() {
 			data => setNewsData(data.news.filter(item => item.isSubscribed)) //구독한 데이터
 		);
 	}
+	function handleUnsubscribe(pressData) {
+		setSelectedPress(pressData);
+		setPopup(true);
+	}
 
 	useEffect(() => {
 		fetchData();
@@ -28,6 +35,13 @@ export function PressListContainer() {
 
 	return (
 		<>
+			{popup && (
+				<PopupDelete
+					selectedPress={selectedPress}
+					setPopup={setPopup}
+					fetchData={fetchData}
+				/>
+			)}
 			<StyledTab>
 				<StyledTabItem
 					onClick={() => fetchData()}
@@ -54,6 +68,7 @@ export function PressListContainer() {
 								key={`${data.id}-${idx}`}
 								pressData={data}
 								fetchSubscriptionData={fetchSubscriptionData}
+								handleUnsubscribe={handleUnsubscribe}
 							/>
 						))}
 					</StyledDiv>

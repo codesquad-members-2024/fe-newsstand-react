@@ -12,5 +12,13 @@ export const GlobalStyle = createGlobalStyle`
     background: white;
     color: black;
   }
-  /* 추가적인 전역 스타일 설정이 가능합니다 */
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    text-align: center;
+    font-size:16px;
+    color: #5f6e76;
+  }
 `;
