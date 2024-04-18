@@ -14,7 +14,6 @@ const NewsFeed = ({ isSubscribeView, isListView}) => {
         const result = await jsonParser.getNewsData("news");
         setNewsData(result.news)
         setSubscribeList(result.subscribe)
-        
     };
     useEffect(() => {
         fetchInitialData()
