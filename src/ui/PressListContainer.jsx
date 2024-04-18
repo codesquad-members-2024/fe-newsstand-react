@@ -73,6 +73,7 @@ const StyledTabItem = styled.button`
 	background: none;
 	outline: none;
 	border: none;
+	color: ${props => (props.$activeTab ? '#14212B' : '#879298')};
 	font-weight: ${props => (props.$activeTab ? 'bold' : 'normal')};
 `;
 const StyledWrapper = styled.div`
