@@ -1,0 +1,10 @@
+@import './variable.scss';
+
+#wrap {
+    margin: 0 auto;
+    max-width: 1300px;
+    min-width: 650px;
+    text-align: center;
+    padding: 2rem;
+    background-color: $test-color1;
+}
