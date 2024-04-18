@@ -1,6 +1,8 @@
 import express from 'express';
 import fs from 'fs';
 import cors from "cors";
+import latestNews from "./latestNews.json" assert{ type: "json"};
+import newsData from "./news.json" assert{ type: "json"};
 
 const app = express();
 const port = 4000;
@@ -12,7 +14,7 @@ app.get('/news', (req, res) => {
             res.status(500).send('Internal Server Error');
             return;
         }
-        res.json(JSON.parse(data));
+        res.json(newsData);
     });
 });
 
@@ -22,7 +24,7 @@ app.get('/latestNews', (req, res) => {
             res.status(500).send('Internal Server Error');
             return;
         }
-        res.json(JSON.parse(data));
+        res.json(latestNews);
     });
 });
 
