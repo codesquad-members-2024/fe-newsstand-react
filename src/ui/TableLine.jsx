@@ -3,9 +3,9 @@ import { styled } from 'styled-components';
 export function TableLine({ className }) {
 	return (
 		<StyledWrapper className={className}>
-			<StyledHorizontal $top={25}></StyledHorizontal>
-			<StyledHorizontal $top={50}></StyledHorizontal>
-			<StyledHorizontal $top={75}></StyledHorizontal>
+			<StyledHorizontal $top={95.25}></StyledHorizontal>
+			<StyledHorizontal $top={192.5}></StyledHorizontal>
+			<StyledHorizontal $top={289}></StyledHorizontal>
 			<StyledVertical $left={154}></StyledVertical>
 			<StyledVertical $left={309}></StyledVertical>
 			<StyledVertical $left={464}></StyledVertical>
@@ -28,7 +28,7 @@ const StyledWrapper = styled.div`
 	}
 `;
 const StyledHorizontal = styled.i`
-	top: ${({ $top }) => $top}%;
+	top: ${({ $top }) => $top}px;
 	left: 0;
 	height: 1px;
 	width: 100%;
