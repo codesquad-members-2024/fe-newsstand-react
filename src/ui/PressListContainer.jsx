@@ -40,6 +40,7 @@ export function PressListContainer() {
 				</StyledTabItem>
 			</StyledTab>
 			<StyledWrapper>
+				<StyleTableLine />
 				{newsData.length === 0 && (
 					<StyledEmpty>아직 구독중인 언론사가 없어요 🧐</StyledEmpty>
 				)}
@@ -68,24 +69,26 @@ const StyledTabItem = styled.button`
 	font-weight: ${props => (props.$activeTab ? 'bold' : 'normal')};
 `;
 const StyledWrapper = styled.div`
+	position: relative;
+	border: 1px solid #ebebeb;
 	display: flex;
 	width: 100%;
 	height: 388px;
 	overflow: hidden;
 	margin: 0 auto;
 `;
+const StyleTableLine = styled(TableLine)``;
 const StyledDiv = styled.div`
+	position: relative;
+	z-index: 2;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 	flex-shrink: 0;
-	background-color: pink;
 `;
-const StyledPressItem = styled(PressItem)`
-	border: 1px solid #d2dae0;
-`;
+const StyledPressItem = styled(PressItem)``;
 const StyledEmpty = styled.div`
 	width: 100%;
 	height: 100%;
