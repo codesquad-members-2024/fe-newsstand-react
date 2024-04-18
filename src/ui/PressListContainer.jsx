@@ -50,7 +50,11 @@ export function PressListContainer() {
 				{chunkArray(newsData, 24).map((item, index) => (
 					<StyledDiv key={index}>
 						{item.map((data, idx) => (
-							<StyledPressItem key={`${data.id}-${idx}`} pressData={data} />
+							<StyledPressItem
+								key={`${data.id}-${idx}`}
+								pressData={data}
+								fetchSubscriptionData={fetchSubscriptionData}
+							/>
 						))}
 					</StyledDiv>
 				))}

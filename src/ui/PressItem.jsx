@@ -3,10 +3,11 @@ import { postNewsData } from '../apis/newsApiHandler';
 
 import { ButtonSubscribe } from './ButtonSubscribe';
 
-export function PressItem({ className, pressData }) {
+export function PressItem({ className, pressData, fetchSubscriptionData }) {
 	function handleSubscribe(isSubscribed) {
 		if (!isSubscribed) {
-			postNewsData(pressData);
+			postNewsData(pressData) //
+				.then(() => fetchSubscriptionData());
 		} else {
 			alert('해지할거임?');
 		}

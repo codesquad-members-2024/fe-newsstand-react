@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 export async function getNewsData(viewType = 'news') {
 	try {
 		const response = await fetch(
@@ -22,9 +24,16 @@ export async function postNewsData(newsData) {
 			body: JSON.stringify(newsData), // JavaScript 객체 -> JSON 문자열로 변환
 		});
 		const data = await response.json(); // 서버로부터의 응답 -> JSON으로 변환
+		message.success({
+			content: '내가 구독한 언론사에 추가되었습니다 💾',
+			duration: 5,
+		});
 		return data; // 응답 받은 데이터 반환
 	} catch (error) {
-		console.error('Failed to post news data:', error);
+		message.error({
+			content: '데이터를 저장하는데 실패했습니다 😭',
+			duration: 5,
+		});
 	}
 }
 
