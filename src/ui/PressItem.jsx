@@ -32,7 +32,7 @@ const StyledWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 96.25px;
+	height: 97px;
 	&:hover > span {
 		opacity: 1;
 	}
