@@ -1,18 +1,39 @@
 import React from "react";
-import "./Header.css";
-import mainLogo from "/Users/imseunghyeon/Documents/Masters/fe-newsstand-react/src/assets/img/logo.png"
+import mainLogo from "../../assets/img/logo.png"
 import { getCurrentDate, reloadPage } from "../../utility/utils";
+import styled from "styled-components";
 
 const Header = () => {
     return (
-        <header>
-            <a href="/" className="flex items-center" onClick={reloadPage}>
-                <img className="w-24px h-24px mr-4" src={mainLogo} alt="logo"></img>
-                <h1 className="w-104 h-29 text-xl font-bold">뉴스스탠드</h1>
-            </a>
+        <HeaderView>
+            <A href="/" onClick={reloadPage}>
+                <IMG src={mainLogo} alt="logo"></IMG>
+                <Title>뉴스스탠드</Title>
+            </A>
             {getCurrentDate()}
-        </header>
+        </HeaderView>
     );
 };
 
 export default Header;
+
+const HeaderView = styled.header`
+    display: flex;
+    justify-content: space-between;
+    width: 950px;
+    height: 50px;
+    margin: 0 auto;
+`
+const A = styled.a`
+    display: flex;
+    align-items: center;
+`
+
+const IMG = styled.img`
+    margin-right: 4px;
+`
+
+const Title = styled.h1`
+    font-weight: bold;
+    font-size: x-large;
+`

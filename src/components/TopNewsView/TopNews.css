@@ -68,5 +68,7 @@
     .animation {
         animation-play-state: paused;
         z-index: 1;
+        
     }
 }
+

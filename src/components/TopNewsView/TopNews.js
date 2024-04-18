@@ -2,6 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { jsonParser } from "../../utility/getNewsAPI";
 import { delay } from "../../utility/utils";
 import "./TopNews.css";
+import styled from "styled-components";
+
+const LEFT_LENGTH = {start: 0, end: 5}
+const RIGHT_LENGTH = {start: 5, end: 10}
+const ANIMATION_DELAY = 2000
+const ROLLING_DELAY = 5000
 
 const TopNews = () => {
     const [leftNews, setLeftNews] = useState([])
@@ -12,8 +18,8 @@ const TopNews = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await jsonParser.getNewsData("latestNews");
-            setLeftNews(result.news.slice(0, 5))
-            setLightNews(result.news.slice(5, 10))
+            setLeftNews(result.news.slice(LEFT_LENGTH.start, LEFT_LENGTH.end))
+            setLightNews(result.news.slice(RIGHT_LENGTH.start, RIGHT_LENGTH.end))
         };
         fetchData();
     }, []);
@@ -35,10 +41,10 @@ const TopNews = () => {
     const startRollingInterval = () => {
         return setInterval(async () => {
             setIsAniMation(true);
-            await delay(2000);
+            await delay(ANIMATION_DELAY);
             setIsAniMation(false);
             updateNews();
-        }, 5000);
+        }, ROLLING_DELAY);
     };
     
     const handleMouseLeave = () => {
