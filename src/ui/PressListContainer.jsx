@@ -73,14 +73,15 @@ const StyledTabItem = styled.button`
 `;
 const StyledWrapper = styled.div`
 	position: relative;
-	border: 1px solid #ebebeb;
 	display: flex;
 	width: 100%;
 	height: 388px;
 	overflow: hidden;
 	margin: 0 auto;
 `;
-const StyleTableLine = styled(TableLine)``;
+const StyleTableLine = styled(TableLine)`
+	border: 1px solid #ebebeb;
+`;
 const StyledDiv = styled.div`
 	position: relative;
 	z-index: 2;
@@ -89,6 +90,7 @@ const StyledDiv = styled.div`
 	overflow: hidden;
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: repeat(4, 1fr);
 	flex-shrink: 0;
 `;
 const StyledPressItem = styled(PressItem)``;
