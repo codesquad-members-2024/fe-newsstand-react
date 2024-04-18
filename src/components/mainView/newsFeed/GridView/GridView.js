@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import {LeftButtonIMG, RightButtonIMG} from "../ButtonUI"
 
 const DATA_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData }) => {
+const GridView = ({ newsData, subscribeList, setSubscribeList}) => {
     const [sliceNewsData, setSliceNewsData] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
     useEffect(() => {
@@ -17,24 +18,44 @@ const GridView = ({ newsData }) => {
             });
             setSliceNewsData(slicedData);
         };
-
         initData();
     }, [newsData]);
+    
+    const subscribeHandler = (pressName) => {
+        const selectNewsData = newsData.find(data => data.pressName === pressName)
+        setSubscribeList(prevData => [...prevData, selectNewsData])
+    }
 
     return (
-        <GridContainer>
-            {sliceNewsData.length === 0 ? (<div>Loading...</div>) : (
-            sliceNewsData[pageNumber].map((pageData, index) => (
-                <List key={index} className={index}>
-                    <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
-                    <SubScribeButton id = "subscribe" name = {pageData.pressName}> + 구독하기</SubScribeButton>
-                </List>
-            )))}
-        </GridContainer>
+        <GridMainView>
+
+            <LeftButtonIMG isHidden={pageNumber === 0} onClick={() => setPageNumber(prev => prev - 1)} />
+
+                <GridContainer>
+                    {sliceNewsData.length === 0 ? (<div>Loading...</div>) : (
+                    sliceNewsData[pageNumber].map((pageData, index) => (
+                        <List key={index} className={index}>
+                            <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
+                            <SubScribeButton id = "subscribe" name = {pageData.pressName} onClick={() => subscribeHandler(pageData.pressName)}> + 구독하기</SubScribeButton>
+                        </List>
+                    )))}
+                </GridContainer>
+
+                <RightButtonIMG isHidden={pageNumber === TOTAL_PAGES - 1} onClick={() => setPageNumber(prev => prev + 1)} />
+
+        </GridMainView>
     );
 };
 
 export default GridView;
+
+const GridMainView = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+`
 
 const GridContainer = styled.ul`
     width: 100%;
@@ -46,20 +67,23 @@ const GridContainer = styled.ul`
 `;
 
 const PressImg = styled.img`
-    width: 70%;
-    height: 50%;
+    width: 60%;
+    height: 60%;
+    height: 2rem;
 `
 
 const SubScribeButton = styled.button`
     display: none;
     border: 1px solid gray;
-    border-radius: 10px;
+    border-radius: 13px;
     color: #8b8989;
     background-color: white;
     padding: 0 10px;
 `
 
 const List = styled.li`
+width: 100%;
+height: 100%;
     list-style-type: none;
     display: flex;
     justify-content: center;
