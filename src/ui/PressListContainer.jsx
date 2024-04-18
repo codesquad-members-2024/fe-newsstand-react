@@ -3,22 +3,25 @@ import { PressItem } from './PressItem';
 import { useEffect, useState } from 'react';
 import { getNewsData } from '../apis/newsApiHandler';
 import { chunkArray } from '../utility/utils';
+import { TableLine } from './TableLine';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
 	const [activeTab, setActiveTab] = useState('news');
 
-	function fetchData(viewType = 'news') {
-		setActiveTab(viewType);
-		getNewsData(viewType).then(data => {
-			if (viewType === 'news') {
-				setNewsData(data.news);
-			} else if (viewType === 'subscription') {
-				console.log('🚀 ~ getNewsData ~ data:', data);
-				setNewsData(data.subscribe);
-			}
+	function fetchData() {
+		setActiveTab('news');
+		getNewsData('news').then(data => {
+			setNewsData(data.news); //모든 데이터
 		});
 	}
+	function fetchSubscriptionData() {
+		setActiveTab('subscription');
+		getNewsData('news').then(
+			data => setNewsData(data.news.filter(item => item.isSubscribed)) //구독한 데이터
+		);
+	}
+
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -27,13 +30,13 @@ export function PressListContainer() {
 		<>
 			<StyledTab>
 				<StyledTabItem
-					onClick={() => fetchData('news')}
+					onClick={() => fetchData()}
 					$activeTab={activeTab === 'news'}
 				>
 					전체 언론사
 				</StyledTabItem>
 				<StyledTabItem
-					onClick={() => fetchData('subscription')}
+					onClick={() => fetchSubscriptionData()}
 					$activeTab={activeTab === 'subscription'}
 				>
 					구독한 언론사

@@ -1,17 +1,12 @@
-import { useState } from 'react';
-
 import { styled } from 'styled-components';
-export function ButtonSubscribe({ handlePost }) {
-	const [isSubscribe, setIsSubscribe] = useState(false);
-
-	async function handleSubscribe() {
-		handlePost();
-		setIsSubscribe(!isSubscribe);
-	}
-
+export function ButtonSubscribe({ handleSubscribe, isSubscribed }) {
 	return (
-		<StyledButton onClick={handleSubscribe}>
-			{isSubscribe ? '- 해지하기' : '+ 구독하기'}
+		<StyledButton
+			onClick={() => {
+				handleSubscribe(isSubscribed);
+			}}
+		>
+			{isSubscribed ? '- 해지하기' : '+ 구독하기'}
 		</StyledButton>
 	);
 }

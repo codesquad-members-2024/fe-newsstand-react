@@ -11,6 +11,7 @@ export async function getNewsData(viewType = 'news') {
 	}
 }
 
+//POST 요청을 보내는 함수
 export async function postNewsData(newsData) {
 	try {
 		const response = await fetch('http://localhost:3001/server/datas/news', {
@@ -24,5 +25,13 @@ export async function postNewsData(newsData) {
 		return data; // 응답 받은 데이터 반환
 	} catch (error) {
 		console.error('Failed to post news data:', error);
+	}
+}
+
+export async function deleteNewsData(newsData) {
+	try {
+		const response = await fetch();
+	} catch (error) {
+		console.error('Failed to delete news data:', error);
 	}
 }

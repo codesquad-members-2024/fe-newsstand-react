@@ -1,21 +1,25 @@
 import { styled } from 'styled-components';
-import { postNewsData } from '../apis/getNewsData';
+import { postNewsData } from '../apis/newsApiHandler';
 
 import { ButtonSubscribe } from './ButtonSubscribe';
 
 export function PressItem({ className, pressData }) {
-	function handlePost() {
-		// ButtonSubscribe 컴포넌트에서 호출하는 함수, 해당하는 객체를 받음
-		const subscribeArray = [];
-		subscribeArray.push(pressData);
-		postNewsData(...subscribeArray);
+	function handleSubscribe(isSubscribed) {
+		if (!isSubscribed) {
+			postNewsData(pressData);
+		} else {
+			alert('해지할거임?');
+		}
 	}
 
 	return (
 		<StyledWrapper className={className}>
 			<img src={pressData.logoImageSrc} alt={pressData.pressName} />
 			<StyledHover>
-				<ButtonSubscribe handlePost={handlePost} />
+				<ButtonSubscribe
+					handleSubscribe={handleSubscribe}
+					isSubscribed={pressData.isSubscribed}
+				/>
 			</StyledHover>
 		</StyledWrapper>
 	);
@@ -27,6 +31,7 @@ const StyledWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	height: 96.25px;
 	&:hover > span {
 		opacity: 1;
 	}
