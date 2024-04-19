@@ -1,6 +1,11 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import {
+	ProfileTwoTone,
+	AppstoreTwoTone,
+	LeftOutlined,
+	RightOutlined,
+} from '@ant-design/icons';
 import { PressItem } from './PressItem';
 import { getNewsData } from '../apis/newsApiHandler';
 import { chunkArray } from '../utility/utils';
@@ -43,20 +48,33 @@ export function PressListContainer() {
 					fetchData={fetchData}
 				/>
 			)}
-			<StyledTab>
-				<StyledTabItem
-					onClick={() => fetchData()}
-					$activeTab={activeTab === 'news'}
-				>
-					전체 언론사
-				</StyledTabItem>
-				<StyledTabItem
-					onClick={() => fetchSubscriptionData()}
-					$activeTab={activeTab === 'subscription'}
-				>
-					구독한 언론사
-				</StyledTabItem>
-			</StyledTab>
+			<StyledTabWrapper>
+				<StyledTab>
+					<StyledTabItem
+						onClick={() => fetchData()}
+						$activeTab={activeTab === 'news'}
+					>
+						전체 언론사
+					</StyledTabItem>
+					<StyledTabItem
+						onClick={() => fetchSubscriptionData()}
+						$activeTab={activeTab === 'subscription'}
+					>
+						구독한 언론사
+					</StyledTabItem>
+				</StyledTab>
+				{/*  */}
+				<StyledTab>
+					<StyledTabItem>
+						<ProfileTwoTone />
+					</StyledTabItem>
+
+					<StyledTabItem>
+						<AppstoreTwoTone />
+					</StyledTabItem>
+				</StyledTab>
+			</StyledTabWrapper>
+
 			<StyledSwiperWrapper>
 				<StyledSwiperContainer>
 					<StyleTableLine />
@@ -86,6 +104,11 @@ export function PressListContainer() {
 		</>
 	);
 }
+const StyledTabWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	background-color: pink;
+`;
 const StyledTab = styled.div`
 	margin: 20px 0;
 	display: flex;
