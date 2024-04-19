@@ -2,46 +2,67 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {LeftButtonIMG, RightButtonIMG} from "../ButtonUI"
 
-const DATA_SIZE = 24;
+const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, subscribeList, setSubscribeList}) => {
-    const [sliceNewsData, setSliceNewsData] = useState([]);
+const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, ubSubscribeHandler}) => {
+    const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
-    useEffect(() => {
-        const initData = () => {
-            const copiedData = [...newsData].sort(() => Math.random() - 0.5);
-            const slicedData = Array.from({ length: TOTAL_PAGES }, (_, idx) => {
-                const startIndex = idx * DATA_SIZE;
-                const endIndex = startIndex + DATA_SIZE;
-                return copiedData.slice(startIndex, endIndex);
-            });
-            setSliceNewsData(slicedData);
-        };
-        initData();
-    }, [newsData]);
-    
-    const subscribeHandler = (pressName) => {
-        const selectNewsData = newsData.find(data => data.pressName === pressName)
-        setSubscribeList(prevData => [...prevData, selectNewsData])
+
+    const sliceIntoChunks = (idx, copiedData) => {
+        const startIndex = idx * GRID_BATCH_SIZE;
+        const endIndex = startIndex + GRID_BATCH_SIZE;
+        return copiedData.slice(startIndex, endIndex);
     }
 
+    const initDataForListView = () => {
+        const copiedData = [...newsData].sort(() => Math.random() - 0.5);
+        const slicedData = Array.from({ length: TOTAL_PAGES }, (_, idx) => sliceIntoChunks(idx, copiedData));
+        setNewsInfo(slicedData);
+    };
+
+    
+    const initDataForSubscribeView = () => {
+        const subscribeData = [...subscribeList];
+        const slicedData = [];
+        // splitSubData(subscribeData)
+        if (subscribeData.length % GRID_BATCH_SIZE !== 0) {
+            const emptyCellsCount = GRID_BATCH_SIZE - (subscribeData.length % GRID_BATCH_SIZE);
+            const emptyCells = Array.from({ length: emptyCellsCount }, () => "");
+            subscribeData.push(...emptyCells);
+        }
+        slicedData.push(subscribeData.splice(0 , GRID_BATCH_SIZE));
+        setNewsInfo(slicedData);
+    };
+    
+    useEffect(() => {
+        if (!isSubscribeView)  initDataForListView()
+    }, [isSubscribeView, newsData])
+
+    useEffect(() => {
+        if (isSubscribeView)  initDataForSubscribeView()
+    }, [isSubscribeView, newsData, subscribeList])
+    
     return (
         <GridMainView>
 
             <LeftButtonIMG isHidden={pageNumber === 0} onClick={() => setPageNumber(prev => prev - 1)} />
 
                 <GridContainer>
-                    {sliceNewsData.length === 0 ? (<div>Loading...</div>) : (
-                    sliceNewsData[pageNumber].map((pageData, index) => (
+                    {newsInfo.length === 0 ? (<div>Loading...</div>) : (
+                    newsInfo[pageNumber].map((pageData, index) => (
+                        pageData === "" ? <List key={index} className={index}></List> :
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
-                            <SubScribeButton id = "subscribe" name = {pageData.pressName} onClick={() => subscribeHandler(pageData.pressName)}> + 구독하기</SubScribeButton>
+                            {subscribeList.includes(pageData) ? 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => ubSubscribeHandler(pageData.pressName)}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => subscribeHandler(pageData.pressName)}> + 구독하기</SubScribeButton>}
+                            
                         </List>
                     )))}
                 </GridContainer>
 
-                <RightButtonIMG isHidden={pageNumber === TOTAL_PAGES - 1} onClick={() => setPageNumber(prev => prev + 1)} />
+                <RightButtonIMG isHidden={newsInfo.length - 1 === pageNumber} onClick={() => setPageNumber(prev => prev + 1)} />
 
         </GridMainView>
     );

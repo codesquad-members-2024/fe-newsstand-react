@@ -16,6 +16,7 @@ const MainView = () => {
             />
             <NewsFeed
                 isSubscribeView={isSubscribeView}
+                setIsSubscribeView={setIsSubscribeView}
                 isListView={isListView}
             />
         </Main>

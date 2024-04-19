@@ -46,13 +46,13 @@ const RollingNews = () => {
         }, ROLLING_DELAY);
     };
     
-    const handleMouseLeave = () => {
-        intervalRef.current = startRollingInterval();
-    };
+    const handleMouseLeave = () => intervalRef.current = startRollingInterval();
+
     
     useEffect(() => {
         intervalRef.current = startRollingInterval();
         return () => clearInterval(intervalRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
         
         return (

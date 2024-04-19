@@ -10,8 +10,8 @@ const PressViewSelector = ({isSubscribeView, setIsSubscribeView, isListView, set
         <div>
             <MainNav>
                 <SubscribePressView>
-                    <Button className={` ${isSubscribeView ? ``: `active`}`} >전체 언론사</Button>
-                    <Button className={` ${isSubscribeView ? `active`: ``} `}>구독한 언론사</Button>
+                    <Button className={` ${isSubscribeView ? ``: `active`}` } onClick={() => setIsSubscribeView(false)} >전체 언론사</Button>
+                    <Button className={` ${isSubscribeView ? `active`: ``} `} onClick={() => setIsSubscribeView(true)}>구독한 언론사</Button>
                 </SubscribePressView>
                 <SortView>
                     <img src={isListView ? listOnIcon : listOffIcon} alt="List View"></img>
