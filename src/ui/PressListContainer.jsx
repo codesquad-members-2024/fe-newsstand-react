@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getNewsData } from '../apis/newsApiHandler';
 import { chunkArray } from '../utility/utils';
 import { TableLine } from './TableLine';
-import { PopupDelete } from './PopupDelete';
+import { ModalUnsubscribe } from './ModalUnsubscribe';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
@@ -36,7 +36,7 @@ export function PressListContainer() {
 	return (
 		<>
 			{popup && (
-				<PopupDelete
+				<ModalUnsubscribe
 					selectedPress={selectedPress}
 					setPopup={setPopup}
 					fetchData={fetchData}
