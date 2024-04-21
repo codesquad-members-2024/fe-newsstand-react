@@ -1,13 +1,14 @@
 import { styled } from "styled-components";
 import { Date } from "./Date";
-import { reloadPage } from "../utils/utils";
+import { reloadPage } from "../../utils/utils";
+import { PicLeftOutlined } from "@ant-design/icons";
 
 export function Header() {
   return (
     <StyledHeader>
       <div className="title">
         <button className="refresh-btn" onClick={reloadPage}>
-          <img src="./public/img/refresh.png" />
+        <PicLeftOutlined />        
         </button>
         <h1>뉴스스탠드</h1>
       </div>
@@ -24,5 +25,9 @@ const StyledHeader = styled.div`
 
   .title {
     display: flex;
+  }
+  .refresh-btn {
+    font-size: 30px;
+    color: blue;
   }
 `;

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { getCurrentDate } from "../utils/utils.js";
+import { getCurrentDate } from "../../utils/utils.js";
 
 export function Date() {
   return <StyledSpan>{getCurrentDate()}</StyledSpan>;

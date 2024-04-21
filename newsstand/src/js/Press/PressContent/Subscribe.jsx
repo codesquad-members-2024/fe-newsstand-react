@@ -1,20 +1,23 @@
 import { styled } from "styled-components";
 import { useState, useEffect } from "react";
 
-export function Subscription() {
-  const [isSubscribed, subscribed] = useState(false);
+export function Subscription({ logoImage, handleSubscription }) {
+  const [isSubscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
-    console.log("구독", isSubscribed);
+    console.log("구독", isSubscribed, logoImage);
+    if (isSubscribed) {
+      handleSubscription(logoImage);
+    }
   }, [isSubscribed]);
 
-  const handleSubscription = () => {
-    subscribed(!isSubscribed);
+  const handleClick = () => {
+    setSubscribed(!isSubscribed);
   };
 
   return (
-    <StyledButton onClick={handleSubscription}>
-      {isSubscribed ? "+ 구독 취소" : "+ 구독 하기"}
+    <StyledButton onClick={handleClick}>
+      {isSubscribed ? "+ 해지하기" : "+ 구독하기"}
     </StyledButton>
   );
 }
