@@ -8,8 +8,8 @@ function App() {
         <div id={styles.wrap}>
             <Header />
             <main>
-                <HeadLine count={2} />
-                <News />
+                <HeadLine gridCount={2} />
+                <News row={4} col={6} maxPage={4} />
             </main>
         </div>
     );

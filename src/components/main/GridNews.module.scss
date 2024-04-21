@@ -1,0 +1,58 @@
+@import '../variable.scss';
+
+.gridContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.media__news_container {
+    display: flex;
+    flex-direction: column;
+    outline: solid 2px $grid-line-color;
+}
+
+.media__grid_type__container {
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div:hover {
+        // background-color: $default-hover-color;
+        background-color: red;
+
+        .media__grid_type__news_logo {
+            visibility: hidden;
+        }
+        .media__grid_type__subscribe_btn {
+            visibility: visible;
+        }
+    }
+
+    a {
+        display: flex;
+        justify-content: center;
+    }
+
+    .media__grid_type__news_logo {
+        position: relative;
+        height: auto;
+        width: 7vh;
+        max-height: 30px;
+    }
+    .media__grid_type__subscribe_btn {
+        visibility: hidden;
+        position: absolute;
+        background-color: $default-bg-color;
+        border: solid 2px $grid-line-color;
+        border-radius: 30px;
+        color: $default-deselect-color;
+        font-size: 10pt;
+        padding: 5px;
+
+        cursor: pointer;
+    }
+}
