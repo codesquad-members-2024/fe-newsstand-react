@@ -1,0 +1,43 @@
+{
+  "subscribe": [
+    {
+      "id": "9ecd",
+      "isSubscribed": false,
+      "pressName": "한국금융신문",
+      "logoImageSrc": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/968.png",
+      "editedTime": "04월 15일 09:30 직접 편집",
+      "category": "종합/경제",
+      "headline": {
+        "thumbnailSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0415%2Farticle_img%2Fnew_main%2F9193%2F094600_001.jpg%22&type=nf312_208&service=navermain",
+        "title": "비트코인 현물 ETF, ‘여소야대’ 총선 결과에 거래 허용되나 [4.10 총선 영향]",
+        "href": "https://www.fntimes.com/html/view.php?ud=20240414214636381222f8e8c22c_18"
+      },
+      "sideNews": [
+        {
+          "title": "[르포] 직격탄 맞은 다세대·연립, 대출금 못 갚아 법원行…왜?",
+          "href": "https://www.fntimes.com/html/view.php?ud=2024041422255253dd55077bc2_18"
+        },
+        {
+          "title": "조병규, 해외법인 ‘성장 전환’ 부심…쇄신 전략 통할까",
+          "href": "https://www.fntimes.com/html/view.php?ud=202404142004467835dd55077bc2_18"
+        },
+        {
+          "title": "대표·의장 겸직한 오너…4대 그룹 중 현대車 유일 [2024 이사회 톺아보기]",
+          "href": "https://www.fntimes.com/html/view.php?ud=202404142113171122dd55077bc2_18"
+        },
+        {
+          "title": "“이 안건 반댈세”…지방금융지주 3곳 중 BNK 이사진만 제구실  [금융 이사회 줌人 (2) 사외이사]",
+          "href": "https://www.fntimes.com/html/view.php?ud=202404142042376083dd55077bc2_18"
+        },
+        {
+          "title": "‘한화 3남’ 김동선 “덩치가 커졌어요”",
+          "href": "https://www.fntimes.com/html/view.php?ud=20240414222020948dd55077bc2_18"
+        },
+        {
+          "title": "GA 대표들 “시장 확대 따른 판매전문회사 법제화 시급” [GA 기획]",
+          "href": "https://www.fntimes.com/html/view.php?ud=202404142110152953dd55077bc2_18"
+        }
+      ]
+    }
+  ]
+}
