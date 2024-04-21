@@ -20,7 +20,6 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
         const slicedData = Array.from({ length: TOTAL_PAGES }, (_, idx) => sliceIntoChunks(idx, copiedData));
         setNewsInfo(slicedData);
     };
-
     
     const initDataForSubscribeView = () => {
         const subscribeData = [...subscribeList];
@@ -33,14 +32,17 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
         }
         slicedData.push(subscribeData.splice(0 , GRID_BATCH_SIZE));
         setNewsInfo(slicedData);
+        setPageNumber(0)
     };
     
     useEffect(() => {
         if (!isSubscribeView)  initDataForListView()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSubscribeView, newsData])
 
     useEffect(() => {
         if (isSubscribeView)  initDataForSubscribeView()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSubscribeView, newsData, subscribeList])
     
     return (
@@ -103,8 +105,8 @@ const SubScribeButton = styled.button`
 `
 
 const List = styled.li`
-width: 100%;
-height: 100%;
+    width: 100%;
+    height: 100%;
     list-style-type: none;
     display: flex;
     justify-content: center;
