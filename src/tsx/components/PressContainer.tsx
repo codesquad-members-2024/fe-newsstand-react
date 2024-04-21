@@ -2,36 +2,60 @@ import React, { useState } from "react";
 import gridIcon from "../../img/gridIcon.svg";
 import listIcon from "../../img/listIcon.svg";
 import styled from "styled-components";
+import { MENU_STATES, PressProps, VIEW_STATES } from "./constants";
+import GridView from "./GridView";
+import ListView from "./ListView";
 
-function PressContainer() {
-  const [menuSelected, setMenuSelected] = useState<number>(0);
-  const [viewSelected, setViewSelected] = useState<number>(1);
-
-  const toggleMenuSelected: (index: number) => void = (index) => {
-    setMenuSelected(index);
+function PressContainer({ news, subscriptions }: PressProps) {
+  const [menuSelected, setMenuSelected] = useState<string>(MENU_STATES.allPress);
+  const [viewSelected, setViewSelected] = useState<string>(VIEW_STATES.grid);
+  const viewComponents = {
+    [VIEW_STATES.grid]: GridView,
+    [VIEW_STATES.list]: ListView,
   };
-
-  const toggleViewSelected: (index: number) => void = (index) => {
-    setViewSelected(index);
-  };
+  const SelectedView = viewComponents[viewSelected] || null;
 
   return (
     <Container>
       <Menu>
         <PressMenu>
-          <PressTextMenu aria-selected={menuSelected === 0} onClick={() => toggleMenuSelected(0)}>
+          <PressTextMenu
+            aria-selected={menuSelected === MENU_STATES.allPress}
+            onClick={() => setMenuSelected(MENU_STATES.allPress)}
+          >
             전체 언론사
           </PressTextMenu>
-          <PressTextMenu aria-selected={menuSelected === 1} onClick={() => toggleMenuSelected(1)}>
+          <PressTextMenu
+            aria-selected={menuSelected === MENU_STATES.subscribedPress}
+            onClick={() => setMenuSelected(MENU_STATES.subscribedPress)}
+          >
             내가 구독한 언론사
           </PressTextMenu>
         </PressMenu>
         <ViewMenu>
-          <ViewIcon aria-selected={viewSelected === 0} onClick={() => toggleViewSelected(0)} src={listIcon} alt="list-icon"></ViewIcon>
-          <ViewIcon aria-selected={viewSelected === 1} onClick={() => toggleViewSelected(1)} src={gridIcon} alt="grid-icon"></ViewIcon>
+          <ViewIcon
+            aria-selected={viewSelected === VIEW_STATES.list}
+            onClick={() => setViewSelected(VIEW_STATES.list)}
+            src={listIcon}
+            alt="list-icon"
+          ></ViewIcon>
+          <ViewIcon
+            aria-selected={viewSelected === VIEW_STATES.grid}
+            onClick={() => setViewSelected(VIEW_STATES.grid)}
+            src={gridIcon}
+            alt="grid-icon"
+          ></ViewIcon>
         </ViewMenu>
       </Menu>
-      <View></View>
+      <View>
+        {SelectedView ? (
+          <SelectedView
+            news={news}
+            subscriptions={subscriptions}
+            menuSelected={menuSelected}
+          />
+        ) : null}
+      </View>
     </Container>
   );
 }
@@ -53,7 +77,7 @@ const PressMenu = styled.li`
 
 const PressTextMenu = styled.span`
   font-weight: 700;
-  color: ${(props) => (props["aria-selected"] === true ? "#14212b" : "#879298")};
+  color: ${(props) => (props["aria-selected"] ? "#14212b" : "#879298")};
 
   & + & {
     margin-left: 1.7143em;
@@ -65,8 +89,8 @@ const ViewMenu = styled.li`
 `;
 
 const ViewIcon = styled.img`
-  filter: ${(props) => (props["aria-selected"] === true ? "grayscale(0)" : "grayscale(1)")};
-  opacity: ${(props) => (props["aria-selected"] === true ? "1" : "0.7")};
+  filter: ${(props) => (props["aria-selected"] ? "grayscale(0)" : "grayscale(1)")};
+  opacity: ${(props) => (props["aria-selected"] ? "1" : "0.7")};
 
   & + & {
     margin-left: 0.57em;
