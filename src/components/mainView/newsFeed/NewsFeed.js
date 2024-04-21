@@ -1,33 +1,56 @@
-import React, { useEffect, useState } from 'react'
-import "./NewsFeed.css"
-import { jsonParser } from '../../../utility/getNewsAPI'
-import leftBtn from "../../../assets/img/LeftButton.png"
-import rightBtn from "../../../assets/img/RightButton.png"
-import GridView from './GridView/GridView'
-import ListView from './ListView/ListView'
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { jsonParser } from "../../../utility/getNewsAPI";
+import GridView from "./GridView/GridView"
+import ListView from "./ListView/ListView";
+import { showSubscribeModal, openNotification } from "./SnackbarUI";
 
-const NewsFeed = ({ isSubscribeView, isListView}) => {
-    const [subscribeList ,setSubscribeList] = useState([])
-    const [newsData, setNewsData] = useState([])
+
+const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
+    const [subscribeList, setSubscribeList] = useState([]);
+    const [newsData, setNewsData] = useState([]);
 
     const fetchInitialData = async () => {
         const result = await jsonParser.getNewsData("news");
-        setNewsData(result.news)
-        setSubscribeList(result.subscribe)
-        
+        setNewsData(result.news);
     };
-    useEffect(() => {
-        fetchInitialData()
-    }, [])
-    return (
-        <div className='feed-main-view'>
-            <img src={leftBtn} alt='left-btn' className='left-btn'></img>
-            <div className='news-feed-container'>
-            {isListView ? <ListView /> : <GridView newsData = {newsData}/>}
-            </div>
-            <img src={rightBtn} alt='right-btn' className='right-btn'></img>
-        </div>
-    )
-}
 
-export default NewsFeed
+    useEffect(() => fetchInitialData(), []);
+
+    const subscribeHandler = (pressName) => {
+        const selectNewsData = newsData.find(data => data.pressName === pressName)
+        setSubscribeList(prevData => [...prevData, selectNewsData])
+        showSubscribeModal(pressName)
+    }
+
+    const ubSubscribeHandler = (pressName) => setSubscribeList(prevData => prevData.filter(newsData => newsData.pressName !== pressName))
+
+    if (isSubscribeView && subscribeList.length === 0) {
+        openNotification('top');
+        setIsSubscribeView(false)
+    }
+    return (
+        <FeedContainer>
+            {isListView ? (
+                <ListView />
+            ) : (
+                <GridView
+                    newsData={newsData}
+                    isSubscribeView={isSubscribeView}
+                    subscribeList={subscribeList}
+                    subscribeHandler={subscribeHandler}
+                    ubSubscribeHandler={ubSubscribeHandler}
+                />
+            )}
+        </FeedContainer>
+    );
+};
+
+export default NewsFeed;
+
+const FeedContainer = styled.div`
+    margin-top: 20px;
+    width: 100%;
+    height: 388px;
+    border: 1px solid var(--border-border-default, rgba(210, 218, 224, 1));
+`;

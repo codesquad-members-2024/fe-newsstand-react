@@ -11,14 +11,14 @@
 ## 하단 영역([전체 언론사] 탭의 [그리드 보기] 기본 상태)
 ### 전체 언론사
 #### [그리드 보기]
- - [ ] 가로 930px, 세로 388px의 영역에 6*4 데이블이 들어가도록 한다.
- - [ ] 각 테이블의 셀에는 언론사 브랜드 마크가 중앙에 배치하도록 한다.
- - [ ] 언론사 브랜드 마크의 순서는 페이지가 새로고침 될 때마다 랜덤으로 배치되도록 한다.
- - [ ] 좌우에는 화살표를 배치하여 페이지를 넘길 수 있도록 한다.
- - [ ] 가장 첫 페이지와 가장 끝 페이지에서 Disabled되는 화살표는 아예 표시하지 않도록 한다.
- - [ ] 언론사는 아무리 많아도 4페이지까지만 표시한다.
- - [ ] 각 언론사 브랜드마크가 있는 셀에 마우스를 올리면, [구독하기] 버튼이 보이도록 한다.
- - [ ] 이미 구독하고 있는 언론사의 경우, [해지하기] 버튼이 보이도록 한다.
+ - [X] 가로 930px, 세로 388px의 영역에 6*4 데이블이 들어가도록 한다.
+ - [X] 각 테이블의 셀에는 언론사 브랜드 마크가 중앙에 배치하도록 한다.
+ - [X] 언론사 브랜드 마크의 순서는 페이지가 새로고침 될 때마다 랜덤으로 배치되도록 한다.
+ - [X] 좌우에는 화살표를 배치하여 페이지를 넘길 수 있도록 한다.
+ - [X] 가장 첫 페이지와 가장 끝 페이지에서 Disabled되는 화살표는 아예 표시하지 않도록 한다.
+ - [X] 언론사는 아무리 많아도 4페이지까지만 표시한다.
+ - [X] 각 언론사 브랜드마크가 있는 셀에 마우스를 올리면, [구독하기] 버튼이 보이도록 한다.
+ - [X] 이미 구독하고 있는 언론사의 경우, [해지하기] 버튼이 보이도록 한다.
  
 #### [리스트 보기]
  - [ ] 각 분야 카테고리에서 언론사의 기사를 확인할 수 있도록 한다.
@@ -63,4 +63,17 @@
 ---
 
 ## Sequence diagram
-[![](https://mermaid.ink/img/pako:eNqNkMFOwzAMhl8l8gmkjgfoAWmjW4cECKkTl6SHLPGYtzaJklQFrXt30gFSQRzwyf79-bflEyirEXLYNbZXe-kj2xTCsBRzTkbj280h1Gw2u2WLq7lzqbr-bC8u4h1fo9To66lY8I11T9iHF8L-R2fJHyWZibwc5YFC1W2D8rTFjFF4oBBHZmAr_uwxXHwqbFBF6_43WPJx_wpRf_Hlb35ga1560pNj_mDu-bdnDRm06FtJOr3rNE4IiHtsUUCeUi39UYAw58TJLtrq3SjIo-8wg85pGbEg-eplC_lONgHPH-RSe5o?type=png)](https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNqNkMFOwzAMhl8l8gmkjgfoAWmjW4cECKkTl6SHLPGYtzaJklQFrXt30gFSQRzwyf79-bflEyirEXLYNbZXe-kj2xTCsBRzTkbj280h1Gw2u2WLq7lzqbr-bC8u4h1fo9To66lY8I11T9iHF8L-R2fJHyWZibwc5YFC1W2D8rTFjFF4oBBHZmAr_uwxXHwqbFBF6_43WPJx_wpRf_Hlb35ga1560pNj_mDu-bdnDRm06FtJOr3rNE4IiHtsUUCeUi39UYAw58TJLtrq3SjIo-8wg85pGbEg-eplC_lONgHPH-RSe5o)
+[![](https://mermaid.ink/img/pako:eNqNkMFOwzAMhl8l8gmkjgfoAWmjW4cECKkTl6SHLDHMsCaVk6qgde9OuoFUEAdySj5__m3lAMZbhBye9743O81RbArlRDpzSc7i-9VrqMVsdi0WF_O2Ta_Lc3lxgjdyjdoi11NYyI1vH7APT4T9j8pS3mtyE7wc8UCh6rbBMG0xExTuKMTRGcRKPjKGU06FezTR8_8aSznOXyHaL7_87Q9iLUsmO1nmD-dWfmfWkEGD3Giy6bsOY4eCuMMGFeTpajW_KVDumDzdRV99OAN55A4z6FqrIxakX1g3Z3j8BGrre1E?type=png)](https://mermaid-js.github.io/mermaid-live-editor/edit#pako:eNqNkMFOwzAMhl8l8gmkjgfoAWmjW4cECKkTl6SHLDHMsCaVk6qgde9OuoFUEAdySj5__m3lAMZbhBye9743O81RbArlRDpzSc7i-9VrqMVsdi0WF_O2Ta_Lc3lxgjdyjdoi11NYyI1vH7APT4T9j8pS3mtyE7wc8UCh6rbBMG0xExTuKMTRGcRKPjKGU06FezTR8_8aSznOXyHaL7_87Q9iLUsmO1nmD-dWfmfWkEGD3Giy6bsOY4eCuMMGFeTpajW_KVDumDzdRV99OAN55A4z6FqrIxakX1g3Z3j8BGrre1E)
+
+```mermaid
+  flowchart TD
+    A[index.js] --> B(App.js)
+    B --> C[Header]
+    B --> D[TopNewsView]
+    B --> E[MainView]
+    E -->|isSubscribe, isListView| F[PressViewSelector]
+    E -->|isSubscribe, isListView| G[NewsFeed]
+    G -->|isSubscribe| H[GridView]
+    G -->|isSubscribe| I[ListView]
+
+```
