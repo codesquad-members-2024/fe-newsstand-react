@@ -8,34 +8,36 @@ export function GridView({
 	fetchSubscriptionData,
 	handleUnsubscribe,
 }) {
-	if (!newsData) return <div> ~ 로 딩 중 ~</div>;
 	return (
-		<StyledSwiperWrapper>
-			<StyledSwiperContainer>
-				<StyleTableLine />
-				{newsData.length === 0 && (
-					<StyledEmpty>아직 구독중인 언론사가 없어요 🧐</StyledEmpty>
-				)}
-				{chunkArray(newsData, 24).map((item, index) => (
-					<StyledDiv key={index}>
-						{item.map((data, idx) => (
-							<StyledPressItem
-								key={`${data.id}-${idx}`}
-								pressData={data}
-								fetchSubscriptionData={fetchSubscriptionData}
-								handleUnsubscribe={handleUnsubscribe}
-							/>
-						))}
-					</StyledDiv>
-				))}
-			</StyledSwiperContainer>
-			<StyledButtonPrev>
-				<LeftOutlined />
-			</StyledButtonPrev>
-			<StyledButtonNext>
-				<RightOutlined />
-			</StyledButtonNext>
-		</StyledSwiperWrapper>
+		<>
+			{!newsData && <div>~ l o a d i n g ~</div>}
+			<StyledSwiperWrapper>
+				<StyledSwiperContainer>
+					<StyleTableLine />
+					{newsData.length === 0 && (
+						<StyledEmpty>아직 구독중인 언론사가 없어요 🧐</StyledEmpty>
+					)}
+					{chunkArray(newsData, 24).map((item, index) => (
+						<StyledDiv key={index}>
+							{item.map((data, idx) => (
+								<StyledPressItem
+									key={`${data.id}-${idx}`}
+									pressData={data}
+									fetchSubscriptionData={fetchSubscriptionData}
+									handleUnsubscribe={handleUnsubscribe}
+								/>
+							))}
+						</StyledDiv>
+					))}
+				</StyledSwiperContainer>
+				<StyledButtonPrev>
+					<LeftOutlined />
+				</StyledButtonPrev>
+				<StyledButtonNext>
+					<RightOutlined />
+				</StyledButtonNext>
+			</StyledSwiperWrapper>
+		</>
 	);
 }
 const StyledSwiperWrapper = styled.div`
