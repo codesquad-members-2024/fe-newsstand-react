@@ -6,11 +6,10 @@ import ListView from "./ListView/ListView";
 import { openNotification } from "../../../utility/SnackbarUI";
 import { SubscribeContext } from "../SubscribeStore";
 import { ViewContext } from "../ViewStore";
-import { type } from "@testing-library/user-event/dist/type";
 
 const NewsFeed = () => {
     const [newsData, setNewsData] = useState([]);
-    const [state] = useContext(SubscribeContext)
+    const [SubState] = useContext(SubscribeContext)
     const [ViewState, ViewDispatch] = useContext(ViewContext)
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -20,17 +19,19 @@ const NewsFeed = () => {
         fetchInitialData();
     }, []);
 
-    if (ViewState.isSubscribeView && state.subscriptions.length === 0) {
-        openNotification("top");
-        ViewDispatch({type: "SET_UNSUBSCRIBE_VIEW"})
-    }
+    useEffect(() => {
+        if (ViewState.isSubscribeView && SubState.subscriptions.length === 0) {
+            openNotification("top");
+            ViewDispatch({ type: "SET_UNSUBSCRIBE_VIEW" });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ViewState.isSubscribeView, SubState.subscriptions.length]);
     return (
         
             <FeedContainer>
                 {ViewState.isListView ? (
                     <ListView newsData={newsData} /> ) 
-                    : ( <GridView newsData={newsData}/>
-                )}
+                    : ( <GridView newsData={newsData}/> )}
             </FeedContainer>
     );
 };

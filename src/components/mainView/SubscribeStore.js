@@ -18,10 +18,10 @@ function reducer(state, { type, payLoad }) {
 }
 
 export const SubscribeProvider = (props) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [SubState, SubDispatch] = useReducer(reducer, initialState);
 
     return (
-        <SubscribeContext.Provider value={[state, dispatch]}>
+        <SubscribeContext.Provider value={[SubState, SubDispatch]}>
             {props.children}
         </SubscribeContext.Provider>
     );

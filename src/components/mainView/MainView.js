@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PressViewSelector from "./PressViewSelector/PressViewSelector";
 import NewsFeed from "./NewsFeed/NewsFeed";
 import styled from "styled-components";

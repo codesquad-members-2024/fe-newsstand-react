@@ -8,7 +8,7 @@ const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
 const GridView = ({ newsData }) => {
-    const [state, dispatch] = useContext(SubscribeContext)
+    const [SubState, SubDispatch] = useContext(SubscribeContext)
     const [ViewState] = useContext(ViewContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
@@ -26,7 +26,7 @@ const GridView = ({ newsData }) => {
     };
 
     const initDataForSubscribeView = () => {
-        const subscribeData = [...state.subscriptions];
+        const subscribeData = [...SubState.subscriptions];
         const slicedData = [];
         if (subscribeData.length % GRID_BATCH_SIZE !== 0) {
             const emptyCellsCount = GRID_BATCH_SIZE - (subscribeData.length % GRID_BATCH_SIZE);
@@ -46,7 +46,7 @@ const GridView = ({ newsData }) => {
     useEffect(() => {
         if (ViewState.isSubscribeView)  initDataForSubscribeView()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ViewState.isSubscribeView, newsData, state])
+    }, [ViewState.isSubscribeView, newsData, SubState])
     
     return (
         <GridMainView>
@@ -59,9 +59,9 @@ const GridView = ({ newsData }) => {
                         pageData === "" ? <List key={index} className={index}></List> :
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
-                            {state.subscriptions.includes(pageData) ? 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "UNSUBSCRIBE", payLoad: pageData.pressName})}> + 해지하기</SubScribeButton> : 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "SUBSCRIBE", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
+                            {SubState.subscriptions.includes(pageData) ? 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => SubDispatch({ type: "UNSUBSCRIBE", payLoad: pageData.pressName})}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
                             
                         </List>
                     )))}

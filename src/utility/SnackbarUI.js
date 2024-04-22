@@ -1,5 +1,4 @@
 import { Modal, notification } from "antd";
-import { useState } from "react";
 
 const SNACK_BAR_DELAY = 5000;
 export const showSubscribeModal = (pressName) => {
