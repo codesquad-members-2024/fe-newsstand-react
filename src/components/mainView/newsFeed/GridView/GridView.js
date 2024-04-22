@@ -5,7 +5,7 @@ import {LeftButtonIMG, RightButtonIMG} from "../ButtonUI"
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, ubSubscribeHandler}) => {
+const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, unsubscribeHandler}) => {
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -15,16 +15,15 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
         return copiedData.slice(startIndex, endIndex);
     }
 
-    const initDataForListView = () => {
+    const initData = () => {
         const copiedData = [...newsData].sort(() => Math.random() - 0.5);
         const slicedData = Array.from({ length: TOTAL_PAGES }, (_, idx) => sliceIntoChunks(idx, copiedData));
         setNewsInfo(slicedData);
     };
-    
+
     const initDataForSubscribeView = () => {
         const subscribeData = [...subscribeList];
         const slicedData = [];
-        // splitSubData(subscribeData)
         if (subscribeData.length % GRID_BATCH_SIZE !== 0) {
             const emptyCellsCount = GRID_BATCH_SIZE - (subscribeData.length % GRID_BATCH_SIZE);
             const emptyCells = Array.from({ length: emptyCellsCount }, () => "");
@@ -36,7 +35,7 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
     };
     
     useEffect(() => {
-        if (!isSubscribeView)  initDataForListView()
+        if (!isSubscribeView) initData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSubscribeView, newsData])
 
@@ -57,7 +56,7 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
                             {subscribeList.includes(pageData) ? 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => ubSubscribeHandler(pageData.pressName)}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => unsubscribeHandler(pageData.pressName)}> + 해지하기</SubScribeButton> : 
                             <SubScribeButton name = {pageData.pressName} onClick={() => subscribeHandler(pageData.pressName)}> + 구독하기</SubScribeButton>}
                             
                         </List>

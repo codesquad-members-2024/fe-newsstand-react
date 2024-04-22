@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import listOnIcon from "../../../assets/img/grid-view-on.png"
+import listOnIcon from "../../../assets/img/list-view-on.png"
 import listOffIcon from "../../../assets/img/list-view-off.png"
 import gridOnIcon from "../../../assets/img/grid-view-on.png"
 import gridOffIcon from "../../../assets/img/grid-view-off.png"
@@ -14,8 +14,8 @@ const PressViewSelector = ({isSubscribeView, setIsSubscribeView, isListView, set
                     <Button className={` ${isSubscribeView ? `active`: ``} `} onClick={() => setIsSubscribeView(true)}>구독한 언론사</Button>
                 </SubscribePressView>
                 <SortView>
-                    <img src={isListView ? listOnIcon : listOffIcon} alt="List View"></img>
-                    <img src={isListView ? gridOffIcon : gridOnIcon} alt="grid View"></img>
+                    <img src={isListView ? listOnIcon : listOffIcon} alt="List View" onClick={() => setIsListView(true)}></img>
+                    <img src={isListView ? gridOffIcon : gridOnIcon} alt="grid View" onClick={() => setIsListView(false)}></img>
                 </SortView>
             </MainNav>
         </div>
