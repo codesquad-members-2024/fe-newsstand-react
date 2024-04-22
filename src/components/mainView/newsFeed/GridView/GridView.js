@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import {LeftButtonIMG, RightButtonIMG} from "../../../../utility/ButtonUI"
-import { SubscribeContext } from "../Store";
+import { SubscribeContext } from "../../SubscribeStore";
 
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, isSubscribeView, subscribeList}) => {
+const GridView = ({ newsData, isSubscribeView}) => {
     const [state, dispatch] = useContext(SubscribeContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
@@ -58,8 +58,8 @@ const GridView = ({ newsData, isSubscribeView, subscribeList}) => {
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
                             {state.subscriptions.includes(pageData) ? 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "unsubscribe", payLoad: pageData.pressName})}> + 해지하기</SubScribeButton> : 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "subscribe", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
+                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "UNSUBSCRIBE", payLoad: pageData.pressName})}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "SUBSCRIBE", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
                             
                         </List>
                     )))}

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { jsonParser } from "../../../utility/getNewsAPI";
 import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
-import { showSubscribeModal, openNotification } from "../../../utility/SnackbarUI";
-import { SubscribeProvider } from "./Store";
+import { openNotification } from "../../../utility/SnackbarUI";
+import { SubscribeContext } from "../SubscribeStore";
 
 const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
     const [newsData, setNewsData] = useState([]);
-
+    const [state] = useContext(SubscribeContext)
     useEffect(() => {
         const fetchInitialData = async () => {
             const result = await jsonParser.getNewsData("news");
@@ -17,12 +17,12 @@ const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
         fetchInitialData();
     }, []);
 
-    // if (isSubscribeView && subscribeList.length === 0) {
-    //     openNotification("top");
-    //     setIsSubscribeView(false);
-    // }
+    if (isSubscribeView && state.subscriptions.length === 0) {
+        openNotification("top");
+        setIsSubscribeView(false);
+    }
     return (
-        <SubscribeProvider>
+        
             <FeedContainer>
                 {isListView ? (
                     <ListView
@@ -36,7 +36,6 @@ const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
                     />
                 )}
             </FeedContainer>
-        </SubscribeProvider>
     );
 };
 
