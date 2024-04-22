@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { jsonParser } from "../../../utility/getNewsAPI";
 import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
-import { showSubscribeModal, openNotification } from "./SnackbarUI";
+import { showSubscribeModal, openNotification } from "../../../utility/SnackbarUI";
+import { SubscribeProvider } from "./Store";
 
 const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
-    const [subscribeList, setSubscribeList] = useState([]);
     const [newsData, setNewsData] = useState([]);
 
     useEffect(() => {
@@ -17,36 +17,26 @@ const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
         fetchInitialData();
     }, []);
 
-    const subscribeHandler = (pressName) => {
-        const selectNewsData = newsData.find((data) => data.pressName === pressName);
-        setSubscribeList((prevData) => [...prevData, selectNewsData]);
-        showSubscribeModal(pressName);
-    };
-
-    const unsubscribeHandler = (pressName) =>
-        setSubscribeList((prevData) => prevData.filter((newsData) => newsData.pressName !== pressName));
-
-    if (isSubscribeView && subscribeList.length === 0) {
-        openNotification("top");
-        setIsSubscribeView(false);
-    }
+    // if (isSubscribeView && subscribeList.length === 0) {
+    //     openNotification("top");
+    //     setIsSubscribeView(false);
+    // }
     return (
-        <FeedContainer>
-            {isListView ? (
-                <ListView
-                    newsData={newsData}
-                    isSubscribeView={isSubscribeView}
-                />
-            ) : (
-                <GridView
-                    newsData={newsData}
-                    isSubscribeView={isSubscribeView}
-                    subscribeList={subscribeList}
-                    subscribeHandler={subscribeHandler}
-                    unsubscribeHandler={unsubscribeHandler}
-                />
-            )}
-        </FeedContainer>
+        <SubscribeProvider>
+            <FeedContainer>
+                {isListView ? (
+                    <ListView
+                        // newsData={newsData}
+                        // isSubscribeView={isSubscribeView}
+                    />
+                ) : (
+                    <GridView
+                        newsData={newsData}
+                        isSubscribeView={isSubscribeView}
+                    />
+                )}
+            </FeedContainer>
+        </SubscribeProvider>
     );
 };
 

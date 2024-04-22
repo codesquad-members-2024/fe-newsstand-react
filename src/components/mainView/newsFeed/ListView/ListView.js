@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { LeftButtonIMG, RightButtonIMG } from "../ButtonUI";
+import { LeftButtonIMG, RightButtonIMG } from "../../../../utility/ButtonUI";
 
 const ListView = ({ newsData, isSubscribeView }) => {
     const [newsInfo, setNewsInfo] = useState([]);
@@ -35,7 +35,7 @@ const ListView = ({ newsData, isSubscribeView }) => {
                     )}
                 </Nav>
                 <MainNewsTemplate>
-                  
+
                 </MainNewsTemplate>
             </MainContainer>
 

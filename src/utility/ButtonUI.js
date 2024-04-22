@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import leftBtn from "../../../assets/img/LeftButton.png"
-import rightBtn from "../../../assets/img/RightButton.png"
+import leftBtn from "../assets/img/LeftButton.png"
+import rightBtn from "../assets/img/RightButton.png"
 
 const LocationImg = styled.img`
     position: absolute;

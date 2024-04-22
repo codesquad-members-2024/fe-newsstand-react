@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import {LeftButtonIMG, RightButtonIMG} from "../ButtonUI"
+import {LeftButtonIMG, RightButtonIMG} from "../../../../utility/ButtonUI"
+import { SubscribeContext } from "../Store";
 
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, unsubscribeHandler}) => {
+const GridView = ({ newsData, isSubscribeView, subscribeList}) => {
+    const [state, dispatch] = useContext(SubscribeContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -22,7 +24,7 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
     };
 
     const initDataForSubscribeView = () => {
-        const subscribeData = [...subscribeList];
+        const subscribeData = [...state.subscriptions];
         const slicedData = [];
         if (subscribeData.length % GRID_BATCH_SIZE !== 0) {
             const emptyCellsCount = GRID_BATCH_SIZE - (subscribeData.length % GRID_BATCH_SIZE);
@@ -42,7 +44,7 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
     useEffect(() => {
         if (isSubscribeView)  initDataForSubscribeView()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubscribeView, newsData, subscribeList])
+    }, [isSubscribeView, newsData, state])
     
     return (
         <GridMainView>
@@ -55,9 +57,9 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
                         pageData === "" ? <List key={index} className={index}></List> :
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
-                            {subscribeList.includes(pageData) ? 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => unsubscribeHandler(pageData.pressName)}> + 해지하기</SubScribeButton> : 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => subscribeHandler(pageData.pressName)}> + 구독하기</SubScribeButton>}
+                            {state.subscriptions.includes(pageData) ? 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "unsubscribe", payLoad: pageData.pressName})}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => dispatch({ type: "subscribe", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
                             
                         </List>
                     )))}
@@ -68,7 +70,6 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
         </GridMainView>
     );
 };
-
 export default GridView;
 
 const GridMainView = styled.div`
