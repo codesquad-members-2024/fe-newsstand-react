@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 export function SubNewsList({ subNews, pressName }) {
 	return (
-		<StyledSubNewsList>
-			{subNews.map(news => (
-				<a href={news.href} target='_blank' key={news.length}>
+		<StyledSubNewsList key={pressName}>
+			{subNews.map((news, index) => (
+				<a href={news.href} target='_blank' key={index}>
 					{news.title}
 				</a>
 			))}
