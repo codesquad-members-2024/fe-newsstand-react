@@ -2,12 +2,14 @@ import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import {LeftButtonIMG, RightButtonIMG} from "../../../../utility/ButtonUI"
 import { SubscribeContext } from "../../SubscribeStore";
+import { ViewContext } from "../../ViewStore";
 
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, isSubscribeView}) => {
+const GridView = ({ newsData }) => {
     const [state, dispatch] = useContext(SubscribeContext)
+    const [ViewState] = useContext(ViewContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -37,14 +39,14 @@ const GridView = ({ newsData, isSubscribeView}) => {
     };
     
     useEffect(() => {
-        if (!isSubscribeView) initData()
+        if (!ViewState.isSubscribeView) initData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubscribeView, newsData])
+    }, [ViewState.isSubscribeView, newsData])
 
     useEffect(() => {
-        if (isSubscribeView)  initDataForSubscribeView()
+        if (ViewState.isSubscribeView)  initDataForSubscribeView()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubscribeView, newsData, state])
+    }, [ViewState.isSubscribeView, newsData, state])
     
     return (
         <GridMainView>

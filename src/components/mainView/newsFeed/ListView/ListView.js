@@ -3,43 +3,10 @@ import styled from "styled-components";
 import { LeftButtonIMG, RightButtonIMG } from "../../../../utility/ButtonUI";
 
 const ListView = ({ newsData, isSubscribeView }) => {
-    const [newsInfo, setNewsInfo] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0);
-    const [categoryIdx, setCategoryIdx] = useState(0);
-
-    const initUnsubscribeData = () => {
-        const categoryList = ["종합/경제", "방송/통신", "IT", "영자지", "스포츠/연예", "매거진/전문지", "지역"];
-        const initData = [];
-        categoryList.forEach((curCategory) => {
-            const filteringData = newsData.filter((curData) => curData.category === curCategory);
-            initData.push({ category: curCategory, data: filteringData });
-        });
-        setNewsInfo(initData);
-    };
-
-    useEffect(() => {if (!isSubscribeView) initUnsubscribeData()}, []);
 
     return (
         <ListMainView>
-
-            <LeftButtonIMG/>
-
-            <MainContainer>
-                <Nav>{newsInfo.length === 0 ? (<div>Loading...</div>) : (
-                        newsInfo.map((curCategory, idx) => (
-                        <Item key={idx}><span>{curCategory.category}</span>
-                                <TotalPage>{isSubscribeView ? `>` : `1/${curCategory.data.length}`} </TotalPage>
-                                <div></div>
-                            </Item>
-                        ))
-                    )}
-                </Nav>
-                <MainNewsTemplate>
-
-                </MainNewsTemplate>
-            </MainContainer>
-
-            <RightButtonIMG/>
+          리스트 뷰
 
         </ListMainView>
     );

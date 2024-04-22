@@ -5,10 +5,13 @@ import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
 import { openNotification } from "../../../utility/SnackbarUI";
 import { SubscribeContext } from "../SubscribeStore";
+import { ViewContext } from "../ViewStore";
+import { type } from "@testing-library/user-event/dist/type";
 
-const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
+const NewsFeed = () => {
     const [newsData, setNewsData] = useState([]);
     const [state] = useContext(SubscribeContext)
+    const [ViewState, ViewDispatch] = useContext(ViewContext)
     useEffect(() => {
         const fetchInitialData = async () => {
             const result = await jsonParser.getNewsData("news");
@@ -17,23 +20,16 @@ const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
         fetchInitialData();
     }, []);
 
-    if (isSubscribeView && state.subscriptions.length === 0) {
+    if (ViewState.isSubscribeView && state.subscriptions.length === 0) {
         openNotification("top");
-        setIsSubscribeView(false);
+        ViewDispatch({type: "SET_UNSUBSCRIBE_VIEW"})
     }
     return (
         
             <FeedContainer>
-                {isListView ? (
-                    <ListView
-                        // newsData={newsData}
-                        // isSubscribeView={isSubscribeView}
-                    />
-                ) : (
-                    <GridView
-                        newsData={newsData}
-                        isSubscribeView={isSubscribeView}
-                    />
+                {ViewState.isListView ? (
+                    <ListView newsData={newsData} /> ) 
+                    : ( <GridView newsData={newsData}/>
                 )}
             </FeedContainer>
     );

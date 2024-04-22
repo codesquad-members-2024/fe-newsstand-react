@@ -8,7 +8,7 @@ const initialState = { subscriptions: [] };
 function reducer(state, { type, payLoad }) {
     switch (type) {
         case "SUBSCRIBE":
-            showSubscribeModal()
+            showSubscribeModal(payLoad.pressName)
             return { subscriptions: [...state.subscriptions, payLoad] };
         case "UNSUBSCRIBE":
             return { subscriptions: state.subscriptions.filter(newsData => newsData.pressName !== payLoad) };
