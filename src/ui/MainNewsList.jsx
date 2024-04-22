@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export function MainNewsList({ mainNews }) {
-	console.log(mainNews);
 	return (
 		<StyledMainNewsList href={mainNews.href} target='_blank'>
 			<div>
