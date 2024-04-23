@@ -16,5 +16,6 @@ const StyeldWrapper = styled.div``;
 const StyledContainer = styled.div`
 	width: 930px;
 	margin: 0 auto;
+	padding-bottom: 300px;
 `;
 export default App;

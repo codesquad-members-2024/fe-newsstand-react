@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { ListViewItem } from './ListViewItem';
+import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
 export function ListView({ newsData }) {
 	const [isActive, setIsActive] = useState(0);
 	function handleCategoryTab(index) {
 		setIsActive(index);
 	}
+
 	const categorizedData = Object.values(newsData).reduce((acc, cur) => {
 		const category = cur.category;
 		if (!acc[category]) {
@@ -16,6 +18,23 @@ export function ListView({ newsData }) {
 		return acc;
 	}, {});
 	const categoryList = Object.entries(categorizedData);
+
+	//이미지 슬라이드
+	const [sliderPosition, setSliderPosition] = useState(0);
+
+	// 슬라이더 이동 로직
+	const moveSlider = direction => {
+		if (direction === 'left' && sliderPosition > 0) {
+			setSliderPosition(sliderPosition - 1); // 왼쪽으로 이동
+		} else if (
+			direction === 'right' &&
+			sliderPosition <
+				categoryList.reduce((total, [_, items]) => total + items.length, 0) - 1
+		) {
+			setSliderPosition(sliderPosition + 1); // 오른쪽으로 이동
+		}
+	};
+
 	return (
 		<>
 			{!newsData && <div>~ l o a d i n g ~</div>}
@@ -38,15 +57,43 @@ export function ListView({ newsData }) {
 					))}
 				</StyledCatetoryList>
 				<StyledListViewItem>
-					{Object.values(categorizedData).map((item, index) => (
-						<ListViewItem key={index} categorizedData={item} />
-					))}
+					<StyledDiv
+						style={{
+							transform: `translateX(-${sliderPosition * 100}%)`, // 슬라이더 이동
+							transition: 'transform 0.5s ease-in-out', // 부드러운 이동 효과
+						}}
+					>
+						{Object.values(categorizedData).map((item, index) => (
+							<ListViewItem key={index} categorizedData={item} />
+						))}
+					</StyledDiv>
+					<StyledButton
+						as={LeftOutlined}
+						onClick={() => moveSlider('left')}
+						disabled={sliderPosition === 0}
+					/>
+
+					<StyledButton
+						as={RightOutlined}
+						onClick={() => {
+							moveSlider('right');
+						}}
+						disabled=''
+					/>
 				</StyledListViewItem>
 			</StyledWrapper>
 		</>
 	);
 }
+const StyledDiv = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex: 0 0 100%;
+`;
 const StyledWrapper = styled.div`
+	position: relative;
 	width: 100%;
 	height: 388px;
 	padding: 0;
@@ -56,7 +103,7 @@ const StyledListViewItem = styled.div`
 	display: flex;
 	width: 100%;
 	height: 100%;
-	// overflow: hidden;
+	overflow: hidden;
 `;
 const StyledCatetoryList = styled.div`
 	display: flex;
@@ -98,6 +145,24 @@ const StyledCategoryTab = styled.button`
 				animation: ${AnimationFill} 20s forwards;
 			`}
     }
+`;
+const StyledButton = styled.button`
+	position: absolute;
+	top: 50%;
+	left: -20px;
+	transfor: translateY(-50%);
+	background-color: #fff;
+	font-size: 42px;
+	padding: 20px 0;
+	cursor: pointer;
+	&:disabled {
+		background-color: #ddd;
+		display: none;
+	}
+	&:last-child {
+		left: auto;
+		right: -20px;
+	}
 `;
 
 const AnimationFill = keyframes`
