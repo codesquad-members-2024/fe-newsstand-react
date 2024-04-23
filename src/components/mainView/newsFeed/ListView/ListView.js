@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { LeftButtonIMG, RightButtonIMG } from "../../../../utility/ButtonUI";
 import { ViewContext } from "../../ViewStore";
+import { SubscribeContext } from "../../SubscribeStore";
 import Nav from "./MainContent/Nav";
 import MainContent from "./MainContent/MainContent";
-import { type } from "@testing-library/user-event/dist/type";
 
 const IS_EMPTY = 0;
 const INIT_PAGE_NUM = 0;
 const INTERVAL_DURATION= 19000
 
 const ListView = ({ newsData }) => {
-    const [ViewState, ViewDispatch] = useContext(ViewContext);
+    const [ViewState] = useContext(ViewContext);
+    const [SubState] = useContext(SubscribeContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [listPageNumber, setListPageNumber] = useState(0);
     const [categoryIdx, setCategoryIdx] = useState(0);
@@ -35,12 +36,26 @@ const ListView = ({ newsData }) => {
             const filteringData = newsData.filter((curData) => curData.category === curCategory);
             initData.push({ category: curCategory, data: filteringData });
         });
+        console.log(initData)
         setNewsInfo(initData);
     };
+
+    const initSubscribeData = () => {
+        const initData = SubState.subscriptions.map(curData => {
+            return { category: curData.pressName, data: [curData] }
+        });
+        setNewsInfo(initData);
+    }
+
     useEffect(() => {
         if (!ViewState.isSubscribeView) initUnsubscribeData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [ViewState.isSubscribeView]);
+
+    useEffect(() => {
+        if (ViewState.isSubscribeView) initSubscribeData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ViewState.isSubscribeView, SubState]);
 
     const updateCategory = {
         nextCategory() {
