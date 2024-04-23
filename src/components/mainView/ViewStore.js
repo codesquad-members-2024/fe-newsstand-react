@@ -7,7 +7,7 @@ const initialState = {
     isListView: false,
 };
 
-function reducer(state, { type }) {
+function ViewReducer(state, { type }) {
     switch (type) {
         case "SET_SUBSCRIBE_VIEW":
             return {...state, isSubscribeView: true}
@@ -23,7 +23,7 @@ function reducer(state, { type }) {
 }
 
 export const ViewProvider = (props) => {
-    const [ViewState, ViewDispatch] = useReducer(reducer, initialState)
+    const [ViewState, ViewDispatch] = useReducer(ViewReducer, initialState)
 
     return (
         <ViewContext.Provider value={[ViewState, ViewDispatch]}>

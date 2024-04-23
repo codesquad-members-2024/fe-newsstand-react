@@ -5,12 +5,12 @@ export const SubscribeContext = React.createContext();
 
 const initialState = { subscriptions: [] };
 
-function reducer(state, { type, payLoad }) {
+function SubReducer(state, { type, payLoad }) {
     switch (type) {
-        case "SUBSCRIBE":
+        case "SUBSCRIBE_PRESS":
             showSubscribeModal(payLoad.pressName)
             return { subscriptions: [...state.subscriptions, payLoad] };
-        case "UNSUBSCRIBE":
+        case "UNSUBSCRIBE_PRESS":
             return { subscriptions: state.subscriptions.filter(newsData => newsData.pressName !== payLoad) };
         default:
             throw new Error();
@@ -18,7 +18,7 @@ function reducer(state, { type, payLoad }) {
 }
 
 export const SubscribeProvider = (props) => {
-    const [SubState, SubDispatch] = useReducer(reducer, initialState);
+    const [SubState, SubDispatch] = useReducer(SubReducer, initialState);
 
     return (
         <SubscribeContext.Provider value={[SubState, SubDispatch]}>
