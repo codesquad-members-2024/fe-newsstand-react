@@ -102,8 +102,6 @@ const MainHeadLine = styled.div`
 `
 
 const MainContentImg = styled.img`
-    width: 100%;
-    height: 80%;
     object-fit: cover;
 `
 

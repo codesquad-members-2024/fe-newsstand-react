@@ -14,14 +14,14 @@ const Nav = ({ newsInfo, listPageNumber, setCategoryIdx, setListPageNumber, cate
     return (
         <>
             <CategoryNav>
-                {newsInfo.length === 0 ? (<div>Loading...</div>) : (
+                {!newsInfo.length ? (<div>Loading...</div>) : (
                     newsInfo.map((curCategory, idx) => (
-                        <Item key={idx} onClick={() => switchCategory(idx)} isCurrentCategory={newsInfo[categoryIdx].category === curCategory.category}>
+                        <Item key={idx} onClick={() => switchCategory(idx)} $isCurrentCategory={categoryIdx === idx}>
                             <span>{curCategory.category}</span>
                             <TotalPage hidden={newsInfo[categoryIdx].category === curCategory.category}>
                                 {ViewState.isSubscribeView ? `>` : `${listPageNumber + 1}/${curCategory.data.length}`}
                             </TotalPage>
-                            <AnimatedDiv className={` ${newsInfo[categoryIdx].category === curCategory.category ? 'animation' : ''}`}></AnimatedDiv>
+                            {newsInfo[categoryIdx].category === curCategory.category && <AnimatedDiv />}
                         </Item>
                     ))
                 )}
@@ -41,6 +41,7 @@ const CategoryNav = styled.nav`
     background: var(--surface-surface-alt, rgba(245, 247, 249, 1));
 `;
 
+
 const Item = styled.div`
     display: flex;
     position: relative;
@@ -54,13 +55,14 @@ const Item = styled.div`
     }
     
     transition: padding 0.5s ease;
-    ${props => props.isCurrentCategory && `
+
+    ${props => props.$isCurrentCategory ? `
         padding-right: 60px;
         background: rgba(196, 211, 255, 0.735);
         span {
             color: #fff;
         }
-    `}
+    ` : ``}
 `;
 
 const TotalPage = styled.div`
@@ -84,7 +86,5 @@ const AnimatedDiv = styled.div`
     left:0;
     height: 100%;
     content:'';
-    &.animation {
-        animation: ${fill} 20s ease forwards;
-    }
+    animation: ${fill} 20s ease forwards;
 `;

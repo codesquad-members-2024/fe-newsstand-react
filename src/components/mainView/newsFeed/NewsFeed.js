@@ -11,6 +11,7 @@ const NewsFeed = () => {
     const [newsData, setNewsData] = useState([]);
     const [SubState] = useContext(SubscribeContext)
     const [ViewState, ViewDispatch] = useContext(ViewContext)
+    
     useEffect(() => {
         const fetchInitialData = async () => {
             const result = await jsonParser.getNewsData("news");
