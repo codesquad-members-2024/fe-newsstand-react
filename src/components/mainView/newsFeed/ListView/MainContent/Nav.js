@@ -1,22 +1,27 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { ViewContext } from "../../../ViewStore";
 
-const Nav = ({ newsInfo}) => {
+const Nav = ({ newsInfo, listPageNumber, setCategoryIdx, setListPageNumber, categoryIdx }) => {
     const [ViewState] = useContext(ViewContext);
+    
+    const switchCategory = (idx) => {
+        setCategoryIdx(idx)
+        setListPageNumber(0)
+    }
 
     return (
         <>
             <CategoryNav>
                 {newsInfo.length === 0 ? (<div>Loading...</div>) : (
                     newsInfo.map((curCategory, idx) => (
-                        <Item key={idx}>
+                        <Item key={idx} onClick={() => switchCategory(idx)} isCurrentCategory={newsInfo[categoryIdx].category === curCategory.category}>
                             <span>{curCategory.category}</span>
-                            <TotalPage>
-                                {ViewState.isSubscribeView ? `>` : `1/${curCategory.data.length}`}{" "}
+                            <TotalPage hidden={newsInfo[categoryIdx].category === curCategory.category}>
+                                {ViewState.isSubscribeView ? `>` : `${listPageNumber + 1}/${curCategory.data.length}`}
                             </TotalPage>
-                            <div></div>
+                            <AnimatedDiv className={` ${newsInfo[categoryIdx].category === curCategory.category ? 'animation' : ''}`}></AnimatedDiv>
                         </Item>
                     ))
                 )}
@@ -43,22 +48,43 @@ const Item = styled.div`
     font-size: 14px;
     font-weight: bold;
     color: #333;
-    transition: padding 0.5s ease;
     span {
         position: relative;
         z-index: 2;
     }
-    &:hover {
+    
+    transition: padding 0.5s ease;
+    ${props => props.isCurrentCategory && `
         padding-right: 60px;
         background: rgba(196, 211, 255, 0.735);
         span {
             color: #fff;
         }
-    }
+    `}
 `;
 
 const TotalPage = styled.div`
     margin-left: 20px;
+    display: ${props => props.hidden ? 'inline-block' : 'none'};
+    position:relative;
+    z-index:2;
+    color: white;
 `;
 
+const fill = keyframes`
+    from {width: 0;}
+    to {width:100%;}
+`
 
+const AnimatedDiv = styled.div`
+    position: absolute;
+    background:rgb(40, 86, 223);
+    z-index:1;
+    top:0; 
+    left:0;
+    height: 100%;
+    content:'';
+    &.animation {
+        animation: ${fill} 20s ease forwards;
+    }
+`;

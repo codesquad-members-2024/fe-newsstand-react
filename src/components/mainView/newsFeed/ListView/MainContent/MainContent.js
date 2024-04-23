@@ -2,45 +2,47 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { SubscribeContext } from "../../../SubscribeStore";
 
-const MainContent = ({ newsInfo, pageNumber, categoryIdx, newsData }) => {
+const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData }) => {
     const [SubState, SubDispatch] = useContext(SubscribeContext);
-    const currentNews = newsInfo.length > 0 ? newsInfo[categoryIdx].data[pageNumber] || {} : {};
+
+    if (newsInfo.length === 0 || !newsInfo[categoryIdx] || !newsInfo[categoryIdx].data[listPageNumber]) {
+        return <MainNewsTemplate>Loading...</MainNewsTemplate>;
+    }
+
+    const currentNews = newsInfo[categoryIdx].data[listPageNumber];
     const { pressName, logoImageSrc, editedTime, headline, sideNews } = currentNews;
     
     return (
         <>
-        <MainNewsTemplate>
-                    {newsInfo.length === 0 ? (<div>Loading...</div>) : (
-                        <>
-                        <MainNewsHeader>
-                            <LogoImg src={logoImageSrc}/>
-                            <EditDateText>{editedTime}</EditDateText>
-                            {SubState.subscriptions.includes(currentNews) ? 
-                            <SubScribeButton name = {pressName} onClick={() => SubDispatch({ type: "UNSUBSCRIBE_PRESS", payLoad: pressName})}> + 해지하기</SubScribeButton> : 
-                            <SubScribeButton name = {pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pressName)})}> + 구독하기</SubScribeButton>}
-                        </MainNewsHeader>
-                        <MainNewsContent>
-                                <MainHeadLine>
-                                    <a href={headline.href}>
-                                        <MainContentImg src={headline.thumbnailSrc}></MainContentImg>
-                                        <MainContentText>{headline.title}</MainContentText>
-                                    </a>
-                                </MainHeadLine>
-                                <SubContent>
-                                {sideNews.map(sideData => (
-                                    <a href = {sideData.href}><div>{sideData.title}</div></a>
-                                ))}
-                                <EditPressText>
-                                    {pressName} 언론사에서 직접 편집한 뉴스입니다.
-                                </EditPressText>
-                                </SubContent>
-                        </MainNewsContent>
-                        </>
-                    )}
-                </MainNewsTemplate>
+            <MainNewsTemplate>
+                <MainNewsHeader>
+                    <LogoImg src={logoImageSrc}/>
+                    <EditDateText>{editedTime}</EditDateText>
+                    {SubState.subscriptions.includes(currentNews) ? 
+                        <SubScribeButton name={pressName} onClick={() => SubDispatch({ type: "UNSUBSCRIBE_PRESS", payLoad: pressName})}> + 해지하기</SubScribeButton> : 
+                        <SubScribeButton name={pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pressName)})}> + 구독하기</SubScribeButton>}
+                </MainNewsHeader>
+                <MainNewsContent>
+                    <MainHeadLine>
+                        <a href={headline.href}>
+                            <MainContentImg src={headline.thumbnailSrc}></MainContentImg>
+                            <MainContentText>{headline.title}</MainContentText>
+                        </a>
+                    </MainHeadLine>
+                    <SubContent>
+                        {sideNews.map((sideData, idx) => (
+                            <a href={sideData.href} key={idx}><div>{sideData.title}</div></a>
+                        ))}
+                        <EditPressText>
+                            {pressName} 언론사에서 직접 편집한 뉴스입니다.
+                        </EditPressText>
+                    </SubContent>
+                </MainNewsContent>
+            </MainNewsTemplate>
         </>
-    )
+    );
 };
+
 
 export default MainContent;
 

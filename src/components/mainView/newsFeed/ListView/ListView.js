@@ -8,7 +8,7 @@ import MainContent from "./MainContent/MainContent";
 const ListView = ({ newsData }) => {
     const [ViewState, ViewDispatch] = useContext(ViewContext)
     const [newsInfo, setNewsInfo] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0);
+    const [listPageNumber, setListPageNumber] = useState(0);
     const [categoryIdx, setCategoryIdx] = useState(0);
 
     const initUnsubscribeData = () => {
@@ -23,16 +23,23 @@ const ListView = ({ newsData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {if (!ViewState.isSubscribeView) initUnsubscribeData()}, []);
 
+    useEffect(() => {
+        if (newsInfo.length !== 0 && newsInfo[categoryIdx].data.length <= listPageNumber) {
+            setListPageNumber(0);
+            setCategoryIdx(prev => prev + 1);
+        }
+    }, [listPageNumber]);
+    
     return (
         <ListMainView>
-            <LeftButtonIMG onClick={() => setPageNumber(prev => prev - 1)} />
+            <LeftButtonIMG onClick={() => setListPageNumber(prev => prev - 1)} />
 
             <MainContainer>
-                <Nav newsInfo={newsInfo}></Nav>
-                <MainContent newsInfo={newsInfo} pageNumber={pageNumber} categoryIdx={categoryIdx} newsData={newsData}></MainContent>
+                <Nav newsInfo={newsInfo} listPageNumber={listPageNumber} setCategoryIdx={setCategoryIdx} setListPageNumber={setListPageNumber} categoryIdx={categoryIdx}></Nav>
+                <MainContent newsInfo={newsInfo} listPageNumber={listPageNumber} categoryIdx={categoryIdx} newsData={newsData}></MainContent>
             </MainContainer>
 
-            <RightButtonIMG onClick={() => setPageNumber(prev => prev + 1)} />
+            <RightButtonIMG onClick={() => setListPageNumber(prev => prev + 1)} />
 
         </ListMainView>
     );
