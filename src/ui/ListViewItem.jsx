@@ -31,7 +31,6 @@ const StyledWrapper = styled.div`
 	height: 100%;
 	display: flex;
 	flex: 0 0 100%;
-	background-color: hotpink;
 `;
 const StyledContainer = styled.div`
 	border: 1px solid #d2dae0;

@@ -5,9 +5,7 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
 export function ListView({ newsData }) {
 	const [isActive, setIsActive] = useState(0);
-	function handleCategoryTab(index) {
-		setIsActive(index);
-	}
+	const [indicator, setIndicator] = useState(1);
 
 	const categorizedData = Object.values(newsData).reduce((acc, cur) => {
 		const category = cur.category;
@@ -17,23 +15,42 @@ export function ListView({ newsData }) {
 		acc[category].push(cur);
 		return acc;
 	}, {});
+	// 카테고리 기준으로 데이터 가공
 	const categoryList = Object.entries(categorizedData);
 
+	function handleCategoryTab(index) {
+		setIsActive(index);
+		setSliderPosition(categoryStartIndex[index]);
+	}
 	//이미지 슬라이드
 	const [sliderPosition, setSliderPosition] = useState(0);
+
+	const { totalSlides, categoryStartIndex } = categoryList.reduce(
+		({ totalSlides, categoryStartIndex }, [_, items]) => {
+			categoryStartIndex.push(totalSlides);
+			totalSlides += items.length;
+			return { totalSlides, categoryStartIndex };
+		},
+		{ totalSlides: 0, categoryStartIndex: [] }
+	);
 
 	// 슬라이더 이동 로직
 	const moveSlider = direction => {
 		if (direction === 'left' && sliderPosition > 0) {
-			setSliderPosition(sliderPosition - 1); // 왼쪽으로 이동
-		} else if (
-			direction === 'right' &&
-			sliderPosition <
-				categoryList.reduce((total, [_, items]) => total + items.length, 0) - 1
-		) {
-			setSliderPosition(sliderPosition + 1); // 오른쪽으로 이동
+			setSliderPosition(sliderPosition - 1);
+			setIndicator(indicator - 1);
+		} else if (direction === 'right' && sliderPosition < totalSlides - 1) {
+			setSliderPosition(sliderPosition + 1);
+			setIndicator(indicator + 1);
 		}
 	};
+
+	function slideAutoChange() {
+		const interval = setInterval(() => {
+			setIsActive((isActive + 1) % categoryList.length);
+		}, 2000);
+		return () => clearInterval(interval);
+	}
 
 	return (
 		<>
@@ -46,11 +63,12 @@ export function ListView({ newsData }) {
 							onClick={() => handleCategoryTab(index)}
 							$isActive={isActive === index}
 						>
+							{console.log(counts.length)}
 							{category}
-							{/* //TODO: ${1} 동적으로 받도록 수정 (스와이퍼 연동) */}
+
 							{isActive === index && (
 								<strong>
-									<span>{`${1}`}</span>/{`${counts.length}`}
+									<span>{`${indicator}`}</span>/{`${counts.length}`}
 								</strong>
 							)}
 						</StyledCategoryTab>
@@ -60,7 +78,7 @@ export function ListView({ newsData }) {
 					<StyledDiv
 						style={{
 							transform: `translateX(-${sliderPosition * 100}%)`, // 슬라이더 이동
-							transition: 'transform 0.5s ease-in-out', // 부드러운 이동 효과
+							transition: 'all 0.5s',
 						}}
 					>
 						{Object.values(categorizedData).map((item, index) => (
@@ -99,7 +117,6 @@ const StyledWrapper = styled.div`
 	padding: 0;
 `;
 const StyledListViewItem = styled.div`
-	border: 5px dashed olive;
 	display: flex;
 	width: 100%;
 	height: 100%;
@@ -149,9 +166,8 @@ const StyledCategoryTab = styled.button`
 const StyledButton = styled.button`
 	position: absolute;
 	top: 50%;
-	left: -20px;
+	left: -48px;
 	transfor: translateY(-50%);
-	background-color: #fff;
 	font-size: 42px;
 	padding: 20px 0;
 	cursor: pointer;
@@ -161,7 +177,7 @@ const StyledButton = styled.button`
 	}
 	&:last-child {
 		left: auto;
-		right: -20px;
+		right: -48px;
 	}
 `;
 
