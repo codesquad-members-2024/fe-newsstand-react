@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
-import { News, RollingProps } from "./constants";
-import { increaseIndex, decreaseIndex } from "../utils/Utils";
+import { RollingTextProps } from "../../constants";
+import { increaseIndex, decreaseIndex } from "../../utils/Utils";
+import { NewsContext } from "../provider/NewsProvider";
 
 const LEFT_START_INDEX = 1;
 const RIGHT_START_INDEX = 2;
@@ -11,7 +12,8 @@ const ITEM_TOP_START = 0.5714;
 const ITEM_TOP_END = -2.0714;
 const ITEM_TOP_INCREMENT = 1.4286;
 
-function RollingContainer({ news }: RollingProps) {
+function RollingContainer() {
+  const [{ news }] = useContext(NewsContext);
   const [leftIndex, setLeftIndex] = useState<number>(LEFT_START_INDEX);
   const [rightIndex, setRightIndex] = useState<number>(news.length - RIGHT_START_INDEX);
   const [animateLeft, setAnimateLeft] = useState<boolean>(false);
@@ -22,7 +24,7 @@ function RollingContainer({ news }: RollingProps) {
     setAnimateLeft(true);
   };
   const updateRightStates = () => {
-    setRightIndex((prevIndex) => decreaseIndex(prevIndex, news.length));
+    setRightIndex(decreaseIndex(rightIndex, news.length));
     setAnimateRight(true);
   };
 
@@ -44,28 +46,35 @@ function RollingContainer({ news }: RollingProps) {
   return (
     <Container>
       <TextBox>
-        {news
-          .slice(leftIndex - 1, leftIndex + 1)
-          .map((element, index) => renderRollingText(element, index, animateLeft, setAnimateLeft))}
+        {news.slice(leftIndex - 1, leftIndex + 1).map((element, index) =>
+          renderRollingText({
+            news: element,
+            index,
+            animate: animateLeft,
+            setAnimate: setAnimateLeft,
+          })
+        )}
       </TextBox>
       <TextBox>
         {news
           .slice(rightIndex, rightIndex + 2)
           .reverse()
-          .map((element, index) => renderRollingText(element, index, animateRight, setAnimateRight))}
+          .map((element, index) =>
+            renderRollingText({
+              news: element,
+              index,
+              animate: animateRight,
+              setAnimate: setAnimateRight,
+            })
+          )}
       </TextBox>
     </Container>
   );
 }
 
-const renderRollingText = (
-  news: News,
-  index: number,
-  animate: boolean,
-  setAnimationState: (state: boolean) => void
-) => {
+const renderRollingText = ({ news, index, animate, setAnimate }: RollingTextProps) => {
   return (
-    <RollingText animate={animate} index={index} onAnimationEnd={() => setAnimationState(false)}>
+    <RollingText animate={animate} index={index} onAnimationEnd={() => setAnimate(false)}>
       <Press>{news.pressName}</Press>
       <Title href={news.headline.href}>{news.headline.title}</Title>
     </RollingText>

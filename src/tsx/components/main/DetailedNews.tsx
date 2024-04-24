@@ -1,23 +1,38 @@
 import styled from "styled-components";
-import { NewsProps } from "./constants";
+import { DetailedNewsProps } from "../../constants";
+import SubscribeButton from "./SubscribeButton";
 
-function DetailedNews({ newsItem }: NewsProps) {
+function DetailedNews({ newsItem, onSubscribe, onUnsubscribe, isSubscribed }: DetailedNewsProps) {
+  const {
+    logoImageSrc,
+    editedTime,
+    headline: { thumbnailSrc, href, title },
+    sideNews,
+    pressName,
+  } = newsItem;
+
   return (
     <Container>
       <NewsInfo>
-        <img src={newsItem.logoImageSrc} alt="logo" />
-        <EditedTime>{newsItem.editedTime}</EditedTime>
+        <img src={logoImageSrc} alt="logo" />
+        <EditedTime>{editedTime}</EditedTime>
+        <SubscribeButton
+          name={pressName}
+          onSubscribe={onSubscribe}
+          onUnsubscribe={onUnsubscribe}
+          isSubscribed={isSubscribed}
+        ></SubscribeButton>
       </NewsInfo>
       <NewsContent>
         <Headline>
-          <Thumbnail src={newsItem.headline.thumbnailSrc}></Thumbnail>
-          <HeadlineTitle href={newsItem.headline.href}>{newsItem.headline.title}</HeadlineTitle>
+          <Thumbnail src={thumbnailSrc}></Thumbnail>
+          <HeadlineTitle href={href}>{title}</HeadlineTitle>
         </Headline>
         <Sidenews>
-          {newsItem.sideNews.map((element) => (
+          {sideNews.map((element) => (
             <SideNewsTitle href={element.href}>{element.title}</SideNewsTitle>
           ))}
-          <span>{newsItem.pressName} 언론사에서 직접 편집한 뉴스입니다.</span>
+          <span>{pressName} 언론사에서 직접 편집한 뉴스입니다.</span>
         </Sidenews>
       </NewsContent>
     </Container>
@@ -46,6 +61,7 @@ const EditedTime = styled.div`
   font-size: 0.8571em;
   font-weight: 500;
   margin-left: 1.1429em;
+  margin-right: 1.1429em;
 `;
 
 const NewsContent = styled.div`

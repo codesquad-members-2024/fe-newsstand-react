@@ -1,30 +1,39 @@
-import React, { useEffect, useState } from "react";
-import Header from "./Header";
-import RollingContainer from "./RollingContainer";
-import PressContainer from "./PressContainer";
-import { fetchNews } from "../api/NewsAPI";
-import { News } from "./constants";
+import { useContext, useEffect } from "react";
+import Header from "./header/Header";
+import RollingContainer from "./headline/RollingContainer";
+import PressContainer from "./main/PressContainer";
+import { fetchNews, fetchSubscription } from "../api/NewsAPI";
+import { NewsContext } from "./provider/NewsProvider";
+import { News } from "../constants";
+import { SubscribeProvider } from "./provider/SubscribeProvider";
 
 function App() {
-  const [news, setNews] = useState<News[]>([]);
-  const [subscriptions, setSubscriptions] = useState<News[]>([]);
+  const [_, setNewsState] = useContext(NewsContext);
 
   useEffect(() => {
-    loadNews(setNews);
+    const loadNews = async () => {
+      try {
+        const loadedNews = await fetchNews();
+        const loadedSubscription = await fetchSubscription();
+        setNewsState({ news: loadedNews as News[], subscription: loadedSubscription as News[] });
+      } catch (error) {
+        console.error(`Server request failed!: ${error}`);
+        alert("서버 요청이 실패하였습니다!");
+      }
+    };
+
+    loadNews();
   }, []);
 
   return (
     <div>
-      <Header></Header>
-      <RollingContainer news={news}></RollingContainer>
-      <PressContainer news={news} subscriptions={subscriptions}></PressContainer>
+      <Header />
+      <RollingContainer />
+      <SubscribeProvider>
+        <PressContainer />
+      </SubscribeProvider>
     </div>
   );
 }
-
-const loadNews: (setFn: Function) => void = async (setFn) => {
-  const loadedNews = await fetchNews();
-  setFn(loadedNews);
-};
 
 export default App;
