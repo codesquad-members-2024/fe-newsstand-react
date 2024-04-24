@@ -24,7 +24,9 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 
 📓 [json-server](https://github.com/minjeongHEO/fe-newsstand/wiki/%5BNews-Stand%5D-json%E2%80%90server-%EC%84%A4%EC%B9%98,-%EC%85%8B%ED%8C%85-%F0%9F%94%A7)
 
-`yarn add -D sass`
+`yarn add -D sass`  
+`yarn add @ant-design/icons`  
+[icon](https://ant.design/components/icon#common-icon)
 
 <br>
 
@@ -32,7 +34,7 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 
 ### ✨레이아웃 | 🔧기능
 
-🗓 week 1📌
+🗓 week 1
 
 -   [x] React `useState `,`useReducer`,`ContextAPI` 개념 공부
 -   [x] 메인화면 컴포넌트 설계
@@ -40,16 +42,21 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 -   [x] 메인화면 레이아웃 그리기 - 헤드라인
 -   [x] 메인화면 레이아웃 그리기 - 그리드
 
+🗓 week 2📌
+
+-   [x] 그리드 - 페이징
+-   [x] 그리드 - 구독
+-   [x] 그리드 - 구독취소
+
 -   [ ] 메인화면 레이아웃 그리기 - 리스트
 -   [ ] 메인화면 nav - 뉴스 롤링 기능
-
-🗓 week 2
 
 <br>
 
 ## 🤔 실수 및 고민 사항
 
-~~📓 [Wiki Link](https://github.com/minjeongHEO/fe-newsstand/wiki/%5BNews-Stand%5D-%EC%8B%A4%EC%88%98,-%EA%B3%A0%EB%AF%BC-%EC%82%AC%ED%95%AD,-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%F0%9F%93%93)~~
+~~📓 [Wiki Link (vanillaJs)](https://github.com/minjeongHEO/fe-newsstand/wiki/%5BNews-Stand%5D-%EC%8B%A4%EC%88%98,-%EA%B3%A0%EB%AF%BC-%EC%82%AC%ED%95%AD,-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%F0%9F%93%93)~~  
+📓 [Wiki Link (React)](https://github.com/minjeongHEO/fe-newsstand-react/wiki)
 
 <br>
 
@@ -63,18 +70,20 @@ graph TD;
 
     B-->C(Header.jsx);
     B-- gridCount={2} -->D(HeadLine.jsx);
-    B-- row={4} col={6} maxPage={4} -->E(News.jsx);
+    B-- (NewsContext) -->E(News.jsx);
 
     C-->F(Logo.jsx)
     C-->G(Dates.jsx)
 
     D-->H(HeadLineBox.jsx * gridCount)
 
-    E-->L(NavTab.jsx)
-    E-->I(GridNews.jsx)
+    E-- setOnClick={setOnClick} tabType={tabType} -->L(NavTab.jsx)
+    E-- (NewsContext) newsData={gridData} page={gridPage} setGridPage={setGridPage} (NewsContext) -->I(GridNews.jsx)
     E-->J(ListNews.jsx)
 
-    I-->K(GridLine.jsx)
+    I-- (NewsContext) -->K(GridLine.jsx)
 
 
 ```
+
+    NewsContext = row={ } col={ } maxPage={ }
