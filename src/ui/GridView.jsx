@@ -6,7 +6,8 @@ import { TableLine } from './TableLine';
 export function GridView({
 	newsData,
 	fetchSubscriptionData,
-	handleUnsubscribe,
+	setPopup,
+	setSelectedPress,
 }) {
 	return (
 		<>
@@ -24,7 +25,8 @@ export function GridView({
 									key={`${data.id}-${idx}`}
 									pressData={data}
 									fetchSubscriptionData={fetchSubscriptionData}
-									handleUnsubscribe={handleUnsubscribe}
+									setPopup={setPopup}
+									setSelectedPress={setSelectedPress}
 								/>
 							))}
 						</StyledDiv>

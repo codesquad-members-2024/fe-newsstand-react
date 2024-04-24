@@ -4,17 +4,27 @@ import { MainNewsList } from './MainNewsList';
 import { SubNewsList } from './SubNewsList';
 import { ButtonSubscribe } from './ButtonSubscribe';
 
-export function ListViewItem({ categorizedData }) {
+export function ListViewItem({
+	categorizedData,
+	setPopup,
+	setSelectedPress,
+	fetchSubscriptionData,
+}) {
 	return (
 		<>
 			{categorizedData.map(news => (
-				<StyledWrapper className='AAAAA' key={news.id}>
+				<StyledWrapper key={news.id}>
 					<StyledContainer>
 						<h2>{news.category}</h2>
 						<StyledPressInfo key={news.id}>
 							<StyledLogo src={news.logoImageSrc} alt={news.pressName} />
 							<span>{news.editedTime}</span>
-							<ButtonSubscribe isSubscribed={news.isSubscribed} />
+							<ButtonSubscribe
+								pressData={news}
+								setPopup={setPopup}
+								setSelectedPress={setSelectedPress}
+								fetchSubscriptionData={fetchSubscriptionData}
+							/>
 						</StyledPressInfo>
 						<StyledFlexBox key={news.pressName}>
 							<MainNewsList mainNews={news.headline} />

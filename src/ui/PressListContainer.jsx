@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { ProfileTwoTone, AppstoreTwoTone } from '@ant-design/icons';
 
-import { getNewsData } from '../apis/newsApiHandler';
+import { getNewsData, postNewsData } from '../apis/newsApiHandler';
 
 import { ModalUnsubscribe } from './ModalUnsubscribe';
 import { ListView } from './ListView';
@@ -14,6 +14,7 @@ export function PressListContainer() {
 	const [popup, setPopup] = useState(false);
 	const [selectedPress, setSelectedPress] = useState({});
 
+	//전체 언론사 데이터 가져오기
 	function fetchData() {
 		setActiveTab('news');
 		getNewsData('news').then(data => {
@@ -21,17 +22,36 @@ export function PressListContainer() {
 		});
 	}
 
+	//구독한 언론사 데이터 가져오기
 	function fetchSubscriptionData() {
 		setActiveTab('subscription');
 		getNewsData('news').then(
 			data => setNewsData(data.news.filter(item => item.isSubscribed)) //구독한 데이터
 		);
 	}
-	function handleUnsubscribe(pressData) {
-		setSelectedPress(pressData);
-		setPopup(true);
-	}
+	// function handleSubscribe(isSubscribed = false) {
+	// 	if (isSubscribed) {
+	// 		onSubscribe(isSubscribed);
+	// 	} else {
+	// 		offSubscribe();
+	// 	}
+	// }
+	//구독하기
+	// function onSubscribe(isSubscribed, targetData) {
+	// 	if (!isSubscribed) {
+	// 		postNewsData(targetData) //
+	// 			.then(() => fetchSubscriptionData());
+	// 	} else {
+	// 		offSubscribe(targetData);
+	// 	}
+	// }
+	//구독해지 팝업 오픈 및 선택한 언론사 데이터 저장
+	// function offSubscribe(pressData) {
+	// 	setSelectedPress(pressData);
+	// 	setPopup(true);
+	// }
 
+	//초기  전체언론사 데이터 가져오기
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -73,10 +93,16 @@ export function PressListContainer() {
 			</StyledTabWrapper>
 			<GridView
 				newsData={newsData}
-				handleUnsubscribe={handleUnsubscribe}
 				fetchSubscriptionData={fetchSubscriptionData}
+				setPopup={setPopup}
+				setSelectedPress={setSelectedPress}
 			/>
-			<ListView newsData={newsData} />
+			<ListView
+				newsData={newsData}
+				fetchSubscriptionData={fetchSubscriptionData}
+				setPopup={setPopup}
+				setSelectedPress={setSelectedPress}
+			/>
 		</>
 	);
 }

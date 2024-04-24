@@ -1,30 +1,22 @@
 import { styled } from 'styled-components';
-import { postNewsData } from '../apis/newsApiHandler';
-
 import { ButtonSubscribe } from './ButtonSubscribe';
 
 export function PressItem({
 	className,
 	pressData,
 	fetchSubscriptionData,
-	handleUnsubscribe,
+	setSelectedPress,
+	setPopup,
 }) {
-	function handleSubscribe(isSubscribed) {
-		if (!isSubscribed) {
-			postNewsData(pressData) //
-				.then(() => fetchSubscriptionData());
-		} else {
-			handleUnsubscribe(pressData);
-		}
-	}
-
 	return (
 		<StyledWrapper className={className}>
 			<img src={pressData.logoImageSrc} alt={pressData.pressName} />
 			<StyledHover>
 				<ButtonSubscribe
-					handleSubscribe={handleSubscribe}
-					isSubscribed={pressData.isSubscribed}
+					pressData={pressData}
+					fetchSubscriptionData={fetchSubscriptionData}
+					setSelectedPress={setSelectedPress}
+					setPopup={setPopup}
 				/>
 			</StyledHover>
 		</StyledWrapper>

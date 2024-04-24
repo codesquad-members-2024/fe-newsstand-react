@@ -3,7 +3,12 @@ import styled, { keyframes, css } from 'styled-components';
 import { ListViewItem } from './ListViewItem';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
-export function ListView({ newsData }) {
+export function ListView({
+	newsData,
+	fetchSubscriptionData,
+	setPopup,
+	setSelectedPress,
+}) {
 	const [isActive, setIsActive] = useState(0);
 	const [indicator, setIndicator] = useState(1);
 
@@ -12,9 +17,11 @@ export function ListView({ newsData }) {
 		if (!acc[category]) {
 			acc[category] = [];
 		}
-		acc[category].push(cur);
+		const data = { ...cur };
+		acc[category].push(data);
 		return acc;
 	}, {});
+	// console.log('categorizedData', categorizedData);
 	// 카테고리 기준으로 데이터 가공
 	const categoryList = Object.entries(categorizedData);
 
@@ -45,13 +52,6 @@ export function ListView({ newsData }) {
 		}
 	};
 
-	function slideAutoChange() {
-		const interval = setInterval(() => {
-			setIsActive((isActive + 1) % categoryList.length);
-		}, 2000);
-		return () => clearInterval(interval);
-	}
-
 	return (
 		<>
 			{!newsData && <div>~ l o a d i n g ~</div>}
@@ -63,7 +63,6 @@ export function ListView({ newsData }) {
 							onClick={() => handleCategoryTab(index)}
 							$isActive={isActive === index}
 						>
-							{console.log(counts.length)}
 							{category}
 
 							{isActive === index && (
@@ -82,7 +81,13 @@ export function ListView({ newsData }) {
 						}}
 					>
 						{Object.values(categorizedData).map((item, index) => (
-							<ListViewItem key={index} categorizedData={item} />
+							<ListViewItem
+								key={index}
+								categorizedData={item}
+								fetchSubscriptionData={fetchSubscriptionData}
+								setPopup={setPopup}
+								setSelectedPress={setSelectedPress}
+							/>
 						))}
 					</StyledDiv>
 					<StyledButton
