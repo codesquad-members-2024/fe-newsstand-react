@@ -7,7 +7,7 @@ import { ViewContext } from "../../ViewStore";
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData }) => {
+const GridView = ({ newsData, showModal }) => {
     const [SubState, SubDispatch] = useContext(SubscribeContext)
     const [ViewState] = useContext(ViewContext)
     const [newsInfo, setNewsInfo] = useState([]);
@@ -60,7 +60,7 @@ const GridView = ({ newsData }) => {
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
                             {SubState.subscriptions.includes(pageData) ? 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => SubDispatch({ type: "UNSUBSCRIBE_PRESS", payLoad: pageData.pressName})}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => showModal(pageData.pressName)}> + 해지하기</SubScribeButton> : 
                             <SubScribeButton name = {pageData.pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
                             
                         </List>

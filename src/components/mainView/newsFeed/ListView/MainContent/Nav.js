@@ -39,13 +39,15 @@ const CategoryNav = styled.nav`
     height: 10%;
     border-bottom: 1px solid var(--border-border-default, rgba(210, 218, 224, 1));
     background: var(--surface-surface-alt, rgba(245, 247, 249, 1));
+    overflow-x: auto;
+    white-space: nowrap;
 `;
 
 
 const Item = styled.div`
     display: flex;
     position: relative;
-    padding: 9px 10px;
+    padding: 8px;
     font-size: 14px;
     font-weight: bold;
     color: #333;

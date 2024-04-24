@@ -1,10 +1,10 @@
 import { Modal, notification } from "antd";
-import react, { useState } from "react"
+import React, { useState } from "react";
 
 const SNACK_BAR_DELAY = 5000;
-export const showSubscribeModal = (pressName) => {
+export const showSubscribeModal = (pressName, type) => {
     const instance = Modal.success({
-        content: `${pressName} 언론사가 구독되었습니다.`,
+        content: `${pressName} 언론사가 ${type}`,
     });
     setTimeout(() => {
         instance.destroy();
@@ -16,30 +16,4 @@ export const openNotification = (placement) => {
         description: "구독한 언론사가 없습니다.",
         placement: placement,
     });
-};
-export const showQuestionModal = () => {
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-    // const showModal = () => {
-    //     setIsModalOpen(true);
-    // };
-    // const handleOk = () => {
-    //     setIsModalOpen(false);
-    // };
-    // const handleCancel = () => {
-    //     setIsModalOpen(false);
-    // };
-    return (
-        <>
-            <Modal
-                title="Basic Modal"
-                // open={isModalOpen}
-                // onOk={handleOk}
-                // onCancel={handleCancel}
-            >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-            </Modal>
-        </>
-    );
 };

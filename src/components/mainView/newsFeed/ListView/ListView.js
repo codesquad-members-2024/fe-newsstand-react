@@ -10,7 +10,7 @@ const IS_EMPTY = 0;
 const INIT_PAGE_NUM = 0;
 const INTERVAL_DURATION= 19000
 
-const ListView = ({ newsData }) => {
+const ListView = ({ newsData, showModal }) => {
     const [ViewState] = useContext(ViewContext);
     const [SubState] = useContext(SubscribeContext)
     const [newsInfo, setNewsInfo] = useState([]);
@@ -33,6 +33,7 @@ const ListView = ({ newsData }) => {
             return { category: curData.pressName, data: [curData] }
         });
         setNewsInfo(initData);
+        setCategoryIdx(INIT_PAGE_NUM)
     }
 
     useEffect(() => {
@@ -50,9 +51,8 @@ const ListView = ({ newsData }) => {
     useEffect(() => {
         if (ViewState.isSubscribeView) initSubscribeData();
         // 이거를 해지했을때 함수로 빼자
-        if(categoryIdx !== 0 && categoryIdx === newsInfo.length) setCategoryIdx(prev => prev - 1)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ViewState.isSubscribeView, SubState, categoryIdx]);
+    }, [ViewState.isSubscribeView, SubState]);
 
     const updateCategory = {
         nextCategory() {
@@ -92,6 +92,7 @@ const ListView = ({ newsData }) => {
                     listPageNumber={listPageNumber}
                     categoryIdx={categoryIdx}
                     newsData={newsData}
+                    showModal={showModal}
                 ></MainContent>
             </MainContainer>
 
