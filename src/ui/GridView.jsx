@@ -1,14 +1,17 @@
 import styled from 'styled-components';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 import { PressItem } from './PressItem';
 import { chunkArray } from '../utility/utils';
 import { TableLine } from './TableLine';
+import { Slider } from './Slider';
 export function GridView({
 	newsData,
 	fetchSubscriptionData,
 	setPopup,
 	setSelectedPress,
 }) {
+	const [sliderPosition, setSliderPosition] = useState(0);
+	const totalSlides = chunkArray(newsData, 24).length;
 	return (
 		<>
 			{!newsData && <div>~ l o a d i n g ~</div>}
@@ -18,26 +21,26 @@ export function GridView({
 					{newsData.length === 0 && (
 						<StyledEmpty>아직 구독중인 언론사가 없어요 🧐</StyledEmpty>
 					)}
-					{chunkArray(newsData, 24).map((item, index) => (
-						<StyledDiv key={index}>
-							{item.map((data, idx) => (
-								<StyledPressItem
-									key={`${data.id}-${idx}`}
-									pressData={data}
-									fetchSubscriptionData={fetchSubscriptionData}
-									setPopup={setPopup}
-									setSelectedPress={setSelectedPress}
-								/>
-							))}
-						</StyledDiv>
-					))}
+					<Slider
+						totalSlides={totalSlides}
+						sliderPosition={sliderPosition}
+						setSliderPosition={setSliderPosition}
+					>
+						{chunkArray(newsData, 24).map((item, index) => (
+							<StyledDiv key={index}>
+								{item.map((data, idx) => (
+									<StyledPressItem
+										key={`${data.id}-${idx}`}
+										pressData={data}
+										fetchSubscriptionData={fetchSubscriptionData}
+										setPopup={setPopup}
+										setSelectedPress={setSelectedPress}
+									/>
+								))}
+							</StyledDiv>
+						))}
+					</Slider>
 				</StyledSwiperContainer>
-				<StyledButtonPrev>
-					<LeftOutlined />
-				</StyledButtonPrev>
-				<StyledButtonNext>
-					<RightOutlined />
-				</StyledButtonNext>
 			</StyledSwiperWrapper>
 		</>
 	);
@@ -50,7 +53,7 @@ const StyledSwiperContainer = styled.div`
 	display: flex;
 	width: 100%;
 	height: 388px;
-	overflow: hidden;
+	// overflow: hidden;
 	margin: 0 auto;
 `;
 const StyleTableLine = styled(TableLine)`
@@ -74,18 +77,4 @@ const StyledEmpty = styled.div`
 	display: flex;
 	font-size: 30px;
 	font-weight: bold;
-`;
-const StyledButton = styled.button`
-	z-index: 3;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 40px;
-	height: 90px;
-`;
-const StyledButtonPrev = styled(StyledButton)`
-	left: -50px;
-`;
-const StyledButtonNext = styled(StyledButton)`
-	right: -50px;
 `;
