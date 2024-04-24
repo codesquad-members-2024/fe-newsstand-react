@@ -96,12 +96,13 @@ const StyledWrapper = styled.div`
 	height: 388px;
 	padding: 0;
 `;
-const StyledListViewItem = styled(Slider)``;
-
 const StyledCatetoryList = styled.div`
 	display: flex;
 	align-items: center;
 	height: 40px;
+	background: #f5f7f9;
+	border: 1px solid #d2dae0;
+	border-bottom: none;
 `;
 const StyledCategoryTab = styled.button`
     position: relative;
@@ -112,8 +113,7 @@ const StyledCategoryTab = styled.button`
 	padding: 0 16px;
     cursor: pointer; 
     font-weight: 700;
-    transition: padding .5s;
-    background: #F5F7F9;
+    transition: padding .5s;    
     strong {
         position: absolute;
         top: 50%;
@@ -139,7 +139,10 @@ const StyledCategoryTab = styled.button`
 			`}
     }
 `;
-
+const StyledListViewItem = styled(Slider)`
+	height: 344px;
+	border: 1px solid #d2dae0;
+`;
 const AnimationFill = keyframes`
     from {
         background-position: right bottom; 

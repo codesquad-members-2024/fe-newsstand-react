@@ -38,7 +38,7 @@ const StyledMainNewsList = styled.a`
 	}
 	p {
 		font-size: 14px;
-		line-height: 26px;
+		line-height: 20px;
 		color: #14212b;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;

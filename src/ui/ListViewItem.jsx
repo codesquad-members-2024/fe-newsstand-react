@@ -15,7 +15,7 @@ export function ListViewItem({
 			{categorizedData.map(news => (
 				<StyledWrapper key={news.id}>
 					<StyledContainer>
-						<h2>{news.category}</h2>
+						{/* <h2>{news.category}</h2> */}
 						<StyledPressInfo key={news.id}>
 							<StyledLogo src={news.logoImageSrc} alt={news.pressName} />
 							<span>{news.editedTime}</span>
@@ -43,7 +43,6 @@ const StyledWrapper = styled.div`
 	flex: 0 0 100%;
 `;
 const StyledContainer = styled.div`
-	border: 1px solid #d2dae0;
 	padding: 24px;
 	width: 100%;
 	flex: 0 0 100%;
