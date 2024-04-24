@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Header } from "./js/Header/Header";
 import { NewsFlash } from "./js/NewsFlash/NewsFlash";
-import { Press } from "./js/Press/PressHeader";
+import { Press } from "./js/Press/PressMain";
 
 function App() {
   return (
