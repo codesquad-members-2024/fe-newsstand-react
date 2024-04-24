@@ -1,40 +1,37 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import {
-	ProfileTwoTone,
-	AppstoreTwoTone,
-	LeftOutlined,
-	RightOutlined,
-} from '@ant-design/icons';
-import { PressItem } from './PressItem';
-import { getNewsData } from '../apis/newsApiHandler';
-import { chunkArray } from '../utility/utils';
-import { TableLine } from './TableLine';
+import { ProfileTwoTone, AppstoreTwoTone } from '@ant-design/icons';
+
+import { getNewsData, postNewsData } from '../apis/newsApiHandler';
+
 import { ModalUnsubscribe } from './ModalUnsubscribe';
+import { ListView } from './ListView';
+import { GridView } from './GridView';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
 	const [activeTab, setActiveTab] = useState('news');
 	const [popup, setPopup] = useState(false);
+	const [viewType, setViewType] = useState('grid');
 	const [selectedPress, setSelectedPress] = useState({});
 
+	//전체 언론사 데이터 가져오기
 	function fetchData() {
 		setActiveTab('news');
 		getNewsData('news').then(data => {
-			setNewsData(data.news); //모든 데이터
+			setNewsData(data.news);
 		});
 	}
+
+	//구독한 언론사 데이터 가져오기
 	function fetchSubscriptionData() {
 		setActiveTab('subscription');
 		getNewsData('news').then(
 			data => setNewsData(data.news.filter(item => item.isSubscribed)) //구독한 데이터
 		);
 	}
-	function handleUnsubscribe(pressData) {
-		setSelectedPress(pressData);
-		setPopup(true);
-	}
 
+	//초기  전체언론사 데이터 가져오기
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -63,51 +60,47 @@ export function PressListContainer() {
 						구독한 언론사
 					</StyledTabItem>
 				</StyledTab>
-				{/*  */}
+
 				<StyledTab>
-					<StyledTabItem>
+					<StyledTabItem
+						onClick={() => {
+							setViewType('list');
+						}}
+					>
 						<ProfileTwoTone />
 					</StyledTabItem>
 
-					<StyledTabItem>
+					<StyledTabItem
+						onClick={() => {
+							setViewType('grid');
+						}}
+					>
 						<AppstoreTwoTone />
 					</StyledTabItem>
 				</StyledTab>
 			</StyledTabWrapper>
-
-			<StyledSwiperWrapper>
-				<StyledSwiperContainer>
-					<StyleTableLine />
-					{newsData.length === 0 && (
-						<StyledEmpty>아직 구독중인 언론사가 없어요 🧐</StyledEmpty>
-					)}
-					{chunkArray(newsData, 24).map((item, index) => (
-						<StyledDiv key={index}>
-							{item.map((data, idx) => (
-								<StyledPressItem
-									key={`${data.id}-${idx}`}
-									pressData={data}
-									fetchSubscriptionData={fetchSubscriptionData}
-									handleUnsubscribe={handleUnsubscribe}
-								/>
-							))}
-						</StyledDiv>
-					))}
-				</StyledSwiperContainer>
-				<StyledButtonPrev>
-					<LeftOutlined />
-				</StyledButtonPrev>
-				<StyledButtonNext>
-					<RightOutlined />
-				</StyledButtonNext>
-			</StyledSwiperWrapper>
+			{viewType === 'grid' ? (
+				<GridView
+					newsData={newsData}
+					fetchSubscriptionData={fetchSubscriptionData}
+					setPopup={setPopup}
+					setSelectedPress={setSelectedPress}
+				/>
+			) : (
+				<ListView
+					newsData={newsData}
+					fetchSubscriptionData={fetchSubscriptionData}
+					setPopup={setPopup}
+					setSelectedPress={setSelectedPress}
+				/>
+			)}
 		</>
 	);
 }
 const StyledTabWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
-	background-color: pink;
+	// background-color: pink;
 `;
 const StyledTab = styled.div`
 	margin: 20px 0;
@@ -122,54 +115,4 @@ const StyledTabItem = styled.button`
 	border: none;
 	color: ${props => (props.$activeTab ? '#14212B' : '#879298')};
 	font-weight: ${props => (props.$activeTab ? 'bold' : 'normal')};
-`;
-const StyledSwiperWrapper = styled.div`
-	position: relative;
-`;
-const StyledSwiperContainer = styled.div`
-	position: relative;
-	display: flex;
-	width: 100%;
-	height: 388px;
-	overflow: hidden;
-	margin: 0 auto;
-	border: 1px solid blue;
-`;
-const StyleTableLine = styled(TableLine)`
-	border: 1px solid #ebebeb;
-`;
-const StyledDiv = styled.div`
-	position: relative;
-	z-index: 2;
-	width: 100%;
-	height: 100%;
-
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);
-	grid-template-rows: repeat(4, 1fr);
-	flex-shrink: 0;
-`;
-const StyledPressItem = styled(PressItem)``;
-const StyledEmpty = styled.div`
-	width: 100%;
-	height: 100%;
-	display: flex;
-	font-size: 30px;
-	font-weight: bold;
-`;
-
-const StyledButton = styled.button`
-	z-index: 3;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 40px;
-	height: 90px;
-	border: 1px solid blue;
-`;
-const StyledButtonPrev = styled(StyledButton)`
-	left: -50px;
-`;
-const StyledButtonNext = styled(StyledButton)`
-	right: -50px;
 `;

@@ -1,12 +1,29 @@
 import { styled } from 'styled-components';
-export function ButtonSubscribe({ handleSubscribe, isSubscribed }) {
+import { postNewsData } from '../apis/newsApiHandler';
+export function ButtonSubscribe({
+	pressData,
+	fetchSubscriptionData,
+	setSelectedPress,
+	setPopup,
+}) {
+	function handler(target, status = false) {
+		if (!target) return;
+		if (status) {
+			setSelectedPress(target);
+			setPopup(true);
+		} else {
+			postNewsData(pressData) //
+				.then(() => fetchSubscriptionData());
+		}
+	}
+
 	return (
 		<StyledButton
 			onClick={() => {
-				handleSubscribe(isSubscribed);
+				handler(pressData, pressData.isSubscribed);
 			}}
 		>
-			{isSubscribed ? '- 해지하기' : '+ 구독하기'}
+			{pressData.isSubscribed ? '- 해지하기' : '+ 구독하기'}
 		</StyledButton>
 	);
 }
