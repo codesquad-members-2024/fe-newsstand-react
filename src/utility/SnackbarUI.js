@@ -1,4 +1,5 @@
 import { Modal, notification } from "antd";
+import react, { useState } from "react"
 
 const SNACK_BAR_DELAY = 5000;
 export const showSubscribeModal = (pressName) => {
@@ -16,29 +17,29 @@ export const openNotification = (placement) => {
         placement: placement,
     });
 };
-// export const App = () => {
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-//     const showModal = () => {
-//         setIsModalOpen(true);
-//     };
-//     const handleOk = () => {
-//         setIsModalOpen(false);
-//     };
-//     const handleCancel = () => {
-//         setIsModalOpen(false);
-//     };
-//     return (
-//         <>
-//             <Modal
-//                 title="Basic Modal"
-//                 open={isModalOpen}
-//                 onOk={handleOk}
-//                 onCancel={handleCancel}
-//             >
-//                 <p>Some contents...</p>
-//                 <p>Some contents...</p>
-//                 <p>Some contents...</p>
-//             </Modal>
-//         </>
-//     );
-// };
+export const showQuestionModal = () => {
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const showModal = () => {
+    //     setIsModalOpen(true);
+    // };
+    // const handleOk = () => {
+    //     setIsModalOpen(false);
+    // };
+    // const handleCancel = () => {
+    //     setIsModalOpen(false);
+    // };
+    return (
+        <>
+            <Modal
+                title="Basic Modal"
+                // open={isModalOpen}
+                // onOk={handleOk}
+                // onCancel={handleCancel}
+            >
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
+        </>
+    );
+};

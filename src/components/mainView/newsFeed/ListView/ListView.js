@@ -18,17 +18,6 @@ const ListView = ({ newsData }) => {
     const [categoryIdx, setCategoryIdx] = useState(0);
     const [toggle, setToggle] = useState(false);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setListPageNumber(prev => prev + 1)
-        }, INTERVAL_DURATION);
-        
-        setToggle(!toggle);
-        return () => clearInterval(interval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [listPageNumber]);
-    
-
     const initUnsubscribeData = () => {
         const categoryList = ["종합/경제", "방송/통신", "IT", "영자지", "스포츠/연예", "매거진/전문지", "지역"];
         const initData = [];
@@ -36,7 +25,6 @@ const ListView = ({ newsData }) => {
             const filteringData = newsData.filter((curData) => curData.category === curCategory);
             initData.push({ category: curCategory, data: filteringData });
         });
-        console.log(initData)
         setNewsInfo(initData);
     };
 
@@ -48,14 +36,23 @@ const ListView = ({ newsData }) => {
     }
 
     useEffect(() => {
+        const interval = setInterval(() => {setListPageNumber(prev => prev + 1)}, INTERVAL_DURATION);
+        setToggle(!toggle);
+        return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listPageNumber]);
+    
+    useEffect(() => {
         if (!ViewState.isSubscribeView) initUnsubscribeData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ViewState.isSubscribeView]);
 
     useEffect(() => {
         if (ViewState.isSubscribeView) initSubscribeData();
+        // 이거를 해지했을때 함수로 빼자
+        if(categoryIdx !== 0 && categoryIdx === newsInfo.length) setCategoryIdx(prev => prev - 1)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ViewState.isSubscribeView, SubState]);
+    }, [ViewState.isSubscribeView, SubState, categoryIdx]);
 
     const updateCategory = {
         nextCategory() {

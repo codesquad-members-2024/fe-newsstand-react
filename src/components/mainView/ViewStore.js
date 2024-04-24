@@ -10,9 +10,9 @@ const initialState = {
 function ViewReducer(state, { type }) {
     switch (type) {
         case "SET_SUBSCRIBE_VIEW":
-            return {...state, isSubscribeView: true}
+            return {...state, isSubscribeView: true, isListView: true}
         case "SET_UNSUBSCRIBE_VIEW":
-            return {...state, isSubscribeView: false}
+            return {...state, isSubscribeView: false, isListView: false}
         case "SET_LIST_VIEW":
             return {...state, isListView: true}
         case "SET_GRID_VIEW":

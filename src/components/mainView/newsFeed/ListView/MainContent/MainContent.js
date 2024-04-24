@@ -18,7 +18,7 @@ const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData }) => {
                 <MainNewsHeader>
                     <LogoImg src={logoImageSrc}/>
                     <EditDateText>{editedTime}</EditDateText>
-                    {SubState.subscriptions.includes(currentNews) ? 
+                    {SubState.subscriptions.includes(currentNews) ? // 여기에서 해지했을때 모달 창 띄우기
                         <SubScribeButton name={pressName} onClick={() => SubDispatch({ type: "UNSUBSCRIBE_PRESS", payLoad: pressName})}> + 해지하기</SubScribeButton> : 
                         <SubScribeButton name={pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pressName)})}> + 구독하기</SubScribeButton>}
                 </MainNewsHeader>
@@ -31,7 +31,7 @@ const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData }) => {
                     </MainHeadLine>
                     <SubContent>
                         {sideNews.map((sideData, idx) => (
-                            <a href={sideData.href} key={idx}><div>{sideData.title}</div></a>
+                            <SideNewsLink href={sideData.href} key={idx}><div>{sideData.title}</div></SideNewsLink>
                         ))}
                         <EditPressText>
                             {pressName} 언론사에서 직접 편집한 뉴스입니다.
@@ -45,6 +45,15 @@ const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData }) => {
 
 
 export default MainContent;
+
+const SideNewsLink = styled.a`
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
 
 const MainNewsTemplate = styled.div`
     display: flex;
@@ -89,24 +98,35 @@ const SubScribeButton = styled.button`
     background: var(--surface-surface-alt, rgba(245, 247, 249, 1));
 `
 
+const MainContentImg = styled.img`
+    object-fit: cover;
+    margin-bottom: 10px;
+`
+
+const MainContentText = styled.div`
+    font-size: 15px;
+`
+
 const MainNewsContent = styled.div`
     width: 95%;
     height: 260px;
     display: flex;
     justify-content: space-between;
+    }
 `
-
 const MainHeadLine = styled.div`
     width: 35%;
     height: 100%;
-`
-
-const MainContentImg = styled.img`
-    object-fit: cover;
-`
-
-const MainContentText = styled.div`
-    font-size: 15px;
+    &:hover {
+        ${MainContentImg} {
+            transform: scale(1.05);
+            transition-duration: 0.5s;
+        }
+        ${MainContentText} {
+            transform: scale(1.05);
+            transition-duration: 0.5s;
+            text-decoration: underline;
+        }
 `
 
 const SubContent = styled.div`
