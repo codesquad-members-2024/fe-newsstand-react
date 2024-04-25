@@ -8,7 +8,7 @@ export const jsonParser = {
 
     async postNewsData(pressInfo) {
         const serverURL = process.env.REACT_APP_SERVER;
-        fetch(serverURL + "subscribeInfo", {
+        await fetch(serverURL + "subscribeInfo", {
             method: "post",
             headers: {
                 "content-type": "application/json",

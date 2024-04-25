@@ -1,5 +1,4 @@
 import express from "express";
-import fs from "fs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import latestNews from "./latestNews.json" assert { type: "json" };

@@ -1,47 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { jsonParser } from "../../../utility/getNewsAPI";
-import GridView from "./GridView/GridView"
+import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
-import { showSubscribeModal, openNotification } from "./SnackbarUI";
+import { openNotification } from "../../../utility/SnackbarUI";
+import { SubscribeContext } from "../SubscribeStore";
+import { ViewContext } from "../ViewStore";
+import { Modal } from "antd";
 
-
-const NewsFeed = ({ isSubscribeView, setIsSubscribeView, isListView }) => {
-    const [subscribeList, setSubscribeList] = useState([]);
+const NewsFeed = () => {
     const [newsData, setNewsData] = useState([]);
+    const [SubState, SubDispatch] = useContext(SubscribeContext);
+    const [ViewState, ViewDispatch] = useContext(ViewContext);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState("");
 
-    const fetchInitialData = async () => {
-        const result = await jsonParser.getNewsData("news");
-        setNewsData(result.news);
-    };
-
-    useEffect(() => fetchInitialData(), []);
-
-    const subscribeHandler = (pressName) => {
-        const selectNewsData = newsData.find(data => data.pressName === pressName)
-        setSubscribeList(prevData => [...prevData, selectNewsData])
-        showSubscribeModal(pressName)
+    const showModal = (pressName) => {
+        setModalContent(pressName)
+        setIsModalOpen(true);
     }
 
-    const ubSubscribeHandler = (pressName) => setSubscribeList(prevData => prevData.filter(newsData => newsData.pressName !== pressName))
-
-    if (isSubscribeView && subscribeList.length === 0) {
-        openNotification('top');
-        setIsSubscribeView(false)
+    const handleOk = () => {
+        SubDispatch({ type: "UNSUBSCRIBE_PRESS", payLoad: modalContent})
+        setIsModalOpen(false);
     }
+
+    const handleCancel = () => setIsModalOpen(false);
+
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            const result = await jsonParser.getNewsData("news");
+            setNewsData(result.news);
+        };
+        fetchInitialData();
+    }, []);
+
+    useEffect(() => {
+        if (ViewState.isSubscribeView && SubState.subscriptions.length === 0) {
+            openNotification("top");
+            ViewDispatch({ type: "SET_UNSUBSCRIBE_VIEW" });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ViewState.isSubscribeView, SubState.subscriptions.length]);
     return (
         <FeedContainer>
-            {isListView ? (
-                <ListView />
+            {ViewState.isListView ? (
+                <ListView newsData={newsData} showModal={showModal}/>
             ) : (
-                <GridView
-                    newsData={newsData}
-                    isSubscribeView={isSubscribeView}
-                    subscribeList={subscribeList}
-                    subscribeHandler={subscribeHandler}
-                    ubSubscribeHandler={ubSubscribeHandler}
-                />
+                <GridView newsData={newsData} showModal={showModal}/>
             )}
+            <Modal
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <p style={{ fontSize: "15px" }}>
+                    <span style={{ fontWeight: 'bold' }}>{modalContent}</span> 언론사 구독을 해지하시겠습니까?
+                </p>
+            </Modal>
         </FeedContainer>
     );
 };

@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import {LeftButtonIMG, RightButtonIMG} from "../ButtonUI"
+import {LeftButtonIMG, RightButtonIMG} from "../../../../utility/ButtonUI"
+import { SubscribeContext } from "../../SubscribeStore";
+import { ViewContext } from "../../ViewStore";
 
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, ubSubscribeHandler}) => {
+const GridView = ({ newsData, showModal }) => {
+    const [SubState, SubDispatch] = useContext(SubscribeContext)
+    const [ViewState] = useContext(ViewContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -15,16 +19,15 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
         return copiedData.slice(startIndex, endIndex);
     }
 
-    const initDataForListView = () => {
+    const initData = () => {
         const copiedData = [...newsData].sort(() => Math.random() - 0.5);
         const slicedData = Array.from({ length: TOTAL_PAGES }, (_, idx) => sliceIntoChunks(idx, copiedData));
         setNewsInfo(slicedData);
     };
-    
+
     const initDataForSubscribeView = () => {
-        const subscribeData = [...subscribeList];
+        const subscribeData = [...SubState.subscriptions];
         const slicedData = [];
-        // splitSubData(subscribeData)
         if (subscribeData.length % GRID_BATCH_SIZE !== 0) {
             const emptyCellsCount = GRID_BATCH_SIZE - (subscribeData.length % GRID_BATCH_SIZE);
             const emptyCells = Array.from({ length: emptyCellsCount }, () => "");
@@ -36,14 +39,14 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
     };
     
     useEffect(() => {
-        if (!isSubscribeView)  initDataForListView()
+        if (!ViewState.isSubscribeView) initData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubscribeView, newsData])
+    }, [ViewState.isSubscribeView, newsData])
 
     useEffect(() => {
-        if (isSubscribeView)  initDataForSubscribeView()
+        if (ViewState.isSubscribeView)  initDataForSubscribeView()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubscribeView, newsData, subscribeList])
+    }, [ViewState.isSubscribeView, newsData, SubState])
     
     return (
         <GridMainView>
@@ -56,9 +59,9 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
                         pageData === "" ? <List key={index} className={index}></List> :
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
-                            {subscribeList.includes(pageData) ? 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => ubSubscribeHandler(pageData.pressName)}> + 해지하기</SubScribeButton> : 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => subscribeHandler(pageData.pressName)}> + 구독하기</SubScribeButton>}
+                            {SubState.subscriptions.includes(pageData) ? 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => showModal(pageData.pressName)}> + 해지하기</SubScribeButton> : 
+                            <SubScribeButton name = {pageData.pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
                             
                         </List>
                     )))}
@@ -69,7 +72,6 @@ const GridView = ({ newsData, isSubscribeView, subscribeList, subscribeHandler, 
         </GridMainView>
     );
 };
-
 export default GridView;
 
 const GridMainView = styled.div`
