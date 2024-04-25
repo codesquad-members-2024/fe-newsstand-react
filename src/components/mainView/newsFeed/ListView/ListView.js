@@ -10,7 +10,7 @@ const IS_EMPTY = 0;
 const INIT_PAGE_NUM = 0;
 const INTERVAL_DURATION= 19000
 
-const ListView = ({ newsData, showModal }) => {
+const ListView = ({ newsData, showModal, handleSubscribeAction, handleUnsubscribeAction }) => {
     const [ViewState] = useContext(ViewContext);
     const [SubState] = useContext(SubscribeContext)
     const [newsInfo, setNewsInfo] = useState([]);
@@ -93,6 +93,8 @@ const ListView = ({ newsData, showModal }) => {
                     categoryIdx={categoryIdx}
                     newsData={newsData}
                     showModal={showModal}
+                    handleSubscribeAction={handleSubscribeAction} 
+                    handleUnsubscribeAction={handleUnsubscribeAction}
                 ></MainContent>
             </MainContainer>
 

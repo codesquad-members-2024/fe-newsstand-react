@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { jsonParser } from "../../utility/getNewsAPI";
+import { APIManager } from "../../utility/getNewsAPI";
 import { delay } from "../../utility/utils";
 import styled, {keyframes} from "styled-components";
 
@@ -16,9 +16,9 @@ const RollingNews = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await jsonParser.getNewsData("latestNews");
-            setLeftNews(result.news.slice(LEFT_LENGTH.start, LEFT_LENGTH.end))
-            setLightNews(result.news.slice(RIGHT_LENGTH.start, RIGHT_LENGTH.end))
+            const result = await APIManager.getNewsData("latestNews");
+            setLeftNews(result.slice(LEFT_LENGTH.start, LEFT_LENGTH.end))
+            setLightNews(result.slice(RIGHT_LENGTH.start, RIGHT_LENGTH.end))
         };
         fetchData();
     }, []);

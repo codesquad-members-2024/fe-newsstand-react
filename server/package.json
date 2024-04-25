@@ -1,6 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "export MongoDB=mongodb+srv://96limshyun:uin1KgIw5F9Dje1x@cluster0.p5pni3h.mongodb.net/ && nodemon server.js"
+  },
+  "dependencies": {
+    "mongoose": "^8.3.2"
   }
 }
