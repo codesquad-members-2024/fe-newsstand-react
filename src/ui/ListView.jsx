@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { ListViewItem } from './ListViewItem';
 import { Slider } from './Slider';
@@ -8,21 +8,37 @@ export function ListView({
 	fetchSubscriptionData,
 	setPopup,
 	setSelectedPress,
+	activeTab = 'subscription',
 }) {
 	const [isActive, setIsActive] = useState(0);
 	const [indicator, setIndicator] = useState(1);
 	const [sliderPosition, setSliderPosition] = useState(0);
+	useEffect(() => {
+		setSliderPosition(0);
+		setIndicator(1);
+		handleCategoryTab(0);
+	}, [activeTab]); // activeTab이 변경될 때마다 실행
 	const categorizedData = Object.values(newsData).reduce((acc, cur) => {
 		const category = cur.category;
-		if (!acc[category]) {
-			acc[category] = [];
+		const pressName = cur.pressName;
+
+		//구독한 언론사들
+		if (activeTab === 'subscription' && cur.isSubscribed) {
+			if (!acc[pressName]) {
+				acc[pressName] = [];
+			}
+			const data = { ...cur };
+			acc[pressName].push(data);
+		} else {
+			if (!acc[category]) {
+				acc[category] = [];
+			}
+			const data = { ...cur };
+			acc[category].push(data);
 		}
-		const data = { ...cur };
-		acc[category].push(data);
 		return acc;
 	}, {});
 
-	// 카테고리 기준으로 데이터 가공
 	const categoryList = Object.entries(categorizedData);
 
 	function handleCategoryTab(index) {
@@ -52,17 +68,17 @@ export function ListView({
 			{!newsData && <div>~ l o a d i n g ~</div>}
 			<StyledWrapper>
 				<StyledCatetoryList>
-					{categoryList.map(([category, counts], index) => (
+					{Object.keys(categorizedData).map((item, index) => (
 						<StyledCategoryTab
-							key={index + category}
+							key={index + item}
 							onClick={() => handleCategoryTab(index)}
 							$isActive={isActive === index}
 						>
-							{category}
-
-							{isActive === index && (
+							{item}
+							{isActive === index && activeTab !== 'subscription' && (
 								<strong>
-									<span>{`${indicator}`}</span>/{`${counts.length}`}
+									<span>{`${indicator}`}</span>/
+									{Object.values(categorizedData)[index].length}
 								</strong>
 							)}
 						</StyledCategoryTab>
@@ -97,6 +113,7 @@ const StyledWrapper = styled.div`
 	padding: 0;
 `;
 const StyledCatetoryList = styled.div`
+	width: 100%;
 	display: flex;
 	align-items: center;
 	height: 40px;
@@ -113,7 +130,7 @@ const StyledCategoryTab = styled.button`
 	padding: 0 16px;
     cursor: pointer; 
     font-weight: 700;
-    transition: padding .5s;    
+    transition: padding-right .5s;    
     strong {
         position: absolute;
         top: 50%;

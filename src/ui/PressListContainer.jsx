@@ -89,6 +89,7 @@ export function PressListContainer() {
 			) : (
 				<ListView
 					newsData={newsData}
+					activeTab={activeTab}
 					fetchSubscriptionData={fetchSubscriptionData}
 					setPopup={setPopup}
 					setSelectedPress={setSelectedPress}
