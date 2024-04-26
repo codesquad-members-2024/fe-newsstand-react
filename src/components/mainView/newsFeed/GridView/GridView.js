@@ -7,8 +7,8 @@ import { ViewContext } from "../../ViewStore";
 const GRID_BATCH_SIZE = 24;
 const TOTAL_PAGES = 4;
 
-const GridView = ({ newsData, showModal }) => {
-    const [SubState, SubDispatch] = useContext(SubscribeContext)
+const GridView = ({ newsData, showModal, handleSubscribeAction }) => {
+    const [SubState] = useContext(SubscribeContext)
     const [ViewState] = useContext(ViewContext)
     const [newsInfo, setNewsInfo] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
@@ -54,14 +54,14 @@ const GridView = ({ newsData, showModal }) => {
             <LeftButtonIMG isHidden={pageNumber === 0} onClick={() => setPageNumber(prev => prev - 1)} />
 
                 <GridContainer>
-                    {newsInfo.length === 0 ? (<div>Loading...</div>) : (
+                    {!newsInfo.length ? (<div>Loading...</div>) : (
                     newsInfo[pageNumber].map((pageData, index) => (
                         pageData === "" ? <List key={index} className={index}></List> :
                         <List key={index} className={index}>
                             <PressImg src={pageData.logoImageSrc} alt={pageData.pressName}></PressImg>
-                            {SubState.subscriptions.includes(pageData) ? 
+                            {SubState.subscriptions.some(subscription => subscription.pressName === pageData.pressName) ? 
                             <SubScribeButton name = {pageData.pressName} onClick={() => showModal(pageData.pressName)}> + 해지하기</SubScribeButton> : 
-                            <SubScribeButton name = {pageData.pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pageData.pressName)})}> + 구독하기</SubScribeButton>}
+                            <SubScribeButton name = {pageData.pressName} onClick={() => handleSubscribeAction(newsData.find((data) => data.pressName === pageData.pressName))}> + 구독하기</SubScribeButton>}
                             
                         </List>
                     )))}

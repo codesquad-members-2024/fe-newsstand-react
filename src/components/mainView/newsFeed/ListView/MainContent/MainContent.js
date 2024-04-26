@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { SubscribeContext } from "../../../SubscribeStore";
 
-const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData, showModal }) => {
-    const [SubState, SubDispatch] = useContext(SubscribeContext);
+const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData, showModal, handleSubscribeAction }) => {
+    const [SubState] = useContext(SubscribeContext);
 
-    if (newsInfo.length === 0 || !newsInfo[categoryIdx] || !newsInfo[categoryIdx].data[listPageNumber]) {
+    if (!newsInfo.length || !newsInfo[categoryIdx] || !newsInfo[categoryIdx].data[listPageNumber]) {
         return <MainNewsTemplate>Loading...</MainNewsTemplate>;
     }
 
@@ -18,9 +18,9 @@ const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData, showModa
                 <MainNewsHeader>
                     <LogoImg src={logoImageSrc}/>
                     <EditDateText>{editedTime}</EditDateText>
-                    {SubState.subscriptions.includes(currentNews) ? // 여기에서 해지했을때 모달 창 띄우기
+                    {SubState.subscriptions.includes(currentNews) ?
                         <SubScribeButton name={pressName} onClick={() => showModal(pressName)}> + 해지하기</SubScribeButton> : 
-                        <SubScribeButton name={pressName} onClick={() => SubDispatch({ type: "SUBSCRIBE_PRESS", payLoad: newsData.find((data) => data.pressName === pressName)})}> + 구독하기</SubScribeButton>}
+                        <SubScribeButton name={pressName} onClick={() => handleSubscribeAction(newsData.find((data) => data.pressName === pressName))}> + 구독하기</SubScribeButton>}
                 </MainNewsHeader>
                 <MainNewsContent>
                     <MainHeadLine>

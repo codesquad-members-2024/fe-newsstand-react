@@ -1,34 +1,54 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
 import latestNews from "./latestNews.json" assert { type: "json" };
 import newsData from "./news.json" assert { type: "json" };
+import newsRouter from "./routes/news.js";
+import latestNewsRouter from "./routes/latestNews.js";
+import subscribeRouter from "./routes/subscribeList.js";
+import News from "./Models/newsSchema.js";
+import RollingNews from "./Models/rollingNewsSchema.js";
 
 const app = express();
 const port = 4000;
 
+app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-const subscriptions = [];
+app.use('/', newsRouter);
+app.use('/', latestNewsRouter);
+app.use('/', subscribeRouter);
 
-app.get("/news", (req, res) => {
-    res.json(newsData);
-});
+mongoose.connect(process.env.MongoDB)
+    .then(() => console.log("연결완료"))
+    .catch(() => console.log("실패"));
 
-app.get("/latestNews", (req, res) => {
-    res.json(latestNews);
-});
+    const db = mongoose.connection;
+    db.on('error', function(){
+        console.log('Connection Failed!');
+    });
+    
+    db.once('open', async function() {
+        console.log('Connected!');
+        await initDB();
+    });
+    
+    const initDB = async () => {
+        // await News.deleteMany({});
+        // await RollingNews.deleteMany({});
+        // await SubscribeList.deleteMany({});
+    try {
+        const dbCount = await News.countDocuments();
+        const latestDbCount = await RollingNews.countDocuments();
 
-app.get("/subscribeInfo", (req, res) => {
-    res.json(subscriptions);
-});
-
-app.post("/subscribeInfo", (req, res) => {
-    const requestData = req.body;
-    subscriptions.push(requestData);
-    res.sendStatus(200);
-});
+        if (dbCount === 0) await News.insertMany(newsData.news);
+        if (latestDbCount === 0) await RollingNews.insertMany(latestNews.news);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`);

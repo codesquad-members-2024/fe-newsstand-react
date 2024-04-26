@@ -1,7 +1,7 @@
 import { Modal, notification } from "antd";
-import React, { useState } from "react";
 
 const SNACK_BAR_DELAY = 5000;
+
 export const showSubscribeModal = (pressName, type) => {
     const instance = Modal.success({
         content: `${pressName} 언론사가 ${type}`,
