@@ -26,6 +26,7 @@ export function PressItem({
 const StyledWrapper = styled.div`
 	cursor: pointer;
 	position: relative;
+	z-index: 2;
 	display: flex;
 	justify-content: center;
 	align-items: center;

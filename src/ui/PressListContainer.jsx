@@ -2,15 +2,16 @@ import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { ProfileTwoTone, AppstoreTwoTone } from '@ant-design/icons';
 
-import { getNewsData, postNewsData } from '../apis/newsApiHandler';
+import { getNewsData } from '../apis/newsApiHandler';
 
 import { ModalUnsubscribe } from './ModalUnsubscribe';
 import { ListView } from './ListView';
 import { GridView } from './GridView';
+import { shuffleArray } from '../utility/utils';
 
 export function PressListContainer() {
 	const [newsData, setNewsData] = useState([]);
-	const [activeTab, setActiveTab] = useState('news');
+	const [activeTab, setActiveTab] = useState('');
 	const [popup, setPopup] = useState(false);
 	const [viewType, setViewType] = useState('grid');
 	const [selectedPress, setSelectedPress] = useState({});
@@ -31,7 +32,6 @@ export function PressListContainer() {
 		);
 	}
 
-	//초기  전체언론사 데이터 가져오기
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -48,14 +48,14 @@ export function PressListContainer() {
 			<StyledTabWrapper>
 				<StyledTab>
 					<StyledTabItem
-						onClick={() => fetchData()}
 						$activeTab={activeTab === 'news'}
+						onClick={() => fetchData()}
 					>
 						전체 언론사
 					</StyledTabItem>
 					<StyledTabItem
-						onClick={() => fetchSubscriptionData()}
 						$activeTab={activeTab === 'subscription'}
+						onClick={() => fetchSubscriptionData()}
 					>
 						구독한 언론사
 					</StyledTabItem>
@@ -66,6 +66,7 @@ export function PressListContainer() {
 						onClick={() => {
 							setViewType('list');
 						}}
+						$activeView={viewType === 'list'}
 					>
 						<ProfileTwoTone />
 					</StyledTabItem>
@@ -74,6 +75,7 @@ export function PressListContainer() {
 						onClick={() => {
 							setViewType('grid');
 						}}
+						$activeView={viewType === 'grid'}
 					>
 						<AppstoreTwoTone />
 					</StyledTabItem>
@@ -81,10 +83,11 @@ export function PressListContainer() {
 			</StyledTabWrapper>
 			{viewType === 'grid' ? (
 				<GridView
-					newsData={newsData}
+					newsData={shuffleArray(newsData)}
 					fetchSubscriptionData={fetchSubscriptionData}
 					setPopup={setPopup}
 					setSelectedPress={setSelectedPress}
+					activeTab={activeTab}
 				/>
 			) : (
 				<ListView
@@ -114,6 +117,7 @@ const StyledTabItem = styled.button`
 	background: none;
 	outline: none;
 	border: none;
+	filter: ${props => (props.$activeView ? 'grayscale(0)' : 'grayscale(1)')};
 	color: ${props => (props.$activeTab ? '#14212B' : '#879298')};
 	font-weight: ${props => (props.$activeTab ? 'bold' : 'normal')};
 `;

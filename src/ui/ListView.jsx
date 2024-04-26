@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { ListViewItem } from './ListViewItem';
 import { Slider } from './Slider';
@@ -85,6 +85,7 @@ export function ListView({
 					))}
 				</StyledCatetoryList>
 				<StyledListViewItem
+					autoSlide={true}
 					totalSlides={totalSlides}
 					categoryStartIndex={categoryStartIndex}
 					tabIndicator={tabIndicator}
@@ -105,7 +106,14 @@ export function ListView({
 		</>
 	);
 }
-
+const AnimationFill = keyframes`
+    from {
+        background-position: right bottom; 
+    }
+    to {
+        background-position: left bottom;
+    }
+`;
 const StyledWrapper = styled.div`
 	position: relative;
 	width: 100%;
@@ -131,6 +139,9 @@ const StyledCategoryTab = styled.button`
     cursor: pointer; 
     font-weight: 700;
     transition: padding-right .5s;    
+	animation: ${AnimationFill} 20s forwards infinite;
+	animation-play-state: paused;
+	
     strong {
         position: absolute;
         top: 50%;
@@ -152,19 +163,11 @@ const StyledCategoryTab = styled.button`
 				background-image: linear-gradient(90deg, #4362d0 50%, #7890e7 50%);
 				background-position: right bottom;
 				background-size: 200% 100%;
-				animation: ${AnimationFill} 20s forwards;
+				animation-play-state: running;
 			`}
     }
 `;
 const StyledListViewItem = styled(Slider)`
 	height: 344px;
 	border: 1px solid #d2dae0;
-`;
-const AnimationFill = keyframes`
-    from {
-        background-position: right bottom; 
-    }
-    to {
-        background-position: left bottom;
-    }
 `;
