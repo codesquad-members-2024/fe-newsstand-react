@@ -1,26 +1,26 @@
 import { useState, useContext, useEffect } from "react";
-import { NewsContext } from "../../../NewsProvider";
 import { ViewContext } from "../ViewProvider";
 import Swiper from "../shared-components/Swiper";
 import { Subscription, Unsubscription } from "../shared-components/Subscription";
 import { handleSubscription } from "../../../utility/subscription";
+import { getTotalGridNews } from "../../../utility/newsSetting";
 
-const GRID_TOTAL_NUM = 96;
 const CELL_COUNT = 24;
 const ZERO = 0;
 const LAST_PAGE = 3;
 
-const getTotalGridNews = (news: News[]) => news.slice(ZERO, GRID_TOTAL_NUM); //.sort(() => Math.random() - 0.5);
-
 function TotalGrid() {
+	const [totalNews, setTotalNews] = useState<News[]>([]);
 	const [, dispatch] = useContext(ViewContext);
-	const [news] = useContext(NewsContext);
 	const [currentPage, setCurrentPage] = useState<number>(ZERO);
 	const [target, setTarget] = useState<News | null>(null);
-	if (!news.length) return <></>;
-
 	const startIdx = currentPage * CELL_COUNT;
-	const gridNews = getTotalGridNews(news);
+
+	useEffect(() => {
+		getTotalGridNews(setTotalNews);
+	}, []);
+
+	if (!totalNews.length) return <></>;
 	return (
 		<>
 			<div
@@ -28,7 +28,7 @@ function TotalGrid() {
 				className="border-t-2 border-l-2 border-customGray dark:border-white/40 h-full grid grid-rows-4 grid-cols-6"
 			>
 				{Array.from({ length: CELL_COUNT }).map((_, i) => {
-					const currNews = gridNews[startIdx + i];
+					const currNews = totalNews[startIdx + i];
 					return (
 						<div
 							key={currNews.id}
@@ -57,7 +57,11 @@ function TotalGrid() {
 			/>
 			{target &&
 				(target.subscription ? (
-					<Unsubscription target={target} setTarget={setTarget} />
+					<Unsubscription
+						target={target}
+						setTarget={setTarget}
+						getNews={() => getTotalGridNews(setTotalNews)}
+					/>
 				) : (
 					<Subscription />
 				))}

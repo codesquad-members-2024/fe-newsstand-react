@@ -1,5 +1,5 @@
 import { SetStateAction, useContext, useEffect, useState } from "react";
-import { NewsContext } from "../../../NewsProvider";
+import { NewsContext } from "../../../../NewsProvider";
 
 interface PageProps {
 	currentPage: number;
@@ -62,7 +62,7 @@ const changeCategory = (param: Param) => {
 };
 
 function CategoryTab({ currentPage, setCurrentPage }: PageProps) {
-	const [, categoryLength]: [News[], CategoryLength] = useContext(NewsContext);
+	const [categoryLength]: [CategoryLength] = useContext(NewsContext);
 	const [currCategory, setCurrCategory] = useState("종합/경제");
 
 	const onClick = ({ target }: React.MouseEvent<HTMLElement>) => {
@@ -95,12 +95,12 @@ function CategoryTab({ currentPage, setCurrentPage }: PageProps) {
 	return (
 		<ul
 			onClick={onClick}
-			className="bg-customGray flex items-center border-b-2 border-customGray dark:border-white/40 h-10"
+			className="bg-customGray flex border-b-2 border-customGray dark:border-white/40 h-10"
 			role="tablist"
 		>
 			{categories.map((category, i) => (
 				<li
-					className={`relative mr-2 cursor-pointer transition-[padding] ease-in-out duration-500 h-[106%] ${
+					className={`relative flex items-center pl-1 cursor-pointer transition-[padding] ease-in-out duration-500 ${
 						category === currCategory ? style : ""
 					}`}
 					key={i}
@@ -114,13 +114,13 @@ function CategoryTab({ currentPage, setCurrentPage }: PageProps) {
 					</span>
 					{category === currCategory ? (
 						<>
-							<div className="absolute top-[10px] right-2 z-10 text-[10px]">
+							<div className="absolute top-[11.5px] right-2 z-10 text-[10px]">
 								<span>{currentPage + 1 - categoryLength[currCategory].startIdx}</span>
 								<span> / {categoryLength[currCategory].length}</span>
 							</div>
 							<span
 								key={currentPage}
-								className="absolute top-0 h-full z-0 bg-news-blue w-full animate-fill"
+								className="absolute top-0 left-0 h-full z-0 bg-news-blue w-full animate-fill"
 							></span>
 						</>
 					) : (
