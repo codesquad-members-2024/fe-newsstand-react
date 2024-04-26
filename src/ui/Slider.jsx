@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
 
 export function Slider({
 	children,
@@ -10,6 +10,7 @@ export function Slider({
 	tabIndicator,
 	sliderPosition,
 	setSliderPosition,
+	autoSlide = false,
 }) {
 	const moveSlider = direction => {
 		if (direction === 'left' && sliderPosition > 0) {
@@ -20,6 +21,22 @@ export function Slider({
 			categoryStartIndex.length > 0 && tabIndicator('right');
 		}
 	};
+	let intervalId;
+	const interval = () => {
+		intervalId = intervalId = setInterval(() => {
+			moveSlider('right');
+		}, 20000);
+	};
+	useEffect(() => {
+		if (autoSlide && sliderPosition < totalSlides - 1) {
+			interval();
+		} else if (sliderPosition === totalSlides - 1) {
+			clearInterval(interval);
+		}
+		return () => {
+			clearInterval(intervalId);
+		};
+	}, [sliderPosition]);
 	return (
 		<StyledWrapper className={className}>
 			<StyledDiv
