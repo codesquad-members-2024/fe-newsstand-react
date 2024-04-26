@@ -25,13 +25,13 @@ const RollingNews = () => {
 
     const updateNews = () => {
         setLeftNews(prevLeftNews => {
-            if (prevLeftNews.length === 0) return prevLeftNews;
+            if (!prevLeftNews.length) return prevLeftNews;
             const [leftFirst, ...leftRest] = prevLeftNews;
             return [...leftRest, leftFirst];
         });
     
         setLightNews(prevLightNews => {
-            if (prevLightNews.length === 0) return prevLightNews;
+            if (!prevLightNews.length) return prevLightNews;
             const [lightFirst, ...lightRest] = prevLightNews;
             return [...lightRest, lightFirst];
         });

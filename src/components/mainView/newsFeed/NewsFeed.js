@@ -58,7 +58,7 @@ const NewsFeed = () => {
     }, []);
 
     useEffect(() => {
-        if (ViewState.isSubscribeView && SubState.subscriptions.length === 0) {
+        if (ViewState.isSubscribeView && !SubState.subscriptions.length) {
             openNotification("top");
             ViewDispatch({ type: "SET_UNSUBSCRIBE_VIEW" });
         }

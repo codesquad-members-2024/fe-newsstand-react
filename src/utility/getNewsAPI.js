@@ -1,4 +1,5 @@
 const serverURL = process.env.REACT_APP_SERVER;
+
 export const APIManager = {
     async getNewsData(tableName) {
         const news = await fetch(serverURL + tableName);

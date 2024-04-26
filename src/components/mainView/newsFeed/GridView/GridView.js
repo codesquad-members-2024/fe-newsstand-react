@@ -54,7 +54,7 @@ const GridView = ({ newsData, showModal, handleSubscribeAction }) => {
             <LeftButtonIMG isHidden={pageNumber === 0} onClick={() => setPageNumber(prev => prev - 1)} />
 
                 <GridContainer>
-                    {newsInfo.length === 0 ? (<div>Loading...</div>) : (
+                    {!newsInfo.length ? (<div>Loading...</div>) : (
                     newsInfo[pageNumber].map((pageData, index) => (
                         pageData === "" ? <List key={index} className={index}></List> :
                         <List key={index} className={index}>

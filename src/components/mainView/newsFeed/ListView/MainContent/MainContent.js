@@ -5,7 +5,7 @@ import { SubscribeContext } from "../../../SubscribeStore";
 const MainContent = ({ newsInfo, listPageNumber, categoryIdx, newsData, showModal, handleSubscribeAction }) => {
     const [SubState] = useContext(SubscribeContext);
 
-    if (newsInfo.length === 0 || !newsInfo[categoryIdx] || !newsInfo[categoryIdx].data[listPageNumber]) {
+    if (!newsInfo.length || !newsInfo[categoryIdx] || !newsInfo[categoryIdx].data[listPageNumber]) {
         return <MainNewsTemplate>Loading...</MainNewsTemplate>;
     }
 
