@@ -55,13 +55,8 @@ export function ListView({
 		{ totalSlides: 0, categoryStartIndex: [] }
 	);
 
-	const tabIndicator = direction => {
-		if (direction === 'left') {
-			setIndicator(indicator - 1);
-		} else if (direction === 'right') {
-			setIndicator(indicator + 1);
-		}
-	};
+	const tabIndicator = direction =>
+		setIndicator(indicator + (direction === 'left' ? -1 : 1));
 
 	return (
 		<>
