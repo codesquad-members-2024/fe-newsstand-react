@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(
+	//cors 는 node의 추가 모듈임
 	cors({
 		origin: 'http://localhost:5173', // 이 도메인만 CORS 요청을 허용
 	})

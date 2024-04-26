@@ -12,7 +12,7 @@ export function Header() {
 						onClick={refreshPage}
 						type='link'
 						shape='default'
-						icon={<FolderTwoTone />}
+						icon={<FolderTwoTone style={{ fontSize: '24px' }} />}
 					/>
 					<StyledTitle>뉴스 스탠드</StyledTitle>
 				</StyledFlex>
@@ -35,7 +35,6 @@ const StyledFlex = styled.div`
 	align-items: center;
 `;
 const StyledButton = styled(Button)`
-	font-size: 24px;
 	margin-right: 8px;
 `;
 const StyledTitle = styled.h1`
