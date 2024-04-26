@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { setData } from "../utils/utils.js";
 import { styled } from "styled-components";
 import leftBtn from "../../assets/LeftButton.svg";
 import rightBtn from "../../assets/RightButton.svg";
-import { postData } from "../../api/newsApi";
+import { postData, deleteData } from "../../api/newsApi";
 import { NewsContext } from "./Provider.js";
 
 const ITEMS_PER_PAGE = 24;
 const FIRST_PAGE_INDEX = 0;
-const LAST_PAGE_INDEX = 3;
+const LAST_PAGE = 4;
 
 const PressGridWrap = styled.div`
   width: 930px;
@@ -74,10 +75,22 @@ const LeftButton = styled(ArrowButton)`
   right: 103%;
 `;
 
-function TotalGrid() {
-  const { news } = useContext(NewsContext);
+function TotalGrid({ allSubs, setAllSubs }) {
+  const { news, subscription, setSubscription } = useContext(NewsContext);
   const [currentPage, setCurrentPage] = useState(FIRST_PAGE_INDEX);
-  const itemsPerPage = ITEMS_PER_PAGE;
+  const presses =
+    allSubs === "all"
+      ? news.slice(FIRST_PAGE_INDEX, ITEMS_PER_PAGE * LAST_PAGE)
+      : [...subscription];
+  const totalPages = Math.ceil(presses.length / ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    if (allSubs === "all") {
+      setCurrentPage(FIRST_PAGE_INDEX);
+    } else if (allSubs === "subscribed") {
+      currentPage > totalPages - 1 && setCurrentPage(totalPages - 1);
+    }
+  }, [allSubs, subscription]);
 
   if (news.length === 0) {
     return <div>Loading...</div>;
@@ -88,27 +101,47 @@ function TotalGrid() {
   const previousPage = () => setCurrentPage(currentPage - 1);
 
   const subscribePress = async (newsItem) => {
-    postData("subscription", newsItem);
+    await postData("subscription", newsItem);
+    setData("subscription", setSubscription);
+    setAllSubs("subscribed");
   };
 
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedNews = news.slice(startIndex, endIndex);
+  const unsubscribePress = async (newsId) => {
+    await deleteData("subscription", newsId);
+    setData("subscription", setSubscription);
+  };
+
+  const startIndex = currentPage * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const displayedNews = presses.slice(startIndex, endIndex);
 
   return (
     <PressGridWrap>
       {currentPage !== FIRST_PAGE_INDEX && (
         <LeftButton onClick={previousPage} src={leftBtn} alt="leftBtn" />
       )}
-      {currentPage !== LAST_PAGE_INDEX && (
+      {currentPage !== totalPages - 1 && (
         <RightButton onClick={nextPage} src={rightBtn} alt="rightBtn" />
       )}
-      {displayedNews.map((newsItem, index) => (
-        <PressBox key={newsItem.id}>
-          <img src={newsItem.logoImageSrc} alt={newsItem.pressName} />
-          <span onClick={() => subscribePress(newsItem)}>+ 구독하기</span>
-        </PressBox>
-      ))}
+      {[...Array(24)].map((_, index) => {
+        const newsItem = displayedNews[index];
+        if (newsItem) {
+          return (
+            <PressBox key={newsItem.id}>
+              <img src={newsItem.logoImageSrc} alt={newsItem.pressName} />
+              {!subscription.find((press) => press.id === newsItem.id) ? (
+                <span onClick={() => subscribePress(newsItem)}>+ 구독하기</span>
+              ) : (
+                <span onClick={() => unsubscribePress(newsItem.id)}>
+                  - 해지하기
+                </span>
+              )}
+            </PressBox>
+          );
+        } else {
+          return <PressBox></PressBox>;
+        }
+      })}
     </PressGridWrap>
   );
 }

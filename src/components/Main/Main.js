@@ -2,8 +2,8 @@ import { styled } from "styled-components";
 import { useState } from "react";
 import listSvg from "../../assets/list-view.svg";
 import gridSvg from "../../assets/grid-view.svg";
-import TotalGrid from "./TotalPressGrid.js";
-import TotalList from "./TotalPressList.js";
+import GridView from "./GridView.js";
+import ListView from "./ListView.js";
 
 const MainWrap = styled.div`
   display: flex;
@@ -38,15 +38,15 @@ const ViewerArea = styled.div`
   }
 `;
 
-const ListView = styled.img`
+const ListViewer = styled.img`
   ${(props) => props.grayScale && "filter: grayscale(100%);"}
 `;
 
-const GridView = styled.img`
+const GridViewer = styled.img`
   ${(props) => props.grayScale && "filter: grayscale(100%);"}
 `;
 
-function Main({ news }) {
+function Main() {
   const [view, setView] = useState("grid");
   const [allSubs, setAllSubs] = useState("all");
 
@@ -54,13 +54,9 @@ function Main({ news }) {
 
   const clickGridView = () => setView("grid");
 
-  const handleAllSubsClick = () => {
-    setAllSubs("all");
-  };
+  const handleAllSubsClick = () => setAllSubs("all");
 
-  const handleSubscribedClick = () => {
-    setAllSubs("subscribed");
-  };
+  const handleSubscribedClick = () => setAllSubs("subscribed");
 
   return (
     <>
@@ -77,13 +73,13 @@ function Main({ news }) {
           </TapArea>
         </div>
         <ViewerArea>
-          <ListView
+          <ListViewer
             onClick={clickListView}
             src={listSvg}
             alt="list svg"
             grayScale={view === "grid"}
           />
-          <GridView
+          <GridViewer
             onClick={clickGridView}
             src={gridSvg}
             alt="grid svg"
@@ -92,8 +88,12 @@ function Main({ news }) {
         </ViewerArea>
       </StyledTapViewerArea>
       <MainWrap>
-        {view === "grid" && <TotalGrid news={news} />}
-        {view === "list" && <TotalList news={news} />}
+        {view === "grid" && (
+          <GridView allSubs={allSubs} setAllSubs={setAllSubs} />
+        )}
+        {view === "list" && (
+          <ListView allSubs={allSubs} setAllSubs={setAllSubs} />
+        )}
       </MainWrap>
     </>
   );
