@@ -3,8 +3,8 @@ import gridIcon from "../../../img/gridIcon.svg";
 import listIcon from "../../../img/listIcon.svg";
 import styled from "styled-components";
 import { MENU_STATES, News, SubscribeAction, VIEW_STATES } from "../../constants";
-import GridView from "./GridView";
-import ListView from "./ListView";
+import GridView from "./grid/GridView";
+import ListView from "./list/ListView";
 import { NewsContext } from "../provider/NewsProvider";
 import { deleteSubscription, fetchSubscription, postSubscription } from "../../api/NewsAPI";
 import { SubscribeContext } from "../provider/SubscribeProvider";
@@ -41,8 +41,8 @@ function PressContainer() {
     }
     try {
       await postSubscription(newsItem);
-      subscribeDispatch(setShowSnackBar(true));
       const newSubscription = await fetchSubscription();
+      subscribeDispatch(setShowSnackBar(true));
       setTimeout(() => {
         setNewsState({ news, subscription: newSubscription as News[] });
         subscribeDispatch(setShowSnackBar(false));
@@ -105,14 +105,14 @@ function PressContainer() {
         </ViewMenu>
       </Menu>
       <View>
-        {SelectedView ? (
+        {SelectedView && (
           <SelectedView
             menuSelected={menuSelected}
             subscribeState={subscribeState}
             handleSubscribe={handleSubscribeClick}
             handleUnsubscribe={handleUnsubscribeClick}
           />
-        ) : null}
+        )}
       </View>
     </div>
   );
