@@ -14,6 +14,8 @@ app.listen(port, () => {
 
 const data = JSON.parse(fs.readFileSync("../src/data/news.json", "utf8"));
 
+data.news.forEach((item) => (item.userSubscribed = false));
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -23,13 +25,28 @@ app.get("/api/channels", (req, res) => {
 });
 
 app.get("/api/users/channels", (req, res) => {
-  res.send(data.subscribe);
+  res.send(data.news.filter((item) => data.subscribe.includes(item.id)));
 });
 
 app.post("/api/users/channels", (req, res) => {
-  const channel = {
-    id: req.body.id,
-  };
-  data.subscribe.push(channel);
+  console.log("post " + req.body.id);
+
+  if (!data.subscribe.includes(req.body.id)) {
+    data.subscribe.push(req.body.id);
+    const newsItem = data.news.find((item) => item.id === req.body.id);
+    if (newsItem) newsItem.userSubscribed = true;
+  }
+
+  res.send(data.subscribe);
+});
+
+app.delete("/api/users/channels", (req, res) => {
+  console.log("delete " + req.body.id);
+  const index = data.subscribe.indexOf(req.body.id);
+  if (index > -1) {
+    data.subscribe.splice(index, 1);
+    const newsItem = data.news.find((item) => item.id === req.body.id);
+    if (newsItem) newsItem.userSubscribed = false;
+  }
   res.send(data.subscribe);
 });

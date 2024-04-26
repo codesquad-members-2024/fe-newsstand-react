@@ -1,3 +1,10 @@
+export async function fetchData(url, setFunc) {
+  const response = await fetch(url);
+  const data = await response.json();
+  setFunc(data);
+  return data;
+}
+
 export const reloadPage = () => {
   location.reload();
 };

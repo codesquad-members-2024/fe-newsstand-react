@@ -1,53 +1,52 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { shuffle } from "../../../utils/utils";
 import { Subscription } from "./Subscribe";
 
 const PAGE_SIZE = 24;
 
-function getLogoImage(news) {
-  return news.map((item) => item.logoImageSrc);
-}
-
-const shuffleLogos = (news) => shuffle(getLogoImage(news));
-
-function createGrid(index, media, viewType, news, subNews) {
-  const [subscribedLogos, setSubscribedLogos] = useState([]);
-  const [allLogos, setAllLogos] = useState([]);
-
-
-  useEffect(() => {
-    if (media === "allMedia") {
-      setAllLogos(shuffleLogos(news));
-    }
-  }, [news]);
-
-  const logos = media === "allMedia" ? allLogos : subscribedLogos;
-
-  if (index < logos.length) {
-    return (
-      <StyledLogo className="press-logo" key={index}>
-        <img src={logos[index]} alt={`Logo ${index}`} />
-        <Subscription
-          viewType={viewType}
-          logoImage={logos[index]}
-          setSubscribedLogos={setSubscribedLogos}
-        />
-      </StyledLogo>
-    );
-  }
+export function Grid({ currentPage, media, viewType, news, subNews }) {
+  return (
+    <StyledGrid>
+      {renderGrid(currentPage, media, viewType, news, subNews)}
+    </StyledGrid>
+  );
 }
 
 function renderGrid(page, media, viewType, news, subNews) {
   const gridElements = [];
   for (let index = 0; index < PAGE_SIZE; index++) {
-    gridElements.push(createGrid(page * PAGE_SIZE + index, media, viewType, news, subNews));
+    gridElements.push(
+      createGrid(page * PAGE_SIZE + index, media, viewType, news, subNews)
+    );
   }
   return gridElements;
 }
 
-export function Grid({ currentPage, media, viewType, news, subNews }) {
-  return <StyledGrid>{renderGrid(currentPage, media, viewType, news, subNews)}</StyledGrid>;
+function createGrid(index, media, viewType, news, subNews) {
+  const getNews = (news) => news.map((item) => ({ id: item.id, logoImageSrc: item.logoImageSrc, userSubscribed: item.userSubscribed }));
+  // const shuffleNews = (news) => shuffle(getNews(news));
+
+  const allLogos = getNews(news)
+  const subscribedLogos = getNews(subNews)
+  const logos = media === "allMedia" ? allLogos : (subNews.length !== 0 ? subscribedLogos : allLogos);
+
+  useEffect(() => {
+    media === "allMedia" ? allLogos : subscribedLogos;
+  }, [news, subNews]);
+
+  if (index < logos.length) {
+    const { id, logoImageSrc } = logos[index];
+    return (
+      <StyledLogo className="press-logo" key={index}>
+        <img src={logoImageSrc} alt={id} />
+        <Subscription
+          viewType={viewType}
+          logo={logos[index]}
+        />
+      </StyledLogo>
+    );
+  }
 }
 
 const StyledGrid = styled.div`

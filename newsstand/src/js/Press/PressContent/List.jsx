@@ -2,6 +2,15 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Subscription } from "./Subscribe";
 
+export function List({ currentPage, setCurrentPage, media, viewType, news, subNews }) {
+  return (
+    <StyledList>
+      {media === 'allMedia' ? <Category setCurrentPage={setCurrentPage} news={news} /> : <SubscribedCategory setCurrentPage={setCurrentPage} news={subNews} />}
+      {renderList(currentPage, media, viewType, news, subNews)}
+    </StyledList>
+  );
+}
+
 function Category({ setCurrentPage, news }) {
   const [activeCategory, setActiveCategory] = useState(null);
   const categories = Array.from(new Set(news.map((item) => item.category)));
@@ -14,13 +23,16 @@ function Category({ setCurrentPage, news }) {
     const firstCategoryIndex = getFirstCategoryIndex(category);
     setCurrentPage(firstCategoryIndex);
     setActiveCategory(category);
-
   };
 
   return (
     <StyledCategory>
       {categories.map((category, index) => (
-        <CategoryBtn key={index} onClick={() => handleCategoryClick(category)} active={category === activeCategory}>
+        <CategoryBtn
+          key={index}
+          onClick={() => handleCategoryClick(category)}
+          $active={category === activeCategory ? "true" : "false"}
+        >
           {category}
         </CategoryBtn>
       ))}
@@ -28,31 +40,49 @@ function Category({ setCurrentPage, news }) {
   );
 }
 
+function SubscribedCategory({ setCurrentPage, news }) {
+  const [activeCategory, setActiveCategory] = useState(null);
+  const categories = Array.from(new Set(news.map((item) => item.pressName)));
+
+  const handleCategoryClick = (pressName, index) => {
+    setCurrentPage(index);
+    setActiveCategory(pressName);
+  };
+
+  return (
+    <StyledCategory>
+      {categories.map((pressName, index) => (
+        <CategoryBtn
+          key={index}
+          onClick={() => handleCategoryClick(pressName, index)}
+          $active={pressName === activeCategory ? "true" : "false"}
+        >
+          {pressName}
+        </CategoryBtn>
+      ))}
+    </StyledCategory>
+  );
+}
+
+function renderList(currentPage, media, viewType, news, subNews) {
+  return <>{createList(currentPage, media, viewType, news, subNews)}</>;
+}
 
 function createList(currentPage, media, viewType, news, subNews) {
-  // subNews 추가 예정 media all인지 sub인지
-  const item = news[currentPage];
+  const item = media === "allMedia" ? news[currentPage] : (subNews.length !== 0 ? subNews[currentPage] : news[currentPage]);
+
   const { logoImageSrc, editedTime, headline, sideNews } = item;
+
   const sideNewsList = sideNews.map((newsItem) => (
     <p key={newsItem.title}>{newsItem.title}</p>
   ));
-
-  const [subscribedLogos, setSubscribedLogos] = useState([]);
-
-  const handleSubscription = (logoImage) => {
-    setSubscribedLogos((prevLogos) => [...prevLogos, logoImage]);
-  };
 
   return (
     <>
       <Top>
         <img src={logoImageSrc} />
         <span>{editedTime}</span>
-        <Subscription
-          viewType={viewType}
-          logoImage={logoImageSrc}
-          handleSubscription={handleSubscription}
-        />
+        <Subscription viewType={viewType} logo={item} />
       </Top>
       <StyledDesc>
         <Left>
@@ -65,19 +95,6 @@ function createList(currentPage, media, viewType, news, subNews) {
   );
 }
 
-function renderList(currentPage, media, viewType, news, subNews) {
-  return <>{createList(currentPage, media, viewType, news, subNews)}</>;
-}
-
-export function List({ currentPage, setCurrentPage, media, viewType, news, subNews }) {
-  return (
-    <StyledList>
-      <Category setCurrentPage={setCurrentPage} news={news} />
-      {renderList(currentPage, media, viewType, news, subNews)}
-    </StyledList>
-  );
-}
-
 const StyledCategory = styled.div`
   background: #ececec;
 `;
@@ -87,7 +104,8 @@ const CategoryBtn = styled.button`
   height: 50px;
   font-size: 20px;
   padding: 0px 15px;
-  ${(props) => props.active && `
+  ${(props) => props.$active === "true" &&
+    `
     color: white;
     background: #6f6fff;
     padding: 0px 100px;
@@ -122,15 +140,24 @@ const Left = styled.div`
     height: 200px;
     width: 320px;
     margin: 0px 20px;
+    &:hover {
+      height: 210px;
+      width: 330px;
+    }
   }
   span {
     margin: 20px;
+    font-size: 18px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 const Right = styled.div`
   width: 650px;
   margin-left: 2rem;
+  font-size: 18px;
   p:hover {
     text-decoration: underline;
   }
