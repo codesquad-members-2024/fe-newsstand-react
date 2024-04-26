@@ -123,6 +123,8 @@ const StyledCatetoryList = styled.div`
 	background: #f5f7f9;
 	border: 1px solid #d2dae0;
 	border-bottom: none;
+	flex-wrap: nowrap;
+	overflow-x: scroll;
 `;
 const StyledCategoryTab = styled.button`
     position: relative;
@@ -136,7 +138,7 @@ const StyledCategoryTab = styled.button`
     transition: padding-right .5s;    
 	animation: ${AnimationFill} 20s forwards infinite;
 	animation-play-state: paused;
-	
+	flex-shrink: 0;
     strong {
         position: absolute;
         top: 50%;
